@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">سليني - Saleny</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1a0b2e;
+      color: #fce7f3;
+      overflow-x: hidden;
+    }
+
+    #toastNotification {
+      position: fixed;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #db2777;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.4);
+      z-index: 9999;
+      transition: top 0.4s ease-in-out;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #toastNotification.show { top: 25px; }
+
+    /* الشاشة الرئيسية */
+    #homeScreen {
+      width: 100vw;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .top-section {
+      padding: 30px 20px 80px 20px;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .icon-btn {
+      position: absolute; 
+      top: 25px; 
+      background: rgba(255, 255, 255, 0.15); 
+      border: 1px solid rgba(255, 255, 255, 0.3); 
+      color: white; 
+      width: 50px; 
+      height: 50px; 
+      border-radius: 50%; 
+      font-size: 20px; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      backdrop-filter: blur(5px);
+      transition: background 0.2s;
+    }
+    .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
+    .sound-btn { left: 30px; }
+    .settings-btn { right: 30px; }
+
+    html[dir="ltr"] .sound-btn { left: auto; right: 30px; }
+    html[dir="ltr"] .settings-btn { right: auto; left: 30px; }
+
+    .brand-header-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 20px auto 0 auto;
+      width: fit-content;
+    }
+
+    .crown-icon {
+      position: absolute;
+      top: -38px;
+      right: -10px;
+      font-size: 45px;
+      color: #f472b6;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      transform: rotate(-15deg);
+    }
+    html[dir="ltr"] .crown-icon { right: auto; left: -10px; transform: rotate(15deg); }
+    
+    .brand-logo-svg {
+      width: 320px;
+      height: 90px;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+    }
+
+    .subtitle { 
+      font-size: 19px; 
+      margin-top: 5px; 
+      font-weight: 700; 
+      color: #fbcfe8; 
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+    }
+    
+    .subtitle span { color: #f472b6; font-size: 22px; }
+
+    .main-menu { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 15px; 
+      margin-top: -65px; 
+      position: relative; 
+      z-index: 10; 
+      padding: 0 20px; 
+      flex-wrap: wrap; 
+    }
+
+    .menu-card { 
+      width: 115px; 
+      height: 135px; 
+      border-radius: 24px; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      color: white; 
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+      cursor: pointer; 
+      transition: transform 0.2s; 
+    }
+    .menu-card:hover { transform: translateY(-8px); }
+    .menu-card i { font-size: 30px; margin-bottom: 8px; }
+    .menu-card span { font-size: 15px; font-weight: bold; text-align: center; }
+
+    .card-blue { background: linear-gradient(180deg, #db2777, #9d174d); }
+    .card-yellow { background: linear-gradient(180deg, #c026d3, #86198f); }
+    .card-green { background: linear-gradient(180deg, #e11d48, #9f1239); }
+    
+    .card-play { 
+      background: linear-gradient(180deg, #f43f5e, #be123c); 
+      width: 145px; 
+      height: 150px; 
+      border-radius: 28px; 
+      border: 4px solid #fbcfe8; 
+      box-shadow: 0 12px 25px rgba(244, 63, 94, 0.4); 
+      position: relative;
+    }
+    .card-play::before {
+      content: '';
+      position: absolute;
+      top: -18px; left: 50%;
+      transform: translateX(-50%);
+      width: 25px; height: 8px;
+      background: #fbcfe8; border-radius: 4px;
+      box-shadow: 12px -6px 0 #fbcfe8, -12px -6px 0 #fbcfe8;
+    }
+    .card-play i { font-size: 42px; color: #ffffff; }
+    .card-play span { font-size: 18px; font-weight: 900; }
+
+    .card-white { background: #3b0764; color: #fce7f3; border: 1px solid #581c87; }
+    .card-dark { background: #2e1065; color: #ffffff; border: 1px solid #581c87; }
+    .card-cyan { background: linear-gradient(180deg, #9333ea, #6b21a8); }
+
+    .home-bottom-bg { 
+      background: #2e1065; 
+      width: 100%; 
+      padding: 50px 20px 25px 20px;
+      display: flex; flex-direction: column; align-items: center;
+      margin-top: -30px;
+      border-top: 1px solid #581c87;
+    }
+
+    .features-container {
+      display: flex; justify-content: center; gap: 45px; max-width: 1200px; width: 100%; flex-wrap: wrap; margin-bottom: 35px;
+    }
+
+    .feature-item { display: flex; align-items: center; gap: 15px; }
+    html[dir="rtl"] .feature-item { direction: rtl; }
+    html[dir="ltr"] .feature-item { direction: ltr; }
+
+    .feature-icon-circle {
+      width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+    }
+    .f-red { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+    .f-yellow { background: rgba(192, 38, 211, 0.15); color: #e879f9; }
+    .feature-text h4 { font-size: 16px; font-weight: 800; color: #fce7f3; margin-bottom: 3px; }
+    .feature-text p { font-size: 13px; color: #d8b4fe; font-weight: 600; }
+    html[dir="rtl"] .feature-text { text-align: right; }
+    html[dir="ltr"] .feature-text { text-align: left; }
+
+    .footer-credit {
+      font-size: 14px; color: #d8b4fe; font-weight: 700; display: flex; align-items: center; gap: 8px; background: #1a0b2e; padding: 10px 25px; border-radius: 20px; text-decoration: none; border: 1px solid #581c87;
+    }
+    .footer-credit span.dev-name {
+      color: #f472b6;
+      font-weight: 900;
+    }
+
+    /* نافذة الإعدادات */
+    #settingsModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .settings-modal-content {
+      background: #2e1065;
+      border: 2px solid #581c87;
+      border-radius: 30px;
+      width: 90%;
+      max-width: 480px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    html[dir="rtl"] .settings-modal-content { text-align: right; }
+    html[dir="ltr"] .settings-modal-content { text-align: left; }
+
+    .settings-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-bottom: 1px solid #581c87;
+      padding-bottom: 15px;
+    }
+    .settings-modal-header h3 {
+      font-size: 22px;
+      color: #f472b6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .close-settings-btn {
+      background: transparent;
+      border: none;
+      color: #d8b4fe;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .setting-item {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #3b0764;
+      padding: 15px 20px;
+      border-radius: 15px;
+      border: 1px solid #581c87;
+    }
+    .setting-item label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fce7f3;
+    }
+    .setting-item input[type="range"] {
+      accent-color: #db2777;
+      cursor: pointer;
+    }
+    .setting-item select {
+      background: #1a0b2e;
+      color: #fce7f3;
+      border: 1px solid #581c87;
+      padding: 8px 12px;
+      border-radius: 10px;
+      outline: none;
+      font-weight: bold;
+    }
+    .save-settings-btn {
+      background: linear-gradient(90deg, #db2777, #9333ea);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <script>
+    let isSoundEnabled = true;
+    let soundVolume = 0.5;
+    let currentLang = 'ar';
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const translations = {
+      ar: {
+        title: "سليني - Saleny",
+        logoText: "سليني",
+        subtitle1: "اختبر معلوماتك ونَافِس أصدقائك",
+        knights: "الفرسان",
+        giants: "العمالقة",
+        stars: "النجوم",
+        startPlay: "ابدأ اللعبة",
+        tournaments: "البطولات",
+        history: "السجل",
+        challenges: "التحديات",
+        feat1Title: "مستويات متقدمة",
+        feat1Desc: "فئات مخصصة لكل المجالات والاهتمامات",
+        feat2Title: "تفاعل حماسي",
+        feat2Desc: "وسائل مساعدة واستراتيجيات لعب ممتعة",
+        footerText: "تطوير:",
+        devName: "M__7_D_10",
+        settingsTitle: "إعدادات اللعبة",
+        langLabel: "لغة اللعبة / Language",
+        volumeLabel: "مستوى صوت المؤثرات",
+        speedLabel: "سرعة واجهة اللعبة",
+        speedNormal: "عادية",
+        speedFast: "سريعة",
+        effectsLabel: "المؤثرات البصرية",
+        effectsOn: "مفعلة",
+        effectsOff: "موقفة",
+        saveBtn: "حفظ التغييرات",
+        soundOnMsg: "تم تفعيل الصوت",
+        soundOffMsg: "تم كتم الصوت",
+        saveMsg: "تم حفظ الإعدادات بنجاح!",
+        devMsg: "قيد التطوير",
+        startMsg: "جاري البدء..."
+      },
+      en: {
+        title: "Saleny - Trivia",
+        logoText: "Saleny",
+        subtitle1: "Test your knowledge & challenge friends",
+        knights: "Knights",
+        giants: "Giants",
+        stars: "Stars",
+        startPlay: "Play Now",
+        tournaments: "Tournaments",
+        history: "History",
+        challenges: "Challenges",
+        feat1Title: "Advanced Levels",
+        feat1Desc: "Custom categories for all fields and interests",
+        feat2Title: "Exciting Interaction",
+        feat2Desc: "Helpful boosters and fun game strategies",
+        footerText: "Developer:",
+        devName: "M__7_D_10",
+        settingsTitle: "Game Settings",
+        langLabel: "Language / لغة اللعبة",
+        volumeLabel: "Sound Volume",
+        speedLabel: "Interface Speed",
+        speedNormal: "Normal",
+        speedFast: "Fast",
+        effectsLabel: "Visual Effects",
+        effectsOn: "Enabled",
+        effectsOff: "Disabled",
+        saveBtn: "Save Changes",
+        soundOnMsg: "Sound Enabled",
+        soundOffMsg: "Sound Muted",
+        saveMsg: "Settings saved successfully!",
+        devMsg: "Under Development",
+        startMsg: "Starting..."
+      }
+    };
+
+    function playClickSound(type = 'click') {
+      if (!isSoundEnabled) return;
+      if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      gainNode.gain.setValueAtTime(soundVolume * 0.3, audioCtx.currentTime);
+
+      if (type === 'click') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.08);
+      } else if (type === 'success') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      }
+    }
+
+    function toggleSound() {
+      isSoundEnabled = !isSoundEnabled;
+      const soundIcon = document.getElementById('soundIcon');
+      const t = translations[currentLang];
+      if (isSoundEnabled) {
+        soundIcon.className = "fa-solid fa-volume-high";
+        showToast(t.soundOnMsg);
+        playClickSound('success');
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark";
+        showToast(t.soundOffMsg);
+      }
+    }
+
+    function openSettings() {
+      playClickSound('click');
+      document.getElementById('settingsModal').style.display = 'flex';
+    }
+
+    function closeSettings() {
+      playClickSound('click');
+      document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function saveSettings() {
+      soundVolume = parseFloat(document.getElementById('volumeRange').value);
+      currentLang = document.getElementById('languageSelect').value;
+      
+      updateTexts();
+      playClickSound('success');
+      showToast(translations[currentLang].saveMsg);
+      closeSettings();
+    }
+
+    function updateTexts() {
+      const t = translations[currentLang];
+      const htmlTag = document.documentElement;
+
+      if (currentLang === 'en') {
+        htmlTag.setAttribute('dir', 'ltr');
+        htmlTag.setAttribute('lang', 'en');
+      } else {
+        htmlTag.setAttribute('dir', 'rtl');
+        htmlTag.setAttribute('lang', 'ar');
+      }
+
+      document.getElementById('pageTitle').innerText = t.title;
+      document.getElementById('logoText').textContent = t.logoText;
+      document.getElementById('subText1').textContent = t.subtitle1;
+      
+      document.getElementById('txtKnights').textContent = t.knights;
+      document.getElementById('txtGiants').textContent = t.giants;
+      document.getElementById('txtStars').textContent = t.stars;
+      document.getElementById('txtPlay').textContent = t.startPlay;
+      document.getElementById('txtTournaments').textContent = t.tournaments;
+      document.getElementById('txtHistory').textContent = t.history;
+      document.getElementById('txtChallenges').textContent = t.challenges;
+
+      document.getElementById('txtFeat1Title').textContent = t.feat1Title;
+      document.getElementById('txtFeat1Desc').textContent = t.feat1Desc;
+      document.getElementById('txtFeat2Title').textContent = t.feat2Title;
+      document.getElementById('txtFeat2Desc').textContent = t.feat2Desc;
+      
+      document.getElementById('txtFooterText').textContent = t.footerText;
+      document.getElementById('txtDevName').textContent = t.devName;
+
+      document.getElementById('stTitle').innerHTML = `<i class="fa-solid fa-gear"></i> ${t.settingsTitle}`;
+      document.getElementById('lblLang').textContent = t.langLabel;
+      document.getElementById('lblVol').textContent = t.volumeLabel;
+      document.getElementById('lblSpeed').textContent = t.speedLabel;
+      document.getElementById('optNormal').textContent = t.speedNormal;
+      document.getElementById('optFast').textContent = t.speedFast;
+      document.getElementById('lblEffects').textContent = t.effectsLabel;
+      document.getElementById('optOn').textContent = t.effectsOn;
+      document.getElementById('optOff').textContent = t.effectsOff;
+      document.getElementById('btnSave').textContent = t.saveBtn;
+    }
+  </script>
+
+  <div id="toastNotification">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="toastText">تنبيه</span>
+  </div>
+
+  <!-- نافذة الإعدادات المنبثقة -->
+  <div id="settingsModal">
+    <div class="settings-modal-content">
+      <div class="settings-modal-header">
+        <h3 id="stTitle"><i class="fa-solid fa-gear"></i> إعدادات اللعبة</h3>
+        <button class="close-settings-btn" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblLang">لغة اللعبة / Language</label>
+        <select id="languageSelect">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblVol">مستوى صوت المؤثرات</label>
+        <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="0.5">
+      </div>
+
+      <div class="setting-item">
+        <label id="lblSpeed">سرعة واجهة اللعبة</label>
+        <select id="gameSpeed">
+          <option id="optNormal" value="normal">عادية</option>
+          <option id="optFast" value="fast">سريعة</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblEffects">المؤثرات البصرية</label>
+        <select id="visualEffects">
+          <option id="optOn" value="on">مفعلة</option>
+          <option id="optOff" value="off">موقفة</option>
+        </select>
+      </div>
+
+      <button id="btnSave" class="save-settings-btn" onclick="saveSettings()">حفظ التغييرات</button>
+    </div>
+  </div>
+
+  <!-- الشاشة الرئيسية -->
+  <div id="homeScreen">
+    <div class="top-section">
+      <!-- زر الصوت -->
+      <button class="icon-btn sound-btn" id="soundToggleBtn" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">
+        <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+      </button>
+      
+      <!-- زر الإعدادات -->
+      <button class="icon-btn settings-btn" onclick="openSettings()" title="الإعدادات">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+      
+      <div class="brand-header-container">
+        <i class="fa-solid fa-crown crown-icon"></i>
+        <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 90">
+          <text id="logoText" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="52" font-weight="900" style="filter: drop-shadow(3px 3px 0px #9d174d);">سليني</text>
+        </svg>
+      </div>
+      <p class="subtitle"><span>+</span> <span id="subText1">اختبر معلوماتك ونَافِس أصدقائك</span> <span>+</span></p>
+    </div>
+
+    <div class="main-menu">
+      <div class="menu-card card-blue" onclick="playClickSound('click'); showToast(translations[currentLang].knights + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-shield-halved"></i><span id="txtKnights">الفرسان</span></div>
+      <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].giants + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-fire"></i><span id="txtGiants">العمالقة</span></div>
+      <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].stars + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
+      <div class="menu-card card-play" onclick="playClickSound('success'); showToast(translations[currentLang].startMsg)"><i class="fa-solid fa-gamepad"></i><span id="txtPlay">ابدأ اللعبة</span></div>
+      <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy" style="color: #f472b6;"></i><span id="txtTournaments" style="color: #fce7f3;">البطولات</span></div>
+      <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].history + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-chart-line"></i><span id="txtHistory">السجل</span></div>
+      <div class="menu-card card-cyan" onclick="playClickSound('click'); showToast(translations[currentLang].challenges + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-bolt"></i><span id="txtChallenges">التحديات</span></div>
+    </div>
+
+    <div class="home-bottom-bg">
+      <div class="features-container">
+        <div class="feature-item">
+          <div class="feature-text">
+            <h4 id="txtFeat1Title">مستويات متقدمة</h4>
+            <p id="txtFeat1Desc">فئات مخصصة لكل المجالات والاهتمامات</p>
+          </div>
+          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-text">
+            <h4 id="txtFeat2Title">تفاعل حماسي</h4>
+            <p id="txtFeat2Desc">وسائل مساعدة واستراتيجيات لعب ممتعة</p>
+          </div>
+          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        </div>
+      </div>
+      <div class="footer-credit">
+        <i class="fa-solid fa-code" style="color: #f472b6;"></i>
+        <span id="txtFooterText">تطوير:</span>
+        <span id="txtDevName" class="dev-name">M__7_D_10</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastText').innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
