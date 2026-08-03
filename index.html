@@ -332,191 +332,143 @@
       display: none;
       width: 100vw;
       min-height: 100vh;
-      background: #ffffff;
+      background: #f8fafc;
       color: #1a1a1a;
       padding: 40px 20px;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
     }
-    .categories-container {
+    .categories-main-wrapper {
       width: 100%;
-      max-width: 850px;
+      max-width: 1200px;
+      background: #ffffff;
+      border-radius: 35px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .categories-container h2 {
-      font-size: 48px;
-      font-weight: 900;
-      color: #1a1a1a;
-      margin-bottom: 15px;
-      letter-spacing: -1px;
-    }
-    .categories-container p {
-      font-size: 16px;
-      color: #374151;
-      margin-bottom: 25px;
-      line-height: 1.8;
-      font-weight: 700;
-      max-width: 750px;
+      border: 1px solid #e2e8f0;
     }
 
-    /* شريط الأعلام تماماً كالصورة */
-    .flags-pill-bar {
+    .top-action-bar {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      background: #e5e7eb;
-      padding: 6px 14px;
-      border-radius: 35px;
-      gap: 6px;
-      margin-bottom: 10px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+      width: 100%;
+      margin-bottom: 25px;
     }
-    .flag-circle-item {
-      width: 38px;
-      height: 38px;
+
+    .confirm-categories-main-btn {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      border: none;
+      padding: 14px 45px;
+      border-radius: 30px;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .confirm-categories-main-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .back-home-link {
+      background: #f1f5f9;
+      border: none;
+      color: #475569;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 12px 25px;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+    .back-home-link:hover { background: #e2e8f0; color: #1e293b; }
+
+    /* شبكة الفئات */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      width: 100%;
+      margin-top: 25px;
+      margin-bottom: 35px;
+    }
+
+    .category-card {
       background: #ffffff;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .category-card:hover {
+      transform: translateY(-5px);
+      border-color: #f97316;
+      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.15);
+    }
+    .category-card.selected {
+      border-color: #f97316;
+      background: #fff7ed;
+      box-shadow: 0 6px 18px rgba(249, 115, 22, 0.25);
+    }
+
+    .category-info-icon {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #3b82f6;
+      font-size: 18px;
+      background: #eff6ff;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-      border: 2px solid transparent;
-    }
-    .flag-circle-item:hover { transform: scale(1.1); }
-    .flag-circle-item.active { border-color: #f97316; }
-    .flag-circle-item.all-badge {
-      background: #d1d5db;
-      font-size: 13px;
-      font-weight: 900;
-      color: #1f2937;
-      width: 45px;
-      border-radius: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      z-index: 2;
     }
 
-    /* زر الأشكال والقلب تحت الأعلام تماماً */
-    .sub-control-pill {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #4b5563;
-      padding: 5px 16px;
-      border-radius: 25px;
-      gap: 15px;
-      margin-bottom: 35px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    }
-    .sub-control-btn {
-      background: transparent;
-      border: none;
-      color: #d1d5db;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s;
-    }
-    .sub-control-btn:hover { color: #ffffff; }
-
-    /* صف البحث وزر الاختيار العشوائي */
-    .search-random-row {
-      display: flex;
+    .category-img-box {
       width: 100%;
-      max-width: 780px;
-      gap: 15px;
+      height: 140px;
+      background: #f8fafc;
+      display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-    .search-input-wrapper {
-      flex: 1;
-      min-width: 320px;
+      padding: 12px;
       position: relative;
-      display: flex;
-      align-items: center;
     }
-    .search-input-wrapper input {
-      width: 100%;
-      padding: 16px 20px 16px 55px;
-      border: 2px solid #f97316;
-      border-radius: 30px;
-      font-size: 16px;
-      color: #1a1a1a;
-      background: #ffffff;
-      outline: none;
-      font-family: inherit;
-      font-weight: 600;
+    .category-img-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
-    .search-input-wrapper input::placeholder {
-      color: #9ca3af;
-      font-weight: 600;
-    }
-    .search-input-wrapper i {
-      position: absolute;
-      left: 22px;
-      color: #f97316;
-      font-size: 20px;
+    .category-fallback-icon {
+      font-size: 45px;
+      color: #cbd5e1;
     }
 
-    .random-pick-btn {
-      background: linear-gradient(135deg, #fb923c, #f97316);
-      color: white;
-      border: none;
-      padding: 16px 30px;
-      border-radius: 30px;
-      font-size: 18px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
-      transition: transform 0.2s;
-      white-space: nowrap;
-    }
-    .random-pick-btn:hover { transform: translateY(-2px); }
-
-    /* زر أجمد الفئات بالأسفل */
-    .confirm-categories-main-btn {
+    .category-title-bar {
       background: #f97316;
       color: white;
-      border: none;
-      width: 100%;
-      max-width: 420px;
-      padding: 18px;
-      border-radius: 30px;
-      font-size: 20px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-      transition: opacity 0.2s, transform 0.2s;
-      margin-bottom: 25px;
-    }
-    .confirm-categories-main-btn:hover {
-      opacity: 0.95;
-      transform: translateY(-2px);
-    }
-
-    .back-home-link {
-      background: transparent;
-      border: none;
-      color: #6b7280;
+      padding: 12px 10px;
+      text-align: center;
       font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 8px;
-      transition: color 0.2s;
+      font-weight: 800;
+      letter-spacing: -0.5px;
     }
-    .back-home-link:hover { color: #1a1a1a; }
 
     /* الشاشة الرئيسية */
     #homeScreen {
@@ -776,6 +728,30 @@
       { title: "تحدي العباقرة الصعب", desc: "أسئلة ذكاء رياضية ومنطقية معقدة جداً للمحترفين فقط." }
     ];
 
+    const categoriesData = [
+      { name: "جوازات", icon: "fa-solid fa-passport", color: "#f97316" },
+      { name: "زووم", icon: "fa-solid fa-magnifying-glass", color: "#f97316" },
+      { name: "خمن الصوت", icon: "fa-solid fa-volume-high", color: "#f97316" },
+      { name: "ترتيب", icon: "fa-solid fa-list-ol", color: "#f97316" },
+      { name: "وضح شوي", icon: "fa-solid fa-image", color: "#f97316" },
+      { name: "فن قطري", icon: "fa-solid fa-masks-theater", color: "#f97316" },
+      { name: "نحو وإعراب", icon: "fa-solid fa-book-quran", color: "#f97316" },
+      { name: "وين بالأردن", icon: "fa-solid fa-map-location-dot", color: "#f97316" },
+      { name: "دعايات مسرحيات", icon: "fa-solid fa-film", color: "#f97316" },
+      { name: "مسيرة فنان أجنبي", icon: "fa-solid fa-star", color: "#f97316" },
+      { name: "كأس العالم 26", icon: "fa-solid fa-trophy", color: "#f97316" },
+      { name: "كابتن كأس العالم", icon: "fa-solid fa-shirt", color: "#f97316" },
+      { name: "ترتيب كروي", icon: "fa-solid fa-futbol", color: "#f97316" },
+      { name: "نيران", icon: "fa-solid fa-fire", color: "#f97316" },
+      { name: "حروف انجليزي", icon: "fa-solid fa-font", color: "#f97316" },
+      { name: "League of Legends", icon: "fa-solid fa-gamepad", color: "#f97316" },
+      { name: "Overwatch", icon: "fa-solid fa-shield", color: "#f97316" },
+      { name: "One Piece Manga", icon: "fa-solid fa-skull", color: "#f97316" },
+      { name: "كرة سلة بحرينية", icon: "fa-solid fa-basketball", color: "#f97316" },
+      { name: "Fortnite", icon: "fa-solid fa-crosshairs", color: "#f97316" },
+      { name: "ترتيب إسلامي", icon: "fa-solid fa-kaaba", color: "#f97316" }
+    ];
+
     const translations = {
       ar: {
         title: "سليني - Saleny",
@@ -911,6 +887,7 @@
       playClickSound('success');
       document.getElementById('homeScreen').style.display = 'none';
       document.getElementById('gameScreenView').style.display = 'flex';
+      renderCategoriesGrid();
     }
 
     function backToHome() {
@@ -919,10 +896,25 @@
       document.getElementById('homeScreen').style.display = 'flex';
     }
 
-    function selectFlagFilter(element) {
-      playClickSound('click');
-      document.querySelectorAll('.flag-circle-item').forEach(el => el.classList.remove('active'));
-      element.classList.add('active');
+    function renderCategoriesGrid() {
+      const grid = document.getElementById('categoriesGridContainer');
+      grid.innerHTML = '';
+      categoriesData.forEach((cat, index) => {
+        const card = document.createElement('div');
+        card.className = 'category-card';
+        card.onclick = () => {
+          card.classList.toggle('selected');
+          playClickSound('click');
+        };
+        card.innerHTML = `
+          <div class="category-info-icon" onclick="event.stopPropagation(); showToast('معلومات فئة: ${cat.name}')"><i class="fa-solid fa-circle-info"></i></div>
+          <div class="category-img-box">
+            <i class="${cat.icon} category-fallback-icon"></i>
+          </div>
+          <div class="category-title-bar">${cat.name}</div>
+        `;
+        grid.appendChild(card);
+      });
     }
 
     function openChallenges() {
@@ -1135,47 +1127,20 @@
     </div>
   </div>
 
-  <!-- شاشة "اختر الفئات" المطابقة تماماً للصورة المطلوبة -->
+  <!-- شاشة "اختر الفئات" بالشبكة الكاملة تماماً كالصورة -->
   <div id="gameScreenView">
-    <div class="categories-container">
-      <h2>اختر الفئات</h2>
-      <p>3 فئات لفريقك، و 3 فئات للفريق المنافس، بمجموع 6 فئات بـ 36 سؤال مختلف، اختاروا الفئات بعناية عشان تضمنون الفرصة الأكبر للفوز</p>
-      
-      <!-- شريط الأعلام تماماً كما في الصورة -->
-      <div class="flags-pill-bar">
-        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="الأردن">🇯🇴</div>
-        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="البحرين">🇧🇭</div>
-        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="الإمارات">🇦🇪</div>
-        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="قطر">🇶🇦</div>
-        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="عمان">🇴🇲</div>
-        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="السعودية">🇸🇦</div>
-        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="الكويت">🇰🇼</div>
-        <div class="flag-circle-item all-badge active" onclick="selectFlagFilter(this)">ALL</div>
+    <div class="categories-main-wrapper">
+      <div class="top-action-bar">
+        <button class="confirm-categories-main-btn" onclick="playClickSound('success'); showToast('جاري بدء اللعبة بالفئات المحددة...')">أجمد الفئات</button>
+        <button class="back-home-link" onclick="backToHome()">العودة للرئيسية</button>
       </div>
 
-      <!-- أزرار التحكم والقلب تحت الأعلام -->
-      <div class="sub-control-pill">
-        <button class="sub-control-btn" onclick="playClickSound('click')"><i class="fa-solid fa-grip"></i></button>
-        <button class="sub-control-btn" onclick="playClickSound('click')"><i class="fa-solid fa-bars"></i></button>
-        <button class="sub-control-btn" onclick="playClickSound('click')"><i class="fa-solid fa-heart"></i></button>
-      </div>
+      <!-- شبكة الفئات الكاملة -->
+      <div class="categories-grid" id="categoriesGridContainer"></div>
 
-      <!-- ححث وزر عشوائي -->
-      <div class="search-random-row">
-        <div class="search-input-wrapper">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="البحث باسم الفئة" autocomplete="off">
-        </div>
-        <button class="random-pick-btn" onclick="playClickSound('success'); showToast('جاري اختيار فئات عشوائية...')">
-          <i class="fa-solid fa-shuffle" style="font-size: 20px;"></i>
-          اختر فئات عشوائية
-        </button>
+      <div style="width: 100%; display: flex; justify-content: center; margin-top: 15px;">
+        <button class="confirm-categories-main-btn" onclick="playClickSound('success'); showToast('جاري بدء اللعبة بالفئات المحددة...')">أجمد الفئات</button>
       </div>
-
-      <!-- زر أجمد الفئات بالأسفل -->
-      <button class="confirm-categories-main-btn" onclick="playClickSound('success'); showToast('جاري تأكيد الفئات المحددة...')">أجمد الفئات</button>
-      
-      <button class="back-home-link" onclick="backToHome()">العودة للرئيسية</button>
     </div>
   </div>
 
