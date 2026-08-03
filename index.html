@@ -124,6 +124,85 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
+    /* نافذة التحديات الجديدة */
+    #challengesModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 18000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(6px);
+      padding: 20px;
+    }
+    .challenges-content {
+      background: #2e1065;
+      border: 2px solid #db2777;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    .challenges-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #581c87;
+      padding-bottom: 12px;
+    }
+    .challenges-header h3 {
+      font-size: 20px;
+      color: #f472b6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .challenge-card-item {
+      background: #3b0764;
+      border: 1px solid #581c87;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .challenge-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .challenge-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fbcfe8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .challenge-desc {
+      font-size: 13px;
+      color: #d8b4fe;
+    }
+    .challenge-add-box {
+      background: #3b0764;
+      border: 1px dashed #db2777;
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .challenge-add-box h4 {
+      font-size: 15px;
+      color: #fbcfe8;
+      margin-bottom: 10px;
+    }
+
     /* نافذة الإدارة والرتب الحقيقية */
     #managementModal {
       display: none;
@@ -181,7 +260,7 @@
     .form-group {
       margin-bottom: 10px;
     }
-    .form-group input, .form-group select {
+    .form-group input, .form-group select, .form-group textarea {
       width: 100%;
       padding: 10px 14px;
       background: #1a0b2e;
@@ -190,8 +269,9 @@
       color: #fce7f3;
       font-size: 14px;
       outline: none;
+      font-family: inherit;
     }
-    .form-group input:focus, .form-group select:focus {
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
       border-color: #db2777;
     }
     .assign-btn {
@@ -524,6 +604,14 @@
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
+    
+    // قائمة التحديات الافتراضية والتي يمكن إضافتها وحفظها
+    let challengesList = JSON.parse(localStorage.getItem('saleny_challenges_list')) || [
+      { title: "تحدي السرعة البرقية", desc: "أجب عن 10 أسئلة ثقافية في أقل من دقيقة واحدة دون أي خطأ." },
+      { title: "تحدي العباقرة الصعب", desc: "أسئلة ذكاء رياضية ومنطقية معقدة جداً للمحترفين فقط." },
+      { title: "تحدي الذاكرة الخارقة", desc: "حاول تذكر تسلسل العناصر والكلمات ثم أعد كتابتها بدقة." },
+      { title: "تحدي المعلومات العامة", desc: "أسئلة متنوعة تغطي التاريخ، العلوم، والجغرافيا العالمية." }
+    ];
 
     const translations = {
       ar: {
@@ -557,7 +645,7 @@
         soundOffMsg: "تم كتم الصوت",
         saveMsg: "تم حفظ الإعدادات بنجاح!",
         devMsg: "قيد التطوير",
-        startMsg: "جاري البدء...",
+        startMsg: "جاري البدء بلعبة سليني...",
         welcomeTitle: "هذا الموقع قيد التطوير للاستفسار",
         welcomeBtn: "التواصل عبر إنستغرام",
         closeBtnText: "حسناً، الدخول للموقع",
@@ -566,12 +654,12 @@
         controlPanelTitle: "⚙️ لوحة تعيين ورتب الأعضاء",
         usernamePlaceholder: "اسم المستخدم أو المعرف",
         assignBtnText: "منح الرتبة",
-        rank1Title: "👑 المدير العام (Owner)",
-        rank1Desc: "صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.",
-        rank2Title: "🛡️ مشرف عام (Admin)",
-        rank2Desc: "صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.",
-        rank3Title: "⭐ مساعد إداري (Moderator)",
-        rank3Desc: "صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل."
+        chTitleText: "⚡ قسم التحديات الممتعة",
+        chAddTitle: "➕ إضافة تحدٍ جديد",
+        chNamePH: "عنوان التحدي (مثلاً: تحدي الذكاء)",
+        chDescPH: "وصف التحدي وقواعده...",
+        chAddBtn: "نشر التحدي",
+        chCloseBtn: "إغلاق التحديات"
       },
       en: {
         title: "Saleny - Trivia",
@@ -604,7 +692,7 @@
         soundOffMsg: "Sound Muted",
         saveMsg: "Settings saved successfully!",
         devMsg: "Under Development",
-        startMsg: "Starting...",
+        startMsg: "Starting Saleny Game...",
         welcomeTitle: "This site is under development for inquiry",
         welcomeBtn: "Contact via Instagram",
         closeBtnText: "OK, Enter Website",
@@ -613,12 +701,12 @@
         controlPanelTitle: "⚙️ Assign Member Ranks",
         usernamePlaceholder: "Username or ID",
         assignBtnText: "Assign Rank",
-        rank1Title: "👑 General Manager (Owner)",
-        rank1Desc: "Full access: Control all settings, add/edit sections, and manage users.",
-        rank2Title: "🛡️ Admin",
-        rank2Desc: "Supervisory access: Monitor content, assist players, and manage tournaments.",
-        rank3Title: "⭐ Moderator",
-        rank3Desc: "Basic access: Track workflow, answer inquiries, and report issues."
+        chTitleText: "⚡ Exciting Challenges Section",
+        chAddTitle: "➕ Add New Challenge",
+        chNamePH: "Challenge Title...",
+        chDescPH: "Challenge description & rules...",
+        chAddBtn: "Publish Challenge",
+        chCloseBtn: "Close Challenges"
       }
     };
 
@@ -658,6 +746,65 @@
     function closeWelcomeModal() {
       playClickSound('click');
       document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    // دوال نافذة التحديات الجديدة
+    function openChallenges() {
+      playClickSound('click');
+      renderChallengesList();
+      document.getElementById('challengesModal').style.display = 'flex';
+    }
+
+    function closeChallenges() {
+      playClickSound('click');
+      document.getElementById('challengesModal').style.display = 'none';
+    }
+
+    function addNewChallenge(event) {
+      event.preventDefault();
+      const title = document.getElementById('newChTitle').value.trim();
+      const desc = document.getElementById('newChDesc').value.trim();
+
+      if (!title || !desc) return;
+
+      challengesList.push({ title: title, desc: desc });
+      localStorage.setItem('saleny_challenges_list', JSON.stringify(challengesList));
+
+      document.getElementById('newChTitle').value = '';
+      document.getElementById('newChDesc').value = '';
+      renderChallengesList();
+      playClickSound('success');
+      showToast("تم إضافة التحدي بنجاح!");
+    }
+
+    function deleteChallenge(index) {
+      challengesList.splice(index, 1);
+      localStorage.setItem('saleny_challenges_list', JSON.stringify(challengesList));
+      renderChallengesList();
+      playClickSound('click');
+    }
+
+    function renderChallengesList() {
+      const container = document.getElementById('challengesListContainer');
+      container.innerHTML = '';
+
+      if (challengesList.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 14px; padding: 10px;">لا توجد تحديات مضافة حالياً</div>`;
+        return;
+      }
+
+      challengesList.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'challenge-card-item';
+        div.innerHTML = `
+          <div class="challenge-title-row">
+            <span class="challenge-title"><i class="fa-solid fa-bolt-lightning" style="color: #f472b6;"></i> ${item.title}</span>
+            <button class="delete-rank-btn" onclick="deleteChallenge(${index})" title="حذف التحدي"><i class="fa-solid fa-trash"></i></button>
+          </div>
+          <div class="challenge-desc">${item.desc}</div>
+        `;
+        container.appendChild(div);
+      });
     }
 
     function openManagement() {
@@ -805,13 +952,13 @@
       document.getElementById('controlTitleText').textContent = t.controlPanelTitle;
       document.getElementById('newUserName').placeholder = t.usernamePlaceholder;
       document.getElementById('assignBtnText').textContent = t.assignBtnText;
-      
-      document.getElementById('r1Title').textContent = t.rank1Title;
-      document.getElementById('r1Desc').textContent = t.rank1Desc;
-      document.getElementById('r2Title').textContent = t.rank2Title;
-      document.getElementById('r2Desc').textContent = t.rank2Desc;
-      document.getElementById('r3Title').textContent = t.rank3Title;
-      document.getElementById('r3Desc').textContent = t.rank3Desc;
+
+      document.getElementById('chTitleText').innerHTML = `<i class="fa-solid fa-bolt"></i> ${t.chTitleText}`;
+      document.getElementById('chAddTitleText').textContent = t.chAddTitle;
+      document.getElementById('newChTitle').placeholder = t.chNamePH;
+      document.getElementById('newChDesc').placeholder = t.chDescPH;
+      document.getElementById('chAddBtnText').textContent = t.chAddBtn;
+      document.getElementById('chCloseBtnText').textContent = t.chCloseBtn;
     }
   </script>
 
@@ -820,7 +967,7 @@
     <span id="toastText">تنبيه</span>
   </div>
 
-  <!-- نافذة ترحيبية عند الدخول برابط إنستغرام الخاص بك -->
+  <!-- نافذة ترحيبية عند الدخول برابط إنستغرام -->
   <div id="welcomeModal">
     <div class="welcome-content">
       <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
@@ -835,6 +982,37 @@
     </div>
   </div>
 
+  <!-- نافذة التحديات المتنوعة -->
+  <div id="challengesModal">
+    <div class="challenges-content">
+      <div class="challenges-header">
+        <h3 id="chTitleText"><i class="fa-solid fa-bolt"></i> قسم التحديات الممتعة</h3>
+        <button class="close-settings-btn" onclick="closeChallenges()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- خانة إضافة تحدي جديد -->
+      <div class="challenge-add-box">
+        <h4 id="chAddTitleText">➕ إضافة تحدٍ جديد</h4>
+        <form onsubmit="addNewChallenge(event)">
+          <div class="form-group">
+            <input type="text" id="newChTitle" placeholder="عنوان التحدي (مثلاً: تحدي الذكاء)" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <textarea id="newChDesc" placeholder="وصف التحدي وقواعده..." rows="2" required></textarea>
+          </div>
+          <button type="submit" class="assign-btn" id="chAddBtnText">نشر التحدي</button>
+        </form>
+      </div>
+
+      <!-- قائمة التحديات -->
+      <div id="challengesListContainer">
+        <!-- ستظهر التحديات هنا ديناميكياً -->
+      </div>
+
+      <button id="chCloseBtnText" class="save-settings-btn" onclick="closeChallenges()" style="margin-top: 15px;">إغلاق التحديات</button>
+    </div>
+  </div>
+
   <!-- نافذة الإدارة والرتب -->
   <div id="managementModal">
     <div class="management-content">
@@ -843,7 +1021,6 @@
         <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- خانة إضافة ومنح الرتب -->
       <div class="admin-control-box">
         <h4 id="controlTitleText">⚙️ لوحة تعيين ورتب الأعضاء</h4>
         <form onsubmit="assignUserRank(event)">
@@ -860,24 +1037,22 @@
           <button type="submit" class="assign-btn" id="assignBtnText">منح الرتبة</button>
         </form>
         
-        <div class="assigned-users-list" id="assignedListContainer">
-          <!-- ستظهر القائمة هنا ديناميكياً -->
-        </div>
+        <div class="assigned-users-list" id="assignedListContainer"></div>
       </div>
 
       <div class="rank-card">
-        <div class="rank-title" id="r1Title">👑 المدير العام (Owner)</div>
-        <div class="rank-perms" id="r1Desc">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
+        <div class="rank-title">👑 المدير العام (Owner)</div>
+        <div class="rank-perms">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
       </div>
 
       <div class="rank-card">
-        <div class="rank-title" id="r2Title">🛡️ مشرف عام (Admin)</div>
-        <div class="rank-perms" id="r2Desc">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
+        <div class="rank-title">🛡️ مشرف عام (Admin)</div>
+        <div class="rank-perms">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
       </div>
 
       <div class="rank-card">
-        <div class="rank-title" id="r3Title">⭐ مساعد إداري (Moderator)</div>
-        <div class="rank-perms" id="r3Desc">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
+        <div class="rank-title">⭐ مساعد إداري (Moderator)</div>
+        <div class="rank-perms">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
       </div>
 
       <button id="closeMgtText" class="save-settings-btn" onclick="closeManagement()" style="margin-top: 15px;">إغلاق</button>
@@ -928,12 +1103,10 @@
   <!-- الشاشة الرئيسية -->
   <div id="homeScreen">
     <div class="top-section">
-      <!-- زر الصوت -->
-      <button class="icon-btn sound-btn" id="soundToggleBtn" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">
+      <button class="icon-btn sound-btn" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">
         <i id="soundIcon" class="fa-solid fa-volume-high"></i>
       </button>
       
-      <!-- زر الإعدادات -->
       <button class="icon-btn settings-btn" onclick="openSettings()" title="الإعدادات">
         <i class="fa-solid fa-gear"></i>
       </button>
@@ -959,7 +1132,9 @@
 
       <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy"></i><span id="txtTournaments">البطولات</span></div>
       <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].history + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-clock-rotate-left"></i><span id="txtHistory">السجل</span></div>
-      <div class="menu-card card-cyan" onclick="playClickSound('click'); showToast(translations[currentLang].challenges + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-gamepad"></i><span id="txtChallenges">التحديات</span></div>
+      
+      <!-- زر التحديات الذي يعمل ويفتح النافذة الخاصة به -->
+      <div class="menu-card card-cyan" onclick="openChallenges()"><i class="fa-solid fa-bolt"></i><span id="txtChallenges">التحديات</span></div>
     </div>
 
     <div class="home-bottom-bg">
