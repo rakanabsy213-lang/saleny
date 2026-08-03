@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -392,10 +392,6 @@
     .card-play i { font-size: 42px; color: #ffffff; }
     .card-play span { font-size: 18px; font-weight: 900; }
 
-    .card-white { background: #3b0764; color: #fce7f3; border: 1px solid #581c87; }
-    .card-dark { background: #2e1065; color: #ffffff; border: 1px solid #581c87; }
-    .card-cyan { background: linear-gradient(180deg, #9333ea, #6b21a8); }
-
     .home-bottom-bg { 
       background: #2e1065; 
       width: 100%; 
@@ -648,6 +644,15 @@
         osc.start();
         osc.stop(audioCtx.currentTime + 0.3);
       }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastText').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
     }
 
     function closeWelcomeModal() {
@@ -946,46 +951,40 @@
       <div class="menu-card card-blue" onclick="openManagement()"><i class="fa-solid fa-shield-halved"></i><span id="txtManagement">الإدارة</span></div>
       <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].giants + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-fire"></i><span id="txtGiants">العمالقة</span></div>
       <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].stars + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
-      <div class="menu-card card-play" onclick="playClickSound('success'); showToast(translations[currentLang].startMsg)"><i class="fa-solid fa-gamepad"></i><span id="txtPlay">ابدأ اللعبة</span></div>
-      <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy" style="color: #f472b6;"></i><span id="txtTournaments" style="color: #fce7f3;">البطولات</span></div>
-      <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].history + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-chart-line"></i><span id="txtHistory">السجل</span></div>
-      <div class="menu-card card-cyan" onclick="playClickSound('click'); showToast(translations[currentLang].challenges + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-bolt"></i><span id="txtChallenges">التحديات</span></div>
+      
+      <div class="menu-card card-play" onclick="playClickSound('success'); showToast(translations[currentLang].startMsg)">
+        <i class="fa-solid fa-play"></i>
+        <span id="txtPlay">ابدأ اللعبة</span>
+      </div>
+
+      <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy"></i><span id="txtTournaments">البطولات</span></div>
+      <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].history + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-clock-rotate-left"></i><span id="txtHistory">السجل</span></div>
+      <div class="menu-card card-cyan" onclick="playClickSound('click'); showToast(translations[currentLang].challenges + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-gamepad"></i><span id="txtChallenges">التحديات</span></div>
     </div>
 
     <div class="home-bottom-bg">
       <div class="features-container">
         <div class="feature-item">
+          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
           <div class="feature-text">
             <h4 id="txtFeat1Title">مستويات متقدمة</h4>
             <p id="txtFeat1Desc">فئات مخصصة لكل المجالات والاهتمامات</p>
           </div>
-          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
         </div>
         <div class="feature-item">
+          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-bolt"></i></div>
           <div class="feature-text">
             <h4 id="txtFeat2Title">تفاعل حماسي</h4>
             <p id="txtFeat2Desc">وسائل مساعدة واستراتيجيات لعب ممتعة</p>
           </div>
-          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
         </div>
       </div>
-      <div class="footer-credit">
-        <i class="fa-solid fa-code" style="color: #f472b6;"></i>
-        <span id="txtFooterText">تطوير:</span>
-        <span id="txtDevName" class="dev-name">M__7_D_10</span>
-      </div>
+
+      <a href="https://www.instagram.com/m__7_d_10" target="_blank" class="footer-credit">
+        <span id="txtFooterText">تطوير:</span> <span class="dev-name" id="txtDevName">M__7_D_10</span>
+      </a>
     </div>
   </div>
 
-  <script>
-    function showToast(message) {
-      const toast = document.getElementById('toastNotification');
-      document.getElementById('toastText').innerText = message;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-  </script>
 </body>
 </html>
