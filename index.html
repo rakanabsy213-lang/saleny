@@ -335,68 +335,161 @@
       line-height: 1.5;
     }
 
-    /* واجهة اللعبة الفعلية التي تظهر عند الضغط على ابدأ اللعبة */
+    /* واجهة (اختر الفئات) تماماً كما طلبت في الصورة */
     #gameScreenView {
       display: none;
       width: 100vw;
       min-height: 100vh;
-      background: linear-gradient(135deg, #4c1d95 0%, #831843 100%);
-      padding: 30px 20px;
+      background: #ffffff;
+      color: #2b2b2b;
+      padding: 40px 20px;
       flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+    }
+    .categories-container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .categories-container h2 {
+      font-size: 48px;
+      font-weight: 900;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .categories-container p {
+      font-size: 16px;
+      color: #4b4b4b;
+      margin-bottom: 30px;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+    .flags-pills-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #e5e7eb;
+      padding: 8px 16px;
+      border-radius: 30px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .pill-flag {
+      font-size: 18px;
+      background: white;
+      padding: 4px 8px;
+      border-radius: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .sub-icons-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #374151;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 35px;
+    }
+    .sub-icon-box {
+      color: #9ca3af;
+      font-size: 16px;
+      display: flex;
       align-items: center;
       justify-content: center;
     }
-    .game-play-box {
-      background: #2e1065;
-      border: 3px solid #db2777;
-      border-radius: 30px;
+    .categories-actions-row {
+      display: flex;
       width: 100%;
-      max-width: 600px;
-      padding: 30px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      text-align: center;
+      max-width: 750px;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
     }
-    .game-play-box h2 {
-      color: #f472b6;
-      font-size: 26px;
-      margin-bottom: 15px;
+    .search-category-box {
+      flex: 1;
+      min-width: 300px;
+      position: relative;
+      display: flex;
+      align-items: center;
     }
-    .game-play-box p {
-      color: #e9d5ff;
+    .search-category-box input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      border: 2px solid #f97316;
+      border-radius: 25px;
       font-size: 16px;
-      margin-bottom: 25px;
+      color: #1a1a1a;
+      background: #ffffff;
+      outline: none;
+      font-family: inherit;
     }
-    .game-option-btn {
-      background: #3b0764;
-      border: 2px solid #7e22ce;
+    .search-category-box input::placeholder {
+      color: #9ca3af;
+    }
+    .search-category-box i {
+      position: absolute;
+      left: 20px;
+      color: #f97316;
+      font-size: 20px;
+    }
+    .random-categories-btn {
+      background: linear-gradient(135deg, #fb923c, #f97316);
       color: white;
-      width: 100%;
-      padding: 14px;
-      border-radius: 15px;
-      font-size: 16px;
+      border: none;
+      padding: 16px 30px;
+      border-radius: 25px;
+      font-size: 18px;
       font-weight: bold;
-      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+      transition: transform 0.2s;
     }
-    .game-option-btn:hover {
-      background: #581c87;
+    .random-categories-btn:hover {
       transform: translateY(-2px);
     }
-    .back-home-btn {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fce7f3;
-      padding: 10px 25px;
-      border-radius: 12px;
-      font-size: 14px;
+    .confirm-categories-btn {
+      background: #f97316;
+      color: white;
+      border: none;
+      width: 100%;
+      max-width: 350px;
+      padding: 16px;
+      border-radius: 25px;
+      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 15px;
-      transition: background 0.2s;
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+      transition: opacity 0.2s;
+      margin-bottom: 20px;
     }
-    .back-home-btn:hover {
-      background: rgba(255,255,255,0.2);
+    .confirm-categories-btn:hover {
+      opacity: 0.9;
+    }
+    .back-home-link-btn {
+      background: transparent;
+      border: none;
+      color: #6b7280;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .back-home-link-btn:hover {
+      color: #1a1a1a;
     }
 
     /* الشاشة الرئيسية */
@@ -684,7 +777,7 @@
         management: "الإدارة",
         giants: "العمالقة",
         stars: "النجوم",
-        startPlay: "ابدأ اللعبة",
+        startPlay: "إنشاء لعبة",
         tournaments: "البطولات",
         history: "السجل",
         challenges: "التحديات",
@@ -721,12 +814,7 @@
         chNamePH: "عنوان التحدي (مثلاً: تحدي الذكاء)",
         chDescPH: "وصف التحدي وقواعده...",
         chAddBtn: "نشر التحدي",
-        chCloseBtn: "إغلاق التحديات",
-        gameMainTitle: "لعبة سليني التفاعلية",
-        gameDesc: "اختر القسم أو ابدأ الأسئلة الآن واستمتع بالتحدي مع أصدقائك!",
-        opt1: "بدء تحدي الأسئلة السريعة",
-        opt2: "اختيار فئة الأسئلة الثقافية",
-        backHome: "العودة للرئيسية"
+        chCloseBtn: "إغلاق التحديات"
       },
       en: {
         title: "Saleny - Trivia",
@@ -735,7 +823,7 @@
         management: "Management",
         giants: "Giants",
         stars: "Stars",
-        startPlay: "Play Now",
+        startPlay: "Create Game",
         tournaments: "Tournaments",
         history: "History",
         challenges: "Challenges",
@@ -772,12 +860,7 @@
         chNamePH: "Challenge Title...",
         chDescPH: "Challenge description & rules...",
         chAddBtn: "Publish Challenge",
-        chCloseBtn: "Close Challenges",
-        gameMainTitle: "Saleny Interactive Game",
-        gameDesc: "Choose a mode or start the trivia now and have fun with friends!",
-        opt1: "Start Fast Trivia Challenge",
-        opt2: "Choose Cultural Questions Category",
-        backHome: "Back to Home"
+        chCloseBtn: "Close Challenges"
       }
     };
 
@@ -819,7 +902,7 @@
       document.getElementById('welcomeModal').style.display = 'none';
     }
 
-    // دوال الدخول والخروج من اللعبة الحقيقية
+    // الانتقال لشاشة اختر الفئات المطابقة للصورة تماماً
     function startGamePlay() {
       playClickSound('success');
       document.getElementById('homeScreen').style.display = 'none';
@@ -1042,12 +1125,6 @@
       document.getElementById('newChDesc').placeholder = t.chDescPH;
       document.getElementById('chAddBtnText').textContent = t.chAddBtn;
       document.getElementById('chCloseBtnText').textContent = t.chCloseBtn;
-
-      document.getElementById('gameMainTitle').textContent = t.gameMainTitle;
-      document.getElementById('gameDescText').textContent = t.gameDesc;
-      document.getElementById('gameOpt1').textContent = t.opt1;
-      document.getElementById('gameOpt2').textContent = t.opt2;
-      document.getElementById('backHomeBtnText').textContent = t.backHome;
     }
   </script>
 
@@ -1071,16 +1148,43 @@
     </div>
   </div>
 
-  <!-- شاشة اللعبة التفاعلية -->
+  <!-- شاشة "اختر الفئات" المطابقة للصورة الأصلية تماماً -->
   <div id="gameScreenView">
-    <div class="game-play-box">
-      <h2 id="gameMainTitle">لعبة سليني التفاعلية</h2>
-      <p id="gameDescText">اختر القسم أو ابدأ الأسئلة الآن واستمتع بالتحدي مع أصدقائك!</p>
+    <div class="categories-container">
+      <h2>اختر الفئات</h2>
+      <p>3 فئات لفريقك، و 3 فئات للفريق المنافس، بمجموع 6 فئات بـ 36 سؤال مختلف، اختاروا الفئات بعناية عشان تضمنون الفرصة الأكبر للفوز</p>
       
-      <button class="game-option-btn" id="gameOpt1" onclick="playClickSound('success'); showToast('جاري بدء تحدي الأسئلة السريعة...')">بدء تحدي الأسئلة السريعة</button>
-      <button class="game-option-btn" id="gameOpt2" onclick="playClickSound('success'); showToast('جاري فتح فئة الأسئلة الثقافية...')">اختيار فئة الأسئلة الثقافية</button>
+      <div class="flags-pills-row">
+        <span class="pill-flag">🇯🇴</span>
+        <span class="pill-flag">🇧🇭</span>
+        <span class="pill-flag">🇦🇪</span>
+        <span class="pill-flag">🇶🇦</span>
+        <span class="pill-flag">🇴🇲</span>
+        <span class="pill-flag">🇸🇦</span>
+        <span class="pill-flag">🇰🇼</span>
+        <span class="pill-flag" style="font-weight: bold; font-size: 14px; padding: 6px 12px; background: #d1d5db; border-radius: 12px;">ALL</span>
+      </div>
+
+      <div class="sub-icons-row">
+        <div class="sub-icon-box"><i class="fa-solid fa-grip"></i></div>
+        <div class="sub-icon-box"><i class="fa-solid fa-bars"></i></div>
+        <div class="sub-icon-box"><i class="fa-solid fa-heart"></i></div>
+      </div>
+
+      <div class="categories-actions-row">
+        <div class="search-category-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="البحث باسم الفئة" autocomplete="off">
+        </div>
+        <button class="random-categories-btn" onclick="playClickSound('success'); showToast('جاري اختيار فئات عشوائية...')">
+          <i class="fa-solid fa-shuffle" style="font-size: 20px;"></i>
+          اختر فئات عشوائية
+        </button>
+      </div>
+
+      <button class="confirm-categories-btn" onclick="playClickSound('success'); showToast('جاري تأكيد الفئات المحددة...')">أجمد الفئات</button>
       
-      <button class="back-home-btn" id="backHomeBtnText" onclick="backToHome()">العودة للرئيسية</button>
+      <button class="back-home-link-btn" onclick="backToHome()">العودة للرئيسية</button>
     </div>
   </div>
 
@@ -1223,10 +1327,10 @@
       <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].giants + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-fire"></i><span id="txtGiants">العمالقة</span></div>
       <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].stars + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
       
-      <!-- زر ابدأ اللعبة الذي يعمل وينقلك لشاشة اللعب -->
+      <!-- زر إنشاء اللعبة الذي ينتقل لشاشة اختيار الفئات -->
       <div class="menu-card card-play" onclick="startGamePlay()">
         <i class="fa-solid fa-play"></i>
-        <span id="txtPlay">ابدأ اللعبة</span>
+        <span id="txtPlay">إنشاء لعبة</span>
       </div>
 
       <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy"></i><span id="txtTournaments">البطولات</span></div>
