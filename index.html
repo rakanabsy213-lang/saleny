@@ -124,7 +124,7 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* نافذة التحديات الجديدة */
+    /* نافذة التحديات */
     #challengesModal {
       display: none;
       position: fixed;
@@ -203,7 +203,7 @@
       margin-bottom: 10px;
     }
 
-    /* نافذة الإدارة والرتب الحقيقية */
+    /* نافذة الإدارة والرتب */
     #managementModal {
       display: none;
       position: fixed;
@@ -333,6 +333,70 @@
       font-size: 14px;
       color: #d8b4fe;
       line-height: 1.5;
+    }
+
+    /* واجهة اللعبة الفعلية التي تظهر عند الضغط على ابدأ اللعبة */
+    #gameScreenView {
+      display: none;
+      width: 100vw;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #4c1d95 0%, #831843 100%);
+      padding: 30px 20px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .game-play-box {
+      background: #2e1065;
+      border: 3px solid #db2777;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 600px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .game-play-box h2 {
+      color: #f472b6;
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+    .game-play-box p {
+      color: #e9d5ff;
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+    .game-option-btn {
+      background: #3b0764;
+      border: 2px solid #7e22ce;
+      color: white;
+      width: 100%;
+      padding: 14px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .game-option-btn:hover {
+      background: #581c87;
+      transform: translateY(-2px);
+    }
+    .back-home-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fce7f3;
+      padding: 10px 25px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.2s;
+    }
+    .back-home-btn:hover {
+      background: rgba(255,255,255,0.2);
     }
 
     /* الشاشة الرئيسية */
@@ -605,7 +669,6 @@
 
     let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
     
-    // قائمة التحديات الافتراضية والتي يمكن إضافتها وحفظها
     let challengesList = JSON.parse(localStorage.getItem('saleny_challenges_list')) || [
       { title: "تحدي السرعة البرقية", desc: "أجب عن 10 أسئلة ثقافية في أقل من دقيقة واحدة دون أي خطأ." },
       { title: "تحدي العباقرة الصعب", desc: "أسئلة ذكاء رياضية ومنطقية معقدة جداً للمحترفين فقط." },
@@ -645,7 +708,6 @@
         soundOffMsg: "تم كتم الصوت",
         saveMsg: "تم حفظ الإعدادات بنجاح!",
         devMsg: "قيد التطوير",
-        startMsg: "جاري البدء بلعبة سليني...",
         welcomeTitle: "هذا الموقع قيد التطوير للاستفسار",
         welcomeBtn: "التواصل عبر إنستغرام",
         closeBtnText: "حسناً، الدخول للموقع",
@@ -659,7 +721,12 @@
         chNamePH: "عنوان التحدي (مثلاً: تحدي الذكاء)",
         chDescPH: "وصف التحدي وقواعده...",
         chAddBtn: "نشر التحدي",
-        chCloseBtn: "إغلاق التحديات"
+        chCloseBtn: "إغلاق التحديات",
+        gameMainTitle: "لعبة سليني التفاعلية",
+        gameDesc: "اختر القسم أو ابدأ الأسئلة الآن واستمتع بالتحدي مع أصدقائك!",
+        opt1: "بدء تحدي الأسئلة السريعة",
+        opt2: "اختيار فئة الأسئلة الثقافية",
+        backHome: "العودة للرئيسية"
       },
       en: {
         title: "Saleny - Trivia",
@@ -692,7 +759,6 @@
         soundOffMsg: "Sound Muted",
         saveMsg: "Settings saved successfully!",
         devMsg: "Under Development",
-        startMsg: "Starting Saleny Game...",
         welcomeTitle: "This site is under development for inquiry",
         welcomeBtn: "Contact via Instagram",
         closeBtnText: "OK, Enter Website",
@@ -706,7 +772,12 @@
         chNamePH: "Challenge Title...",
         chDescPH: "Challenge description & rules...",
         chAddBtn: "Publish Challenge",
-        chCloseBtn: "Close Challenges"
+        chCloseBtn: "Close Challenges",
+        gameMainTitle: "Saleny Interactive Game",
+        gameDesc: "Choose a mode or start the trivia now and have fun with friends!",
+        opt1: "Start Fast Trivia Challenge",
+        opt2: "Choose Cultural Questions Category",
+        backHome: "Back to Home"
       }
     };
 
@@ -748,7 +819,19 @@
       document.getElementById('welcomeModal').style.display = 'none';
     }
 
-    // دوال نافذة التحديات الجديدة
+    // دوال الدخول والخروج من اللعبة الحقيقية
+    function startGamePlay() {
+      playClickSound('success');
+      document.getElementById('homeScreen').style.display = 'none';
+      document.getElementById('gameScreenView').style.display = 'flex';
+    }
+
+    function backToHome() {
+      playClickSound('click');
+      document.getElementById('gameScreenView').style.display = 'none';
+      document.getElementById('homeScreen').style.display = 'flex';
+    }
+
     function openChallenges() {
       playClickSound('click');
       renderChallengesList();
@@ -959,6 +1042,12 @@
       document.getElementById('newChDesc').placeholder = t.chDescPH;
       document.getElementById('chAddBtnText').textContent = t.chAddBtn;
       document.getElementById('chCloseBtnText').textContent = t.chCloseBtn;
+
+      document.getElementById('gameMainTitle').textContent = t.gameMainTitle;
+      document.getElementById('gameDescText').textContent = t.gameDesc;
+      document.getElementById('gameOpt1').textContent = t.opt1;
+      document.getElementById('gameOpt2').textContent = t.opt2;
+      document.getElementById('backHomeBtnText').textContent = t.backHome;
     }
   </script>
 
@@ -982,6 +1071,19 @@
     </div>
   </div>
 
+  <!-- شاشة اللعبة التفاعلية -->
+  <div id="gameScreenView">
+    <div class="game-play-box">
+      <h2 id="gameMainTitle">لعبة سليني التفاعلية</h2>
+      <p id="gameDescText">اختر القسم أو ابدأ الأسئلة الآن واستمتع بالتحدي مع أصدقائك!</p>
+      
+      <button class="game-option-btn" id="gameOpt1" onclick="playClickSound('success'); showToast('جاري بدء تحدي الأسئلة السريعة...')">بدء تحدي الأسئلة السريعة</button>
+      <button class="game-option-btn" id="gameOpt2" onclick="playClickSound('success'); showToast('جاري فتح فئة الأسئلة الثقافية...')">اختيار فئة الأسئلة الثقافية</button>
+      
+      <button class="back-home-btn" id="backHomeBtnText" onclick="backToHome()">العودة للرئيسية</button>
+    </div>
+  </div>
+
   <!-- نافذة التحديات المتنوعة -->
   <div id="challengesModal">
     <div class="challenges-content">
@@ -990,7 +1092,6 @@
         <button class="close-settings-btn" onclick="closeChallenges()"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- خانة إضافة تحدي جديد -->
       <div class="challenge-add-box">
         <h4 id="chAddTitleText">➕ إضافة تحدٍ جديد</h4>
         <form onsubmit="addNewChallenge(event)">
@@ -1004,10 +1105,7 @@
         </form>
       </div>
 
-      <!-- قائمة التحديات -->
-      <div id="challengesListContainer">
-        <!-- ستظهر التحديات هنا ديناميكياً -->
-      </div>
+      <div id="challengesListContainer"></div>
 
       <button id="chCloseBtnText" class="save-settings-btn" onclick="closeChallenges()" style="margin-top: 15px;">إغلاق التحديات</button>
     </div>
@@ -1125,7 +1223,8 @@
       <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].giants + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-fire"></i><span id="txtGiants">العمالقة</span></div>
       <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].stars + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
       
-      <div class="menu-card card-play" onclick="playClickSound('success'); showToast(translations[currentLang].startMsg)">
+      <!-- زر ابدأ اللعبة الذي يعمل وينقلك لشاشة اللعب -->
+      <div class="menu-card card-play" onclick="startGamePlay()">
         <i class="fa-solid fa-play"></i>
         <span id="txtPlay">ابدأ اللعبة</span>
       </div>
@@ -1133,7 +1232,6 @@
       <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy"></i><span id="txtTournaments">البطولات</span></div>
       <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].history + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-clock-rotate-left"></i><span id="txtHistory">السجل</span></div>
       
-      <!-- زر التحديات الذي يعمل ويفتح النافذة الخاصة به -->
       <div class="menu-card card-cyan" onclick="openChallenges()"><i class="fa-solid fa-bolt"></i><span id="txtChallenges">التحديات</span></div>
     </div>
 
