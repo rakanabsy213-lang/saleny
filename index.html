@@ -65,7 +65,6 @@
       text-align: center;
       box-shadow: 0 20px 40px rgba(219, 39, 119, 0.4);
       animation: popIn 0.4s ease-out;
-      position: relative;
     }
     @keyframes popIn {
       0% { transform: scale(0.8); opacity: 0; }
@@ -271,9 +270,6 @@
       outline: none;
       font-family: inherit;
     }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: #db2777;
-    }
     .assign-btn {
       background: linear-gradient(90deg, #db2777, #9333ea);
       color: white;
@@ -312,7 +308,6 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     .rank-card {
       background: #3b0764;
       border: 1px solid #581c87;
@@ -325,9 +320,6 @@
       font-weight: bold;
       color: #fbcfe8;
       margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     .rank-perms {
       font-size: 14px;
@@ -335,22 +327,21 @@
       line-height: 1.5;
     }
 
-    /* واجهة (اختر الفئات) تماماً كما طلبت في الصورة */
+    /* شاشة (اختر الفئات) تماماً كالصورة المطلوبة */
     #gameScreenView {
       display: none;
       width: 100vw;
       min-height: 100vh;
       background: #ffffff;
-      color: #2b2b2b;
+      color: #1a1a1a;
       padding: 40px 20px;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      position: relative;
     }
     .categories-container {
       width: 100%;
-      max-width: 800px;
+      max-width: 850px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -361,136 +352,171 @@
       font-size: 48px;
       font-weight: 900;
       color: #1a1a1a;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       letter-spacing: -1px;
     }
     .categories-container p {
       font-size: 16px;
-      color: #4b4b4b;
-      margin-bottom: 30px;
+      color: #374151;
+      margin-bottom: 25px;
       line-height: 1.8;
-      font-weight: 600;
+      font-weight: 700;
+      max-width: 750px;
     }
-    .flags-pills-row {
+
+    /* شريط الأعلام تماماً كالصورة */
+    .flags-pill-bar {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
       background: #e5e7eb;
-      padding: 8px 16px;
-      border-radius: 30px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-    .pill-flag {
-      font-size: 18px;
-      background: white;
-      padding: 4px 8px;
-      border-radius: 15px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .sub-icons-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: #374151;
       padding: 6px 14px;
-      border-radius: 20px;
-      margin-bottom: 35px;
+      border-radius: 35px;
+      gap: 6px;
+      margin-bottom: 10px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
     }
-    .sub-icon-box {
-      color: #9ca3af;
-      font-size: 16px;
+    .flag-circle-item {
+      width: 38px;
+      height: 38px;
+      background: #ffffff;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      border: 2px solid transparent;
     }
-    .categories-actions-row {
+    .flag-circle-item:hover { transform: scale(1.1); }
+    .flag-circle-item.active { border-color: #f97316; }
+    .flag-circle-item.all-badge {
+      background: #d1d5db;
+      font-size: 13px;
+      font-weight: 900;
+      color: #1f2937;
+      width: 45px;
+      border-radius: 20px;
+    }
+
+    /* زر الأشكال والقلب تحت الأعلام تماماً */
+    .sub-control-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #4b5563;
+      padding: 5px 16px;
+      border-radius: 25px;
+      gap: 15px;
+      margin-bottom: 35px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+    .sub-control-btn {
+      background: transparent;
+      border: none;
+      color: #d1d5db;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    .sub-control-btn:hover { color: #ffffff; }
+
+    /* صف البحث وزر الاختيار العشوائي */
+    .search-random-row {
       display: flex;
       width: 100%;
-      max-width: 750px;
-      gap: 20px;
+      max-width: 780px;
+      gap: 15px;
       align-items: center;
       justify-content: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       flex-wrap: wrap;
     }
-    .search-category-box {
+    .search-input-wrapper {
       flex: 1;
-      min-width: 300px;
+      min-width: 320px;
       position: relative;
       display: flex;
       align-items: center;
     }
-    .search-category-box input {
+    .search-input-wrapper input {
       width: 100%;
-      padding: 16px 20px 16px 50px;
+      padding: 16px 20px 16px 55px;
       border: 2px solid #f97316;
-      border-radius: 25px;
+      border-radius: 30px;
       font-size: 16px;
       color: #1a1a1a;
       background: #ffffff;
       outline: none;
       font-family: inherit;
+      font-weight: 600;
     }
-    .search-category-box input::placeholder {
+    .search-input-wrapper input::placeholder {
       color: #9ca3af;
+      font-weight: 600;
     }
-    .search-category-box i {
+    .search-input-wrapper i {
       position: absolute;
-      left: 20px;
+      left: 22px;
       color: #f97316;
       font-size: 20px;
     }
-    .random-categories-btn {
+
+    .random-pick-btn {
       background: linear-gradient(135deg, #fb923c, #f97316);
       color: white;
       border: none;
       padding: 16px 30px;
-      border-radius: 25px;
+      border-radius: 30px;
       font-size: 18px;
       font-weight: bold;
       display: flex;
       align-items: center;
       gap: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
       transition: transform 0.2s;
+      white-space: nowrap;
     }
-    .random-categories-btn:hover {
-      transform: translateY(-2px);
-    }
-    .confirm-categories-btn {
+    .random-pick-btn:hover { transform: translateY(-2px); }
+
+    /* زر أجمد الفئات بالأسفل */
+    .confirm-categories-main-btn {
       background: #f97316;
       color: white;
       border: none;
       width: 100%;
-      max-width: 350px;
-      padding: 16px;
-      border-radius: 25px;
-      font-size: 18px;
-      font-weight: bold;
+      max-width: 420px;
+      padding: 18px;
+      border-radius: 30px;
+      font-size: 20px;
+      font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
-      transition: opacity 0.2s;
-      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+      transition: opacity 0.2s, transform 0.2s;
+      margin-bottom: 25px;
     }
-    .confirm-categories-btn:hover {
-      opacity: 0.9;
+    .confirm-categories-main-btn:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
     }
-    .back-home-link-btn {
+
+    .back-home-link {
       background: transparent;
       border: none;
       color: #6b7280;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       padding: 8px;
+      transition: color 0.2s;
     }
-    .back-home-link-btn:hover {
-      color: #1a1a1a;
-    }
+    .back-home-link:hover { color: #1a1a1a; }
 
     /* الشاشة الرئيسية */
     #homeScreen {
@@ -572,7 +598,6 @@
       justify-content: center; 
       gap: 8px; 
     }
-    
     .subtitle span { color: #f472b6; font-size: 22px; }
 
     .main-menu { 
@@ -641,11 +666,7 @@
     .features-container {
       display: flex; justify-content: center; gap: 45px; max-width: 1200px; width: 100%; flex-wrap: wrap; margin-bottom: 35px;
     }
-
     .feature-item { display: flex; align-items: center; gap: 15px; }
-    html[dir="rtl"] .feature-item { direction: rtl; }
-    html[dir="ltr"] .feature-item { direction: ltr; }
-
     .feature-icon-circle {
       width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
     }
@@ -653,16 +674,11 @@
     .f-yellow { background: rgba(192, 38, 211, 0.15); color: #e879f9; }
     .feature-text h4 { font-size: 16px; font-weight: 800; color: #fce7f3; margin-bottom: 3px; }
     .feature-text p { font-size: 13px; color: #d8b4fe; font-weight: 600; }
-    html[dir="rtl"] .feature-text { text-align: right; }
-    html[dir="ltr"] .feature-text { text-align: left; }
 
     .footer-credit {
       font-size: 14px; color: #d8b4fe; font-weight: 700; display: flex; align-items: center; gap: 8px; background: #1a0b2e; padding: 10px 25px; border-radius: 20px; text-decoration: none; border: 1px solid #581c87;
     }
-    .footer-credit span.dev-name {
-      color: #f472b6;
-      font-weight: 900;
-    }
+    .footer-credit span.dev-name { color: #f472b6; font-weight: 900; }
 
     /* نافذة الإعدادات */
     #settingsModal {
@@ -684,9 +700,6 @@
       padding: 30px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     }
-    html[dir="rtl"] .settings-modal-content { text-align: right; }
-    html[dir="ltr"] .settings-modal-content { text-align: left; }
-
     .settings-modal-header {
       display: flex;
       justify-content: space-between;
@@ -724,10 +737,7 @@
       font-weight: bold;
       color: #fce7f3;
     }
-    .setting-item input[type="range"] {
-      accent-color: #db2777;
-      cursor: pointer;
-    }
+    .setting-item input[type="range"] { accent-color: #db2777; cursor: pointer; }
     .setting-item select {
       background: #1a0b2e;
       color: #fce7f3;
@@ -761,12 +771,9 @@
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
-    
     let challengesList = JSON.parse(localStorage.getItem('saleny_challenges_list')) || [
       { title: "تحدي السرعة البرقية", desc: "أجب عن 10 أسئلة ثقافية في أقل من دقيقة واحدة دون أي خطأ." },
-      { title: "تحدي العباقرة الصعب", desc: "أسئلة ذكاء رياضية ومنطقية معقدة جداً للمحترفين فقط." },
-      { title: "تحدي الذاكرة الخارقة", desc: "حاول تذكر تسلسل العناصر والكلمات ثم أعد كتابتها بدقة." },
-      { title: "تحدي المعلومات العامة", desc: "أسئلة متنوعة تغطي التاريخ، العلوم، والجغرافيا العالمية." }
+      { title: "تحدي العباقرة الصعب", desc: "أسئلة ذكاء رياضية ومنطقية معقدة جداً للمحترفين فقط." }
     ];
 
     const translations = {
@@ -811,7 +818,7 @@
         assignBtnText: "منح الرتبة",
         chTitleText: "⚡ قسم التحديات الممتعة",
         chAddTitle: "➕ إضافة تحدٍ جديد",
-        chNamePH: "عنوان التحدي (مثلاً: تحدي الذكاء)",
+        chNamePH: "عنوان التحدي...",
         chDescPH: "وصف التحدي وقواعده...",
         chAddBtn: "نشر التحدي",
         chCloseBtn: "إغلاق التحديات"
@@ -892,9 +899,7 @@
       const toast = document.getElementById('toastNotification');
       document.getElementById('toastText').textContent = message;
       toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
     }
 
     function closeWelcomeModal() {
@@ -902,7 +907,6 @@
       document.getElementById('welcomeModal').style.display = 'none';
     }
 
-    // الانتقال لشاشة اختر الفئات المطابقة للصورة تماماً
     function startGamePlay() {
       playClickSound('success');
       document.getElementById('homeScreen').style.display = 'none';
@@ -913,6 +917,12 @@
       playClickSound('click');
       document.getElementById('gameScreenView').style.display = 'none';
       document.getElementById('homeScreen').style.display = 'flex';
+    }
+
+    function selectFlagFilter(element) {
+      playClickSound('click');
+      document.querySelectorAll('.flag-circle-item').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
     }
 
     function openChallenges() {
@@ -930,12 +940,9 @@
       event.preventDefault();
       const title = document.getElementById('newChTitle').value.trim();
       const desc = document.getElementById('newChDesc').value.trim();
-
       if (!title || !desc) return;
-
-      challengesList.push({ title: title, desc: desc });
+      challengesList.push({ title, desc });
       localStorage.setItem('saleny_challenges_list', JSON.stringify(challengesList));
-
       document.getElementById('newChTitle').value = '';
       document.getElementById('newChDesc').value = '';
       renderChallengesList();
@@ -953,19 +960,17 @@
     function renderChallengesList() {
       const container = document.getElementById('challengesListContainer');
       container.innerHTML = '';
-
       if (challengesList.length === 0) {
         container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 14px; padding: 10px;">لا توجد تحديات مضافة حالياً</div>`;
         return;
       }
-
       challengesList.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'challenge-card-item';
         div.innerHTML = `
           <div class="challenge-title-row">
             <span class="challenge-title"><i class="fa-solid fa-bolt-lightning" style="color: #f472b6;"></i> ${item.title}</span>
-            <button class="delete-rank-btn" onclick="deleteChallenge(${index})" title="حذف التحدي"><i class="fa-solid fa-trash"></i></button>
+            <button class="delete-rank-btn" onclick="deleteChallenge(${index})"><i class="fa-solid fa-trash"></i></button>
           </div>
           <div class="challenge-desc">${item.desc}</div>
         `;
@@ -988,12 +993,9 @@
       event.preventDefault();
       const username = document.getElementById('newUserName').value.trim();
       const rankVal = document.getElementById('newRankSelect').value;
-
       if (!username) return;
-
       assignedRanks.push({ name: username, rank: rankVal });
       localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
-
       document.getElementById('newUserName').value = '';
       renderAssignedRanksList();
       playClickSound('success');
@@ -1010,18 +1012,12 @@
     function renderAssignedRanksList() {
       const container = document.getElementById('assignedListContainer');
       container.innerHTML = '';
-
       if (assignedRanks.length === 0) {
         container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 13px; padding: 5px;">لا توجد رتب ممنوحة حالياً</div>`;
         return;
       }
-
       assignedRanks.forEach((item, index) => {
-        let rankBadgeName = item.rank;
-        if(item.rank === 'owner') rankBadgeName = '👑 مدير عام';
-        if(item.rank === 'admin') rankBadgeName = '🛡️ مشرف عام';
-        if(item.rank === 'mod') rankBadgeName = '⭐ مساعد';
-
+        let rankBadgeName = item.rank === 'owner' ? '👑 مدير عام' : (item.rank === 'admin' ? '🛡️ مشرف عام' : '⭐ مساعد');
         const div = document.createElement('div');
         div.className = 'user-rank-item';
         div.innerHTML = `
@@ -1059,7 +1055,6 @@
     function saveSettings() {
       soundVolume = parseFloat(document.getElementById('volumeRange').value);
       currentLang = document.getElementById('languageSelect').value;
-      
       updateTexts();
       playClickSound('success');
       showToast(translations[currentLang].saveMsg);
@@ -1069,19 +1064,12 @@
     function updateTexts() {
       const t = translations[currentLang];
       const htmlTag = document.documentElement;
-
-      if (currentLang === 'en') {
-        htmlTag.setAttribute('dir', 'ltr');
-        htmlTag.setAttribute('lang', 'en');
-      } else {
-        htmlTag.setAttribute('dir', 'rtl');
-        htmlTag.setAttribute('lang', 'ar');
-      }
+      htmlTag.setAttribute('dir', currentLang === 'en' ? 'ltr' : 'rtl');
+      htmlTag.setAttribute('lang', currentLang);
 
       document.getElementById('pageTitle').innerText = t.title;
       document.getElementById('logoText').textContent = t.logoText;
       document.getElementById('subText1').textContent = t.subtitle1;
-      
       document.getElementById('txtManagement').textContent = t.management;
       document.getElementById('txtGiants').textContent = t.giants;
       document.getElementById('txtStars').textContent = t.stars;
@@ -1094,7 +1082,6 @@
       document.getElementById('txtFeat1Desc').textContent = t.feat1Desc;
       document.getElementById('txtFeat2Title').textContent = t.feat2Title;
       document.getElementById('txtFeat2Desc').textContent = t.feat2Desc;
-      
       document.getElementById('txtFooterText').textContent = t.footerText;
       document.getElementById('txtDevName').textContent = t.devName;
 
@@ -1148,43 +1135,47 @@
     </div>
   </div>
 
-  <!-- شاشة "اختر الفئات" المطابقة للصورة الأصلية تماماً -->
+  <!-- شاشة "اختر الفئات" المطابقة تماماً للصورة المطلوبة -->
   <div id="gameScreenView">
     <div class="categories-container">
       <h2>اختر الفئات</h2>
       <p>3 فئات لفريقك، و 3 فئات للفريق المنافس، بمجموع 6 فئات بـ 36 سؤال مختلف، اختاروا الفئات بعناية عشان تضمنون الفرصة الأكبر للفوز</p>
       
-      <div class="flags-pills-row">
-        <span class="pill-flag">🇯🇴</span>
-        <span class="pill-flag">🇧🇭</span>
-        <span class="pill-flag">🇦🇪</span>
-        <span class="pill-flag">🇶🇦</span>
-        <span class="pill-flag">🇴🇲</span>
-        <span class="pill-flag">🇸🇦</span>
-        <span class="pill-flag">🇰🇼</span>
-        <span class="pill-flag" style="font-weight: bold; font-size: 14px; padding: 6px 12px; background: #d1d5db; border-radius: 12px;">ALL</span>
+      <!-- شريط الأعلام تماماً كما في الصورة -->
+      <div class="flags-pill-bar">
+        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="الأردن">🇯🇴</div>
+        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="البحرين">🇧🇭</div>
+        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="الإمارات">🇦🇪</div>
+        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="قطر">🇶🇦</div>
+        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="عمان">🇴🇲</div>
+        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="السعودية">🇸🇦</div>
+        <div class="flag-circle-item" onclick="selectFlagFilter(this)" title="الكويت">🇰🇼</div>
+        <div class="flag-circle-item all-badge active" onclick="selectFlagFilter(this)">ALL</div>
       </div>
 
-      <div class="sub-icons-row">
-        <div class="sub-icon-box"><i class="fa-solid fa-grip"></i></div>
-        <div class="sub-icon-box"><i class="fa-solid fa-bars"></i></div>
-        <div class="sub-icon-box"><i class="fa-solid fa-heart"></i></div>
+      <!-- أزرار التحكم والقلب تحت الأعلام -->
+      <div class="sub-control-pill">
+        <button class="sub-control-btn" onclick="playClickSound('click')"><i class="fa-solid fa-grip"></i></button>
+        <button class="sub-control-btn" onclick="playClickSound('click')"><i class="fa-solid fa-bars"></i></button>
+        <button class="sub-control-btn" onclick="playClickSound('click')"><i class="fa-solid fa-heart"></i></button>
       </div>
 
-      <div class="categories-actions-row">
-        <div class="search-category-box">
+      <!-- ححث وزر عشوائي -->
+      <div class="search-random-row">
+        <div class="search-input-wrapper">
           <i class="fa-solid fa-magnifying-glass"></i>
           <input type="text" placeholder="البحث باسم الفئة" autocomplete="off">
         </div>
-        <button class="random-categories-btn" onclick="playClickSound('success'); showToast('جاري اختيار فئات عشوائية...')">
+        <button class="random-pick-btn" onclick="playClickSound('success'); showToast('جاري اختيار فئات عشوائية...')">
           <i class="fa-solid fa-shuffle" style="font-size: 20px;"></i>
           اختر فئات عشوائية
         </button>
       </div>
 
-      <button class="confirm-categories-btn" onclick="playClickSound('success'); showToast('جاري تأكيد الفئات المحددة...')">أجمد الفئات</button>
+      <!-- زر أجمد الفئات بالأسفل -->
+      <button class="confirm-categories-main-btn" onclick="playClickSound('success'); showToast('جاري تأكيد الفئات المحددة...')">أجمد الفئات</button>
       
-      <button class="back-home-link-btn" onclick="backToHome()">العودة للرئيسية</button>
+      <button class="back-home-link" onclick="backToHome()">العودة للرئيسية</button>
     </div>
   </div>
 
@@ -1200,7 +1191,7 @@
         <h4 id="chAddTitleText">➕ إضافة تحدٍ جديد</h4>
         <form onsubmit="addNewChallenge(event)">
           <div class="form-group">
-            <input type="text" id="newChTitle" placeholder="عنوان التحدي (مثلاً: تحدي الذكاء)" required autocomplete="off">
+            <input type="text" id="newChTitle" placeholder="عنوان التحدي..." required autocomplete="off">
           </div>
           <div class="form-group">
             <textarea id="newChDesc" placeholder="وصف التحدي وقواعده..." rows="2" required></textarea>
@@ -1210,7 +1201,6 @@
       </div>
 
       <div id="challengesListContainer"></div>
-
       <button id="chCloseBtnText" class="save-settings-btn" onclick="closeChallenges()" style="margin-top: 15px;">إغلاق التحديات</button>
     </div>
   </div>
@@ -1230,7 +1220,7 @@
             <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required autocomplete="off">
           </div>
           <div class="form-group">
-            <select id="newRankSelect">
+            <select id="newRankSelect" style="width:100%; padding:10px; background:#1a0b2e; color:#fff; border:1px solid #581c87; border-radius:12px;">
               <option value="owner">👑 المدير العام (Owner)</option>
               <option value="admin">🛡️ مشرف عام (Admin)</option>
               <option value="mod">⭐ مساعد إداري (Moderator)</option>
@@ -1238,7 +1228,6 @@
           </div>
           <button type="submit" class="assign-btn" id="assignBtnText">منح الرتبة</button>
         </form>
-        
         <div class="assigned-users-list" id="assignedListContainer"></div>
       </div>
 
@@ -1250,11 +1239,6 @@
       <div class="rank-card">
         <div class="rank-title">🛡️ مشرف عام (Admin)</div>
         <div class="rank-perms">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title">⭐ مساعد إداري (Moderator)</div>
-        <div class="rank-perms">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
       </div>
 
       <button id="closeMgtText" class="save-settings-btn" onclick="closeManagement()" style="margin-top: 15px;">إغلاق</button>
@@ -1327,7 +1311,7 @@
       <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].giants + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-fire"></i><span id="txtGiants">العمالقة</span></div>
       <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].stars + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
       
-      <!-- زر إنشاء اللعبة الذي ينتقل لشاشة اختيار الفئات -->
+      <!-- زر إنشاء اللعبة المنتقل لواجهة الفئات -->
       <div class="menu-card card-play" onclick="startGamePlay()">
         <i class="fa-solid fa-play"></i>
         <span id="txtPlay">إنشاء لعبة</span>
