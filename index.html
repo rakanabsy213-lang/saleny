@@ -1,112 +1,991 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سليني - Saleny</title>
-    <style>
-        body {
-            background-color: #701a75;
-            font-family: Tahoma, sans-serif;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .brand-header-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin: 20px auto 0;
-            width: fit-content;
-        }
-        .crown-icon {
-            position: absolute;
-            top: -38px;
-            right: -10px;
-            font-size: 45px;
-            color: #f472b6;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-            transform: rotate(-15deg);
-        }
-        html[dir="ltr"] .crown-icon {
-            right: auto;
-            left: -10px;
-            transform: rotate(15deg);
-        }
-        h1 {
-            font-size: 50px;
-            color: #fbcfef;
-            margin: 10px 0;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        .subtitle {
-            font-size: 19px;
-            margin-top: 5px;
-            color: #fbcfef;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .menu-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        .menu-card {
-            width: 130px;
-            height: 150px;
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: transform 0.2s;
-            text-decoration: none;
-        }
-        .menu-card:hover {
-            transform: translateY(-8px);
-        }
-        .menu-card span {
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .card-blue { background: linear-gradient(180deg, #db2777, #9d174d); }
-        .card-yellow { background: linear-gradient(180deg, #c026d3, #86198f); }
-        .card-play {
-            background: #fbcfef;
-            color: #701a75;
-            border: 4px solid #ffffff;
-            box-shadow: 0 12px 25px rgba(244, 63, 94, 0.4);
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">سليني - Saleny</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1a0b2e;
+      color: #fce7f3;
+      overflow-x: hidden;
+    }
+
+    #toastNotification {
+      position: fixed;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #db2777;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.4);
+      z-index: 9999;
+      transition: top 0.4s ease-in-out;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #toastNotification.show { top: 25px; }
+
+    /* نافذة الترحيب والتنبيه عند الدخول */
+    #welcomeModal {
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 20000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      padding: 20px;
+    }
+    .welcome-content {
+      background: #2e1065;
+      border: 3px solid #db2777;
+      border-radius: 35px;
+      width: 100%;
+      max-width: 420px;
+      padding: 35px 25px 25px 25px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(219, 39, 119, 0.4);
+      animation: popIn 0.4s ease-out;
+      position: relative;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .welcome-icon {
+      font-size: 55px;
+      color: #f472b6;
+      margin-bottom: 15px;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .welcome-content h2 {
+      font-size: 22px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+    .insta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(220, 39, 67, 0.4);
+      transition: transform 0.2s, opacity 0.2s;
+      margin-bottom: 12px;
+    }
+    .insta-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+    .close-modal-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fce7f3;
+      width: 100%;
+      padding: 12px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .close-modal-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* نافذة الإدارة والرتب الحقيقية */
+    #managementModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 15000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      padding: 20px;
+    }
+    .management-content {
+      background: #2e1065;
+      border: 2px solid #db2777;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    .management-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #581c87;
+      padding-bottom: 12px;
+    }
+    .management-header h3 {
+      font-size: 20px;
+      color: #f472b6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .admin-control-box {
+      background: #3b0764;
+      border: 1px solid #581c87;
+      border-radius: 18px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .admin-control-box h4 {
+      font-size: 16px;
+      color: #fbcfe8;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      background: #1a0b2e;
+      border: 1px solid #581c87;
+      border-radius: 12px;
+      color: #fce7f3;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #db2777;
+    }
+    .assign-btn {
+      background: linear-gradient(90deg, #db2777, #9333ea);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: opacity 0.2s;
+    }
+    .assign-btn:hover { opacity: 0.9; }
+
+    .assigned-users-list {
+      margin-top: 15px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .user-rank-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1a0b2e;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      border: 1px solid #581c87;
+      font-size: 14px;
+    }
+    .delete-rank-btn {
+      background: transparent;
+      border: none;
+      color: #f43f5e;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .rank-card {
+      background: #3b0764;
+      border: 1px solid #581c87;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+    .rank-title {
+      font-size: 17px;
+      font-weight: bold;
+      color: #fbcfe8;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rank-perms {
+      font-size: 14px;
+      color: #d8b4fe;
+      line-height: 1.5;
+    }
+
+    /* الشاشة الرئيسية */
+    #homeScreen {
+      width: 100vw;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .top-section {
+      padding: 30px 20px 80px 20px;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .icon-btn {
+      position: absolute; 
+      top: 25px; 
+      background: rgba(255, 255, 255, 0.15); 
+      border: 1px solid rgba(255, 255, 255, 0.3); 
+      color: white; 
+      width: 50px; 
+      height: 50px; 
+      border-radius: 50%; 
+      font-size: 20px; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      backdrop-filter: blur(5px);
+      transition: background 0.2s;
+    }
+    .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
+    .sound-btn { left: 30px; }
+    .settings-btn { right: 30px; }
+
+    html[dir="ltr"] .sound-btn { left: auto; right: 30px; }
+    html[dir="ltr"] .settings-btn { right: auto; left: 30px; }
+
+    .brand-header-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 20px auto 0 auto;
+      width: fit-content;
+    }
+
+    .crown-icon {
+      position: absolute;
+      top: -38px;
+      right: -10px;
+      font-size: 45px;
+      color: #f472b6;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      transform: rotate(-15deg);
+    }
+    html[dir="ltr"] .crown-icon { right: auto; left: -10px; transform: rotate(15deg); }
+    
+    .brand-logo-svg {
+      width: 320px;
+      height: 90px;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+    }
+
+    .subtitle { 
+      font-size: 19px; 
+      margin-top: 5px; 
+      font-weight: 700; 
+      color: #fbcfe8; 
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+    }
+    
+    .subtitle span { color: #f472b6; font-size: 22px; }
+
+    .main-menu { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 15px; 
+      margin-top: -65px; 
+      position: relative; 
+      z-index: 10; 
+      padding: 0 20px; 
+      flex-wrap: wrap; 
+    }
+
+    .menu-card { 
+      width: 115px; 
+      height: 135px; 
+      border-radius: 24px; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      color: white; 
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+      cursor: pointer; 
+      transition: transform 0.2s; 
+    }
+    .menu-card:hover { transform: translateY(-8px); }
+    .menu-card i { font-size: 30px; margin-bottom: 8px; }
+    .menu-card span { font-size: 15px; font-weight: bold; text-align: center; }
+
+    .card-blue { background: linear-gradient(180deg, #db2777, #9d174d); }
+    .card-yellow { background: linear-gradient(180deg, #c026d3, #86198f); }
+    .card-green { background: linear-gradient(180deg, #e11d48, #9f1239); }
+    
+    .card-play { 
+      background: linear-gradient(180deg, #f43f5e, #be123c); 
+      width: 145px; 
+      height: 150px; 
+      border-radius: 28px; 
+      border: 4px solid #fbcfe8; 
+      box-shadow: 0 12px 25px rgba(244, 63, 94, 0.4); 
+      position: relative;
+    }
+    .card-play::before {
+      content: '';
+      position: absolute;
+      top: -18px; left: 50%;
+      transform: translateX(-50%);
+      width: 25px; height: 8px;
+      background: #fbcfe8; border-radius: 4px;
+      box-shadow: 12px -6px 0 #fbcfe8, -12px -6px 0 #fbcfe8;
+    }
+    .card-play i { font-size: 42px; color: #ffffff; }
+    .card-play span { font-size: 18px; font-weight: 900; }
+
+    .card-white { background: #3b0764; color: #fce7f3; border: 1px solid #581c87; }
+    .card-dark { background: #2e1065; color: #ffffff; border: 1px solid #581c87; }
+    .card-cyan { background: linear-gradient(180deg, #9333ea, #6b21a8); }
+
+    .home-bottom-bg { 
+      background: #2e1065; 
+      width: 100%; 
+      padding: 50px 20px 25px 20px;
+      display: flex; flex-direction: column; align-items: center;
+      margin-top: -30px;
+      border-top: 1px solid #581c87;
+    }
+
+    .features-container {
+      display: flex; justify-content: center; gap: 45px; max-width: 1200px; width: 100%; flex-wrap: wrap; margin-bottom: 35px;
+    }
+
+    .feature-item { display: flex; align-items: center; gap: 15px; }
+    html[dir="rtl"] .feature-item { direction: rtl; }
+    html[dir="ltr"] .feature-item { direction: ltr; }
+
+    .feature-icon-circle {
+      width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+    }
+    .f-red { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+    .f-yellow { background: rgba(192, 38, 211, 0.15); color: #e879f9; }
+    .feature-text h4 { font-size: 16px; font-weight: 800; color: #fce7f3; margin-bottom: 3px; }
+    .feature-text p { font-size: 13px; color: #d8b4fe; font-weight: 600; }
+    html[dir="rtl"] .feature-text { text-align: right; }
+    html[dir="ltr"] .feature-text { text-align: left; }
+
+    .footer-credit {
+      font-size: 14px; color: #d8b4fe; font-weight: 700; display: flex; align-items: center; gap: 8px; background: #1a0b2e; padding: 10px 25px; border-radius: 20px; text-decoration: none; border: 1px solid #581c87;
+    }
+    .footer-credit span.dev-name {
+      color: #f472b6;
+      font-weight: 900;
+    }
+
+    /* نافذة الإعدادات */
+    #settingsModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .settings-modal-content {
+      background: #2e1065;
+      border: 2px solid #581c87;
+      border-radius: 30px;
+      width: 90%;
+      max-width: 480px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    html[dir="rtl"] .settings-modal-content { text-align: right; }
+    html[dir="ltr"] .settings-modal-content { text-align: left; }
+
+    .settings-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-bottom: 1px solid #581c87;
+      padding-bottom: 15px;
+    }
+    .settings-modal-header h3 {
+      font-size: 22px;
+      color: #f472b6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .close-settings-btn {
+      background: transparent;
+      border: none;
+      color: #d8b4fe;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .setting-item {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #3b0764;
+      padding: 15px 20px;
+      border-radius: 15px;
+      border: 1px solid #581c87;
+    }
+    .setting-item label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fce7f3;
+    }
+    .setting-item input[type="range"] {
+      accent-color: #db2777;
+      cursor: pointer;
+    }
+    .setting-item select {
+      background: #1a0b2e;
+      color: #fce7f3;
+      border: 1px solid #581c87;
+      padding: 8px 12px;
+      border-radius: 10px;
+      outline: none;
+      font-weight: bold;
+    }
+    .save-settings-btn {
+      background: linear-gradient(90deg, #db2777, #9333ea);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
+    }
+  </style>
 </head>
 <body>
 
-    <div class="brand-header-container">
-        <div class="crown-icon">👑</div>
-        <h1>سليني</h1>
-        <div class="subtitle">اختبر معلوماتك ونافس أصدقائك</div>
+  <script>
+    let isSoundEnabled = true;
+    let soundVolume = 0.5;
+    let currentLang = 'ar';
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
+
+    const translations = {
+      ar: {
+        title: "سليني - Saleny",
+        logoText: "سليني",
+        subtitle1: "اختبر معلوماتك ونَافِس أصدقائك",
+        management: "الإدارة",
+        giants: "العمالقة",
+        stars: "النجوم",
+        startPlay: "ابدأ اللعبة",
+        tournaments: "البطولات",
+        history: "السجل",
+        challenges: "التحديات",
+        feat1Title: "مستويات متقدمة",
+        feat1Desc: "فئات مخصصة لكل المجالات والاهتمامات",
+        feat2Title: "تفاعل حماسي",
+        feat2Desc: "وسائل مساعدة واستراتيجيات لعب ممتعة",
+        footerText: "تطوير:",
+        devName: "M__7_D_10",
+        settingsTitle: "إعدادات اللعبة",
+        langLabel: "لغة اللعبة / Language",
+        volumeLabel: "مستوى صوت المؤثرات",
+        speedLabel: "سرعة واجهة اللعبة",
+        speedNormal: "عادية",
+        speedFast: "سريعة",
+        effectsLabel: "المؤثرات البصرية",
+        effectsOn: "مفعلة",
+        effectsOff: "موقفة",
+        saveBtn: "حفظ التغييرات",
+        soundOnMsg: "تم تفعيل الصوت",
+        soundOffMsg: "تم كتم الصوت",
+        saveMsg: "تم حفظ الإعدادات بنجاح!",
+        devMsg: "قيد التطوير",
+        startMsg: "جاري البدء...",
+        welcomeTitle: "هذا الموقع قيد التطوير للاستفسار",
+        welcomeBtn: "التواصل عبر إنستغرام",
+        closeBtnText: "حسناً، الدخول للموقع",
+        mgtTitle: "إدارة ورتب الموقع",
+        closeMgt: "إغلاق",
+        controlPanelTitle: "⚙️ لوحة تعيين ورتب الأعضاء",
+        usernamePlaceholder: "اسم المستخدم أو المعرف",
+        assignBtnText: "منح الرتبة",
+        rank1Title: "👑 المدير العام (Owner)",
+        rank1Desc: "صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.",
+        rank2Title: "🛡️ مشرف عام (Admin)",
+        rank2Desc: "صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.",
+        rank3Title: "⭐ مساعد إداري (Moderator)",
+        rank3Desc: "صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل."
+      },
+      en: {
+        title: "Saleny - Trivia",
+        logoText: "Saleny",
+        subtitle1: "Test your knowledge & challenge friends",
+        management: "Management",
+        giants: "Giants",
+        stars: "Stars",
+        startPlay: "Play Now",
+        tournaments: "Tournaments",
+        history: "History",
+        challenges: "Challenges",
+        feat1Title: "Advanced Levels",
+        feat1Desc: "Custom categories for all fields and interests",
+        feat2Title: "Exciting Interaction",
+        feat2Desc: "Helpful boosters and fun game strategies",
+        footerText: "Developer:",
+        devName: "M__7_D_10",
+        settingsTitle: "Game Settings",
+        langLabel: "Language / لغة اللعبة",
+        volumeLabel: "Sound Volume",
+        speedLabel: "Interface Speed",
+        speedNormal: "Normal",
+        speedFast: "Fast",
+        effectsLabel: "Visual Effects",
+        effectsOn: "Enabled",
+        effectsOff: "Disabled",
+        saveBtn: "Save Changes",
+        soundOnMsg: "Sound Enabled",
+        soundOffMsg: "Sound Muted",
+        saveMsg: "Settings saved successfully!",
+        devMsg: "Under Development",
+        startMsg: "Starting...",
+        welcomeTitle: "This site is under development for inquiry",
+        welcomeBtn: "Contact via Instagram",
+        closeBtnText: "OK, Enter Website",
+        mgtTitle: "Management & Ranks",
+        closeMgt: "Close",
+        controlPanelTitle: "⚙️ Assign Member Ranks",
+        usernamePlaceholder: "Username or ID",
+        assignBtnText: "Assign Rank",
+        rank1Title: "👑 General Manager (Owner)",
+        rank1Desc: "Full access: Control all settings, add/edit sections, and manage users.",
+        rank2Title: "🛡️ Admin",
+        rank2Desc: "Supervisory access: Monitor content, assist players, and manage tournaments.",
+        rank3Title: "⭐ Moderator",
+        rank3Desc: "Basic access: Track workflow, answer inquiries, and report issues."
+      }
+    };
+
+    function playClickSound(type = 'click') {
+      if (!isSoundEnabled) return;
+      if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      gainNode.gain.setValueAtTime(soundVolume * 0.3, audioCtx.currentTime);
+
+      if (type === 'click') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.08);
+      } else if (type === 'success') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      }
+    }
+
+    function closeWelcomeModal() {
+      playClickSound('click');
+      document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    function openManagement() {
+      playClickSound('click');
+      renderAssignedRanksList();
+      document.getElementById('managementModal').style.display = 'flex';
+    }
+
+    function closeManagement() {
+      playClickSound('click');
+      document.getElementById('managementModal').style.display = 'none';
+    }
+
+    function assignUserRank(event) {
+      event.preventDefault();
+      const username = document.getElementById('newUserName').value.trim();
+      const rankVal = document.getElementById('newRankSelect').value;
+
+      if (!username) return;
+
+      assignedRanks.push({ name: username, rank: rankVal });
+      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
+
+      document.getElementById('newUserName').value = '';
+      renderAssignedRanksList();
+      playClickSound('success');
+      showToast("تم منح الرتبة بنجاح!");
+    }
+
+    function removeAssignedRank(index) {
+      assignedRanks.splice(index, 1);
+      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
+      renderAssignedRanksList();
+      playClickSound('click');
+    }
+
+    function renderAssignedRanksList() {
+      const container = document.getElementById('assignedListContainer');
+      container.innerHTML = '';
+
+      if (assignedRanks.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 13px; padding: 5px;">لا توجد رتب ممنوحة حالياً</div>`;
+        return;
+      }
+
+      assignedRanks.forEach((item, index) => {
+        let rankBadgeName = item.rank;
+        if(item.rank === 'owner') rankBadgeName = '👑 مدير عام';
+        if(item.rank === 'admin') rankBadgeName = '🛡️ مشرف عام';
+        if(item.rank === 'mod') rankBadgeName = '⭐ مساعد';
+
+        const div = document.createElement('div');
+        div.className = 'user-rank-item';
+        div.innerHTML = `
+          <span><b>${item.name}</b> (${rankBadgeName})</span>
+          <button class="delete-rank-btn" onclick="removeAssignedRank(${index})"><i class="fa-solid fa-trash"></i></button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleSound() {
+      isSoundEnabled = !isSoundEnabled;
+      const soundIcon = document.getElementById('soundIcon');
+      const t = translations[currentLang];
+      if (isSoundEnabled) {
+        soundIcon.className = "fa-solid fa-volume-high";
+        showToast(t.soundOnMsg);
+        playClickSound('success');
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark";
+        showToast(t.soundOffMsg);
+      }
+    }
+
+    function openSettings() {
+      playClickSound('click');
+      document.getElementById('settingsModal').style.display = 'flex';
+    }
+
+    function closeSettings() {
+      playClickSound('click');
+      document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function saveSettings() {
+      soundVolume = parseFloat(document.getElementById('volumeRange').value);
+      currentLang = document.getElementById('languageSelect').value;
+      
+      updateTexts();
+      playClickSound('success');
+      showToast(translations[currentLang].saveMsg);
+      closeSettings();
+    }
+
+    function updateTexts() {
+      const t = translations[currentLang];
+      const htmlTag = document.documentElement;
+
+      if (currentLang === 'en') {
+        htmlTag.setAttribute('dir', 'ltr');
+        htmlTag.setAttribute('lang', 'en');
+      } else {
+        htmlTag.setAttribute('dir', 'rtl');
+        htmlTag.setAttribute('lang', 'ar');
+      }
+
+      document.getElementById('pageTitle').innerText = t.title;
+      document.getElementById('logoText').textContent = t.logoText;
+      document.getElementById('subText1').textContent = t.subtitle1;
+      
+      document.getElementById('txtManagement').textContent = t.management;
+      document.getElementById('txtGiants').textContent = t.giants;
+      document.getElementById('txtStars').textContent = t.stars;
+      document.getElementById('txtPlay').textContent = t.startPlay;
+      document.getElementById('txtTournaments').textContent = t.tournaments;
+      document.getElementById('txtHistory').textContent = t.history;
+      document.getElementById('txtChallenges').textContent = t.challenges;
+
+      document.getElementById('txtFeat1Title').textContent = t.feat1Title;
+      document.getElementById('txtFeat1Desc').textContent = t.feat1Desc;
+      document.getElementById('txtFeat2Title').textContent = t.feat2Title;
+      document.getElementById('txtFeat2Desc').textContent = t.feat2Desc;
+      
+      document.getElementById('txtFooterText').textContent = t.footerText;
+      document.getElementById('txtDevName').textContent = t.devName;
+
+      document.getElementById('stTitle').innerHTML = `<i class="fa-solid fa-gear"></i> ${t.settingsTitle}`;
+      document.getElementById('lblLang').textContent = t.langLabel;
+      document.getElementById('lblVol').textContent = t.volumeLabel;
+      document.getElementById('lblSpeed').textContent = t.speedLabel;
+      document.getElementById('optNormal').textContent = t.speedNormal;
+      document.getElementById('optFast').textContent = t.speedFast;
+      document.getElementById('lblEffects').textContent = t.effectsLabel;
+      document.getElementById('optOn').textContent = t.effectsOn;
+      document.getElementById('optOff').textContent = t.effectsOff;
+      document.getElementById('btnSave').textContent = t.saveBtn;
+
+      document.getElementById('welTitle').textContent = t.welcomeTitle;
+      document.getElementById('welBtnText').textContent = t.welcomeBtn;
+      document.getElementById('closeModalText').textContent = t.closeBtnText;
+
+      document.getElementById('mgtTitleText').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${t.mgtTitle}`;
+      document.getElementById('closeMgtText').textContent = t.closeMgt;
+      document.getElementById('controlTitleText').textContent = t.controlPanelTitle;
+      document.getElementById('newUserName').placeholder = t.usernamePlaceholder;
+      document.getElementById('assignBtnText').textContent = t.assignBtnText;
+      
+      document.getElementById('r1Title').textContent = t.rank1Title;
+      document.getElementById('r1Desc').textContent = t.rank1Desc;
+      document.getElementById('r2Title').textContent = t.rank2Title;
+      document.getElementById('r2Desc').textContent = t.rank2Desc;
+      document.getElementById('r3Title').textContent = t.rank3Title;
+      document.getElementById('r3Desc').textContent = t.rank3Desc;
+    }
+  </script>
+
+  <div id="toastNotification">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="toastText">تنبيه</span>
+  </div>
+
+  <!-- نافذة ترحيبية عند الدخول برابط إنستغرام الخاص بك -->
+  <div id="welcomeModal">
+    <div class="welcome-content">
+      <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+      <h2 id="welTitle">هذا الموقع قيد التطوير للاستفسار</h2>
+      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-btn">
+        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
+        <span id="welBtnText">التواصل عبر إنستغرام</span>
+      </a>
+      <button class="close-modal-btn" onclick="closeWelcomeModal()">
+        <span id="closeModalText">حسناً، الدخول للموقع</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- نافذة الإدارة والرتب -->
+  <div id="managementModal">
+    <div class="management-content">
+      <div class="management-header">
+        <h3 id="mgtTitleText"><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
+        <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- خانة إضافة ومنح الرتب -->
+      <div class="admin-control-box">
+        <h4 id="controlTitleText">⚙️ لوحة تعيين ورتب الأعضاء</h4>
+        <form onsubmit="assignUserRank(event)">
+          <div class="form-group">
+            <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <select id="newRankSelect">
+              <option value="owner">👑 المدير العام (Owner)</option>
+              <option value="admin">🛡️ مشرف عام (Admin)</option>
+              <option value="mod">⭐ مساعد إداري (Moderator)</option>
+            </select>
+          </div>
+          <button type="submit" class="assign-btn" id="assignBtnText">منح الرتبة</button>
+        </form>
+        
+        <div class="assigned-users-list" id="assignedListContainer">
+          <!-- ستظهر القائمة هنا ديناميكياً -->
+        </div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title" id="r1Title">👑 المدير العام (Owner)</div>
+        <div class="rank-perms" id="r1Desc">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title" id="r2Title">🛡️ مشرف عام (Admin)</div>
+        <div class="rank-perms" id="r2Desc">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title" id="r3Title">⭐ مساعد إداري (Moderator)</div>
+        <div class="rank-perms" id="r3Desc">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
+      </div>
+
+      <button id="closeMgtText" class="save-settings-btn" onclick="closeManagement()" style="margin-top: 15px;">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- نافذة الإعدادات المنبثقة -->
+  <div id="settingsModal">
+    <div class="settings-modal-content">
+      <div class="settings-modal-header">
+        <h3 id="stTitle"><i class="fa-solid fa-gear"></i> إعدادات اللعبة</h3>
+        <button class="close-settings-btn" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblLang">لغة اللعبة / Language</label>
+        <select id="languageSelect">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblVol">مستوى صوت المؤثرات</label>
+        <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="0.5">
+      </div>
+
+      <div class="setting-item">
+        <label id="lblSpeed">سرعة واجهة اللعبة</label>
+        <select id="gameSpeed">
+          <option id="optNormal" value="normal">عادية</option>
+          <option id="optFast" value="fast">سريعة</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblEffects">المؤثرات البصرية</label>
+        <select id="visualEffects">
+          <option id="optOn" value="on">مفعلة</option>
+          <option id="optOff" value="off">موقفة</option>
+        </select>
+      </div>
+
+      <button id="btnSave" class="save-settings-btn" onclick="saveSettings()">حفظ التغييرات</button>
+    </div>
+  </div>
+
+  <!-- الشاشة الرئيسية -->
+  <div id="homeScreen">
+    <div class="top-section">
+      <!-- زر الصوت -->
+      <button class="icon-btn sound-btn" id="soundToggleBtn" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">
+        <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+      </button>
+      
+      <!-- زر الإعدادات -->
+      <button class="icon-btn settings-btn" onclick="openSettings()" title="الإعدادات">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+      
+      <div class="brand-header-container">
+        <i class="fa-solid fa-crown crown-icon"></i>
+        <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 90">
+          <text id="logoText" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="52" font-weight="900" style="filter: drop-shadow(3px 3px 0px #9d174d);">سليني</text>
+        </svg>
+      </div>
+      <p class="subtitle"><span>+</span> <span id="subText1">اختبر معلوماتك ونَافِس أصدقائك</span> <span>+</span></p>
     </div>
 
-    <div class="menu-container">
-        <div class="menu-card card-play">
-            <span>ابدأ اللعبة</span>
-        </div>
-        <div class="menu-card card-blue">
-            <span>البطولات</span>
-        </div>
-        <div class="menu-card card-yellow">
-            <span>السجل</span>
-        </div>
+    <div class="main-menu">
+      <div class="menu-card card-blue" onclick="openManagement()"><i class="fa-solid fa-shield-halved"></i><span id="txtManagement">الإدارة</span></div>
+      <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].giants + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-fire"></i><span id="txtGiants">العمالقة</span></div>
+      <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].stars + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
+      <div class="menu-card card-play" onclick="playClickSound('success'); showToast(translations[currentLang].startMsg)"><i class="fa-solid fa-gamepad"></i><span id="txtPlay">ابدأ اللعبة</span></div>
+      <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy" style="color: #f472b6;"></i><span id="txtTournaments" style="color: #fce7f3;">البطولات</span></div>
+      <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].history + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-chart-line"></i><span id="txtHistory">السجل</span></div>
+      <div class="menu-card card-cyan" onclick="playClickSound('click'); showToast(translations[currentLang].challenges + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-bolt"></i><span id="txtChallenges">التحديات</span></div>
     </div>
 
+    <div class="home-bottom-bg">
+      <div class="features-container">
+        <div class="feature-item">
+          <div class="feature-text">
+            <h4 id="txtFeat1Title">مستويات متقدمة</h4>
+            <p id="txtFeat1Desc">فئات مخصصة لكل المجالات والاهتمامات</p>
+          </div>
+          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-text">
+            <h4 id="txtFeat2Title">تفاعل حماسي</h4>
+            <p id="txtFeat2Desc">وسائل مساعدة واستراتيجيات لعب ممتعة</p>
+          </div>
+          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        </div>
+      </div>
+      <div class="footer-credit">
+        <i class="fa-solid fa-code" style="color: #f472b6;"></i>
+        <span id="txtFooterText">تطوير:</span>
+        <span id="txtDevName" class="dev-name">M__7_D_10</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastText').innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
