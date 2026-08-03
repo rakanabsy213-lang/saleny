@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سليني - Saleny</title>
     <style>
+        body {
+            background-color: #701a75;
+            font-family: Tahoma, sans-serif;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
         .brand-header-container {
             display: flex;
             flex-direction: column;
@@ -28,67 +36,55 @@
             left: -10px;
             transform: rotate(15deg);
         }
+        h1 {
+            font-size: 50px;
+            color: #fbcfef;
+            margin: 10px 0;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
         .subtitle {
             font-size: 19px;
             margin-top: 5px;
             color: #fbcfef;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transform: translateY(-8px);
+        }
+        .menu-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
         }
         .menu-card {
-            width: 115px;
-            height: 135px;
+            width: 130px;
+            height: 150px;
             border-radius: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             cursor: pointer;
             transition: transform 0.2s;
+            text-decoration: none;
         }
         .menu-card:hover {
             transform: translateY(-8px);
         }
-        .menu-card i {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
         .menu-card span {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
             text-align: center;
         }
         .card-blue { background: linear-gradient(180deg, #db2777, #9d174d); }
         .card-yellow { background: linear-gradient(180deg, #c026d3, #86198f); }
-        .card-green { background: linear-gradient(180deg, #f43f5e, #be123c); }
         .card-play {
             background: #fbcfef;
-            border: 4px solid #fbcfefe8;
+            color: #701a75;
+            border: 4px solid #ffffff;
             box-shadow: 0 12px 25px rgba(244, 63, 94, 0.4);
-            position: relative;
-        }
-        .card-play::before {
-            content: "";
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 25px;
-            height: 8px;
-            background: #fbcfef8;
-            border-radius: 4px;
-            box-shadow: 0 12px 25px rgba(244, 63, 94, 0.4);
-            position: relative;
-        }
-        body {
-            background-color: #701a75;
-            font-family: Tahoma, sans-serif;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -97,10 +93,10 @@
     <div class="brand-header-container">
         <div class="crown-icon">👑</div>
         <h1>سليني</h1>
-        <div class="subtitle">اختبر معلوماتك ونافس أصدقائك +</div>
+        <div class="subtitle">اختبر معلوماتك ونافس أصدقائك</div>
     </div>
 
-    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+    <div class="menu-container">
         <div class="menu-card card-play">
             <span>ابدأ اللعبة</span>
         </div>
