@@ -17,7 +17,7 @@
       width: 100%;
       height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #ff3b30;
+      background-color: #701a75;
       overflow-x: hidden;
     }
 
@@ -26,7 +26,7 @@
       top: -80px;
       left: 50%;
       transform: translateX(-50%);
-      background: #111;
+      background: #db2777;
       color: white;
       padding: 12px 24px;
       border-radius: 30px;
@@ -41,11 +41,241 @@
     }
     #toastNotification.show { top: 25px; }
 
-    /* الشاشة الرئيسية المطابقة تماماً للصورة */
+    /* نافذة الترحيب والتنبيه عند الدخول */
+    #welcomeModal {
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 20000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      padding: 20px;
+    }
+    .welcome-content {
+      background: #2e1065;
+      border: 3px solid #db2777;
+      border-radius: 35px;
+      width: 100%;
+      max-width: 420px;
+      padding: 35px 25px 25px 25px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(219, 39, 119, 0.4);
+      animation: popIn 0.4s ease-out;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .welcome-icon {
+      font-size: 55px;
+      color: #f472b6;
+      margin-bottom: 15px;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .welcome-content h2 {
+      font-size: 22px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+    .insta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(220, 39, 67, 0.4);
+      transition: transform 0.2s, opacity 0.2s;
+      margin-bottom: 12px;
+    }
+    .insta-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+    .close-modal-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fce7f3;
+      width: 100%;
+      padding: 12px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .close-modal-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* نافذة الإدارة والرتب */
+    #managementModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 15000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      padding: 20px;
+    }
+    .management-content {
+      background: #2e1065;
+      border: 2px solid #db2777;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    .management-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #581c87;
+      padding-bottom: 12px;
+    }
+    .management-header h3 {
+      font-size: 20px;
+      color: #f472b6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .admin-control-box {
+      background: #3b0764;
+      border: 1px solid #581c87;
+      border-radius: 18px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .admin-control-box h4 {
+      font-size: 16px;
+      color: #fbcfe8;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      background: #1a0b2e;
+      border: 1px solid #581c87;
+      border-radius: 12px;
+      color: #fce7f3;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #db2777;
+    }
+    .assign-btn {
+      background: linear-gradient(90deg, #db2777, #9333ea);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: opacity 0.2s;
+    }
+    .assign-btn:hover { opacity: 0.9; }
+
+    .assigned-users-list {
+      margin-top: 15px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .user-rank-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1a0b2e;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      border: 1px solid #581c87;
+      font-size: 14px;
+    }
+    .delete-rank-btn {
+      background: transparent;
+      border: none;
+      color: #f43f5e;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .rank-card {
+      background: #3b0764;
+      border: 1px solid #581c87;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+    .rank-title {
+      font-size: 17px;
+      font-weight: bold;
+      color: #fbcfe8;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rank-perms {
+      font-size: 14px;
+      color: #d8b4fe;
+      line-height: 1.5;
+    }
+    .close-settings-btn {
+      background: transparent;
+      border: none;
+      color: #d8b4fe;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .save-settings-btn {
+      background: linear-gradient(90deg, #db2777, #9333ea);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    /* الشاشة الرئيسية */
     #homeScreen {
       width: 100vw;
       min-height: 100vh;
-      background: linear-gradient(180deg, #ff3b30 0%, #ff9500 100%);
+      background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -53,7 +283,7 @@
     }
 
     .top-section {
-      padding: 25px 25px 90px 25px;
+      padding: 30px 30px 110px 30px;
       text-align: center;
       color: white;
       position: relative;
@@ -61,74 +291,74 @@
 
     .icon-btn {
       position: absolute; 
-      top: 25px; 
-      background: rgba(255, 255, 255, 0.25); 
-      border: none; 
+      top: 30px; 
+      background: rgba(255, 255, 255, 0.15); 
+      border: 1px solid rgba(255, 255, 255, 0.3); 
       color: white; 
-      width: 45px; 
-      height: 45px; 
+      width: 48px; 
+      height: 48px; 
       border-radius: 50%; 
       font-size: 18px; 
       cursor: pointer; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(5px);
       transition: background 0.2s;
     }
-    .icon-btn:hover { background: rgba(255, 255, 255, 0.4); }
-    .sound-btn { left: 25px; }
-    .settings-btn { right: 25px; }
+    .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
+    .sound-btn { left: 30px; }
+    .settings-btn { right: 30px; }
 
     .brand-header-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-top: 15px;
+      margin-top: 5px;
     }
 
     .main-logo-text {
-      font-size: 95px;
+      font-size: 75px;
       font-weight: 900;
       color: #ffffff;
-      text-shadow: 0 6px 0px rgba(0, 0, 0, 0.12), 0 12px 25px rgba(0, 0, 0, 0.2);
-      letter-spacing: -2px;
-      line-height: 1;
-      margin-bottom: 5px;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 2px;
     }
 
     .crown-icon {
-      color: #ffd700;
-      font-size: 42px;
-      margin-bottom: -15px;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+      color: #fbcfe8;
+      font-size: 32px;
+      margin-bottom: -10px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
 
     .subtitle { 
       font-size: 17px; 
-      margin-top: 12px; 
+      margin-top: 10px; 
       font-weight: 700; 
-      color: #ffffff; 
-      text-shadow: 0 2px 4px rgba(0,0,0,0.15); 
+      color: #fbcfe8; 
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
       display: flex; 
       align-items: center; 
       justify-content: center; 
       gap: 6px; 
     }
     
-    .subtitle span { color: #ffd700; font-size: 18px; }
+    .subtitle span { color: #f472b6; font-size: 18px; }
 
-    /* الأزرار السبعة في المنتصف */
+    /* الأزرار الـ 7 مرتبة بنفس الترتيب تماماً */
     .main-menu { 
       display: flex; 
       justify-content: center; 
       align-items: center; 
-      gap: 12px; 
-      margin-top: -75px; 
+      gap: 14px; 
+      margin-top: -85px; 
       position: relative; 
       z-index: 10; 
-      padding: 0 15px; 
+      padding: 0 20px; 
       flex-wrap: wrap; 
     }
 
@@ -140,74 +370,69 @@
       flex-direction: column; 
       align-items: center; 
       justify-content: center; 
-      color: white; 
-      box-shadow: 0 10px 25px rgba(0,0,0,0.18); 
+      color: #ffffff; 
+      background: #3b0764;
+      border: 1px solid #581c87;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25); 
       cursor: pointer; 
       transition: transform 0.2s; 
     }
     .menu-card:hover { transform: translateY(-6px); }
-    .menu-card i { font-size: 28px; margin-bottom: 8px; }
-    .menu-card span { font-size: 14px; font-weight: 800; text-align: center; }
+    .menu-card i { font-size: 26px; margin-bottom: 8px; color: #fce7f3; }
+    .menu-card span { font-size: 14px; font-weight: 700; text-align: center; color: #fce7f3; }
 
-    .card-blue { background: linear-gradient(180deg, #007aff, #0056b3); }
-    .card-orange { background: linear-gradient(180deg, #ff9500, #e07b00); }
-    .card-green { background: linear-gradient(180deg, #34c759, #248a3d); }
-    
-    .card-play { 
-      background: linear-gradient(180deg, #ff3b30, #d32f2f); 
+    /* الزر المركزي البارز (إنشاء لعبة) */
+    .card-center-active { 
+      background: linear-gradient(180deg, #f43f5e, #be123c); 
       width: 135px; 
-      height: 145px; 
+      height: 140px; 
       border-radius: 26px; 
-      border: 4px solid #fff; 
-      box-shadow: 0 12px 30px rgba(255, 59, 48, 0.4); 
+      border: 4px solid #fbcfe8; 
+      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.4); 
       position: relative;
     }
-    .card-play::before {
+    .card-center-active::before {
       content: '';
       position: absolute;
       top: -16px; left: 50%;
       transform: translateX(-50%);
       width: 22px; height: 7px;
-      background: #fff; border-radius: 4px;
-      box-shadow: 10px -5px 0 #fff, -10px -5px 0 #fff;
+      background: #fbcfe8; border-radius: 4px;
+      box-shadow: 10px -5px 0 #fbcfe8, -10px -5px 0 #fbcfe8;
     }
-    .card-play i { font-size: 38px; color: #ffffff; }
-    .card-play span { font-size: 17px; font-weight: 900; }
+    .card-center-active i { font-size: 36px; color: #ffffff; }
+    .card-center-active span { font-size: 16px; font-weight: 900; color: #ffffff; }
 
-    .card-white { background: #ffffff; color: #333333; border: 1px solid rgba(0,0,0,0.05); }
-    .card-white i { color: #ff3b30; }
-    
-    .card-dark { background: #2c2c2e; color: #ffffff; }
-    .card-cyan { background: linear-gradient(180deg, #32ade6, #0077a3); }
-
-    /* القسم السفلي الأبيض */
+    /* القسم السفلي البنفسجي الغامق مع انحناء علوي دائري ناعم مطابق للصورة الجديدة */
     .home-bottom-bg { 
-      background: #ffffff; 
+      background: #2e1065; 
       width: 100%; 
-      padding: 45px 20px 25px 20px;
+      padding: 55px 30px 25px 30px;
       display: flex; 
       flex-direction: column; 
       align-items: center;
       margin-top: -35px;
-      border-top-left-radius: 35px;
-      border-top-right-radius: 35px;
-      box-shadow: 0 -10px 25px rgba(0,0,0,0.05);
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
+      border-top: 1px solid #581c87;
+      position: relative;
+      z-index: 5;
     }
 
     .features-container {
       display: flex; 
       justify-content: center; 
-      gap: 30px; 
+      gap: 50px; 
       max-width: 1100px; 
       width: 100%; 
       flex-wrap: wrap; 
-      margin-bottom: 35px;
+      margin-bottom: 30px;
     }
 
     .feature-item { 
       display: flex; 
       align-items: center; 
-      gap: 12px; 
+      gap: 15px; 
       direction: rtl;
     }
 
@@ -221,44 +446,197 @@
       font-size: 22px; 
       flex-shrink: 0;
     }
-    .f-red { background: #ffebee; color: #ff3b30; }
-    .f-yellow { background: #fff8e1; color: #ff9500; }
-    .f-green { background: #e8f5e9; color: #34c759; }
-    .f-blue { background: #e3f2fd; color: #007aff; }
+    .f-pink { background: rgba(219, 39, 119, 0.15); color: #f472b6; }
+    .f-purple { background: rgba(147, 51, 234, 0.15); color: #c084fc; }
 
-    .feature-text h4 { font-size: 15px; font-weight: 800; color: #1c1c1e; margin-bottom: 2px; text-align: right; }
-    .feature-text p { font-size: 12px; color: #8e8e93; font-weight: 600; text-align: right; line-height: 1.4; }
+    .feature-text h4 { font-size: 15px; font-weight: 800; color: #fce7f3; margin-bottom: 3px; text-align: right; }
+    .feature-text p { font-size: 13px; color: #d8b4fe; font-weight: 600; text-align: right; line-height: 1.4; }
 
     .footer-credit {
       font-size: 13px; 
-      color: #8e8e93; 
+      color: #d8b4fe; 
       font-weight: 700; 
       display: flex; 
       align-items: center; 
-      gap: 6px; 
-      background: #f2f2f7; 
-      padding: 8px 20px; 
+      gap: 8px; 
+      background: #1a0b2e; 
+      padding: 8px 22px; 
       border-radius: 20px; 
+      border: 1px solid #581c87;
+      text-decoration: none;
     }
-    .footer-credit span { color: #ff3b30; }
-
-    /* تفاعلات صوتية ومبدئية */
+    .footer-credit span.dev-name { 
+      color: #f472b6; 
+      font-weight: 900; 
+    }
   </style>
 </head>
 <body>
 
+  <script>
+    let isSoundEnabled = true;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
+
+    function playClickSound() {
+      if (!isSoundEnabled) return;
+      if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.08);
+    }
+
+    function closeWelcomeModal() {
+      playClickSound();
+      document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    function openManagement() {
+      playClickSound();
+      renderAssignedRanksList();
+      document.getElementById('managementModal').style.display = 'flex';
+    }
+
+    function closeManagement() {
+      playClickSound();
+      document.getElementById('managementModal').style.display = 'none';
+    }
+
+    function assignUserRank(event) {
+      event.preventDefault();
+      const username = document.getElementById('newUserName').value.trim();
+      const rankVal = document.getElementById('newRankSelect').value;
+      if (!username) return;
+
+      assignedRanks.push({ name: username, rank: rankVal });
+      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
+      document.getElementById('newUserName').value = '';
+      renderAssignedRanksList();
+      playClickSound();
+      showToast("تم منح الرتبة بنجاح!");
+    }
+
+    function removeAssignedRank(index) {
+      assignedRanks.splice(index, 1);
+      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
+      renderAssignedRanksList();
+      playClickSound();
+    }
+
+    function renderAssignedRanksList() {
+      const container = document.getElementById('assignedListContainer');
+      container.innerHTML = '';
+      if (assignedRanks.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 13px; padding: 5px;">لا توجد رتب ممنوحة حالياً</div>`;
+        return;
+      }
+      assignedRanks.forEach((item, index) => {
+        let rankBadgeName = item.rank;
+        if(item.rank === 'owner') rankBadgeName = '👑 مدير عام';
+        if(item.rank === 'admin') rankBadgeName = '🛡️ مشرف عام';
+        if(item.rank === 'mod') rankBadgeName = '⭐ مساعد';
+
+        const div = document.createElement('div');
+        div.className = 'user-rank-item';
+        div.innerHTML = `
+          <span><b>${item.name}</b> (${rankBadgeName})</span>
+          <button class="delete-rank-btn" onclick="removeAssignedRank(${index})"><i class="fa-solid fa-trash"></i></button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleSound() {
+      isSoundEnabled = !isSoundEnabled;
+      const soundIcon = document.getElementById('soundIcon');
+      if (isSoundEnabled) {
+        soundIcon.className = "fa-solid fa-volume-high";
+        showToast("تم تفعيل الصوت");
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark";
+        showToast("تم كتم الصوت");
+      }
+    }
+  </script>
+
   <div id="toastNotification">
-    <i class="fa-solid fa-circle-check" style="color: #34c759;"></i>
-    <span id="toastText">تم النقر بنجاح</span>
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="toastText">تنبيه</span>
   </div>
 
+  <!-- نافذة ترحيبية عند الدخول -->
+  <div id="welcomeModal">
+    <div class="welcome-content">
+      <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+      <h2>هذا الموقع قيد التطوير للاستفسار</h2>
+      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-btn">
+        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
+        <span>التواصل عبر إنستغرام</span>
+      </a>
+      <button class="close-modal-btn" onclick="closeWelcomeModal()">حسناً، الدخول للموقع</button>
+    </div>
+  </div>
+
+  <!-- نافذة الإدارة والرتب -->
+  <div id="managementModal">
+    <div class="management-content">
+      <div class="management-header">
+        <h3><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
+        <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="admin-control-box">
+        <h4>⚙️ لوحة تعيين ورتب الأعضاء</h4>
+        <form onsubmit="assignUserRank(event)">
+          <div class="form-group">
+            <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <select id="newRankSelect">
+              <option value="owner">👑 المدير العام (Owner)</option>
+              <option value="admin">🛡️ مشرف عام (Admin)</option>
+              <option value="mod">⭐ مساعد إداري (Moderator)</option>
+            </select>
+          </div>
+          <button type="submit" class="assign-btn">منح الرتبة</button>
+        </form>
+        <div class="assigned-users-list" id="assignedListContainer"></div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title">👑 المدير العام (Owner)</div>
+        <div class="rank-perms">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title">🛡️ مشرف عام (Admin)</div>
+        <div class="rank-perms">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title">⭐ مساعد إداري (Moderator)</div>
+        <div class="rank-perms">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
+      </div>
+
+      <button class="save-settings-btn" onclick="closeManagement()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- الشاشة الرئيسية -->
   <div id="homeScreen">
     <div class="top-section">
       <button class="icon-btn sound-btn" onclick="toggleSound()" title="الصوت">
         <i id="soundIcon" class="fa-solid fa-volume-high"></i>
       </button>
       
-      <button class="icon-btn settings-btn" onclick="showMsg('الإعدادات قيد التقدم')" title="الإعدادات">
+      <button class="icon-btn settings-btn" onclick="playClickSound(); showToast('الإعدادات قريباً')" title="الإعدادات">
         <i class="fa-solid fa-gear"></i>
       </button>
       
@@ -266,110 +644,89 @@
         <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
         <h1 class="main-logo-text">سليني</h1>
       </div>
-      <p class="subtitle"><span>✦</span> اختبر معلوماتك ونَافِس أصدقائك <span>✦</span></p>
+      <p class="subtitle"><span>+</span> اختبر معلوماتك ونَافِس أصدقائك <span>+</span></p>
     </div>
 
-    <!-- الأزرار السبعة مطابقة للصورة تماماً -->
+    <!-- الأزرار الـ 7 بنفس الترتيب تماماً -->
     <div class="main-menu">
-      <div class="menu-card card-blue" onclick="showMsg('قسم طلاب')">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <span>طلاب</span>
-        <span style="font-size:9px; opacity:0.8; font-weight:normal;">STUDENTS</span>
+      <div class="menu-card" onclick="openManagement()">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>الإدارة</span>
       </div>
       
-      <div class="menu-card card-orange" onclick="showMsg('قسم سنين كبير')">
-        <i class="fa-solid fa-people-group"></i>
-        <span>سنين كبير</span>
+      <div class="menu-card" onclick="playClickSound(); showToast('العمالقة قيد التطوير')">
+        <i class="fa-solid fa-fire"></i>
+        <span>العمالقة</span>
       </div>
 
-      <div class="menu-card card-green" onclick="showMsg('قسم كأس العالم')">
-        <i class="fa-solid fa-earth-americas"></i>
-        <span>كأس العالم</span>
+      <div class="menu-card" onclick="playClickSound(); showToast('النجوم قيد التطوير')">
+        <i class="fa-solid fa-star"></i>
+        <span>النجوم</span>
       </div>
 
-      <div class="menu-card card-play" onclick="showMsg('جاري بدء اللعبة...')">
-        <i class="fa-solid fa-gamepad"></i>
-        <span>ابدأ اللعبة</span>
+      <div class="menu-card card-center-active" onclick="playClickSound(); showToast('جاري الانتقال لإنشاء لعبة...')">
+        <i class="fa-solid fa-play"></i>
+        <span>إنشاء لعبة</span>
       </div>
 
-      <div class="menu-card card-white" onclick="showMsg('إنشاء بطولة جديدة')">
+      <div class="menu-card" onclick="playClickSound(); showToast('البطولات قيد التطوير')">
         <i class="fa-solid fa-trophy"></i>
-        <span>إنشاء بطولة</span>
+        <span>البطولات</span>
       </div>
 
-      <div class="menu-card card-dark" onclick="showMsg('عرض الإحصائيات والنتائج')">
-        <i class="fa-solid fa-chart-column"></i>
-        <span>إحصائيات</span>
-        <span style="font-size:9px; opacity:0.7; font-weight:normal;">النتائج لكم</span>
+      <div class="menu-card" onclick="playClickSound(); showToast('السجل قيد التطوير')">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>السجل</span>
       </div>
 
-      <div class="menu-card card-cyan" onclick="showMsg('ألعاب خاصة')">
-        <i class="fa-solid fa-dice"></i>
-        <span>ألعاب</span>
-        <span style="font-size:10px; font-weight:normal;">خاصة</span>
+      <div class="menu-card" onclick="playClickSound(); showToast('التحديات قيد التطوير')">
+        <i class="fa-solid fa-bolt"></i>
+        <span>التحديات</span>
       </div>
     </div>
 
+    <!-- القسم السفلي مع انحناء الطرف العلوي نفس الصورة -->
     <div class="home-bottom-bg">
       <div class="features-container">
         
         <div class="feature-item">
-          <div class="feature-icon-circle f-red"><i class="fa-solid fa-palette"></i></div>
+          <div class="feature-icon-circle f-pink"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
           <div class="feature-text">
-            <h4>أسئلة متنوعة</h4>
-            <p>آلاف الأسئلة في مختلف المجالات</p>
+            <h4>تفاعل حماسي</h4>
+            <p>وسائل مساعدة واستراتيجيات لعب ممتعة</p>
           </div>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-clock"></i></div>
+          <div class="feature-icon-circle f-purple"><i class="fa-solid fa-layer-group"></i></div>
           <div class="feature-text">
-            <h4>وقت ممتع</h4>
-            <p>تحديات شيقة ومتعة لا تنتهي</p>
-          </div>
-        </div>
-
-        <div class="feature-item">
-          <div class="feature-icon-circle f-green"><i class="fa-solid fa-users"></i></div>
-          <div class="feature-text">
-            <h4>لعب جماعي</h4>
-            <p>نافس أصدقائك واختبر معلوماتك</p>
-          </div>
-        </div>
-
-        <div class="feature-item">
-          <div class="feature-icon-circle f-blue"><i class="fa-solid fa-shield-halved"></i></div>
-          <div class="feature-text">
-            <h4>مستويات وإنجازات</h4>
-            <p>ارفع مستواك واكسب الإنجازات</p>
+            <h4>مستويات متقدمة</h4>
+            <p>فئات مخصصة لكل المجالات والاهتمامات</p>
           </div>
         </div>
 
       </div>
 
-      <div class="footer-credit">
-        <span>♥</span> صمم في فلسطين ب حب
-      </div>
+      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="footer-credit">
+        <span>تطوير:</span>
+        <span class="dev-name">M__7_D_10</span>
+      </a>
     </div>
   </div>
 
   <script>
-    let soundOn = true;
-    function toggleSound() {
-      soundOn = !soundOn;
-      const icon = document.getElementById('soundIcon');
-      icon.className = soundOn ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark";
-      showMsg(soundOn ? "تم تفعيل الصوت" : "تم كتم الصوت");
-    }
-
-    function showMsg(text) {
+    function showToast(message) {
       const toast = document.getElementById('toastNotification');
-      document.getElementById('toastText').textContent = text;
+      document.getElementById('toastText').textContent = message;
       toast.classList.add('show');
       setTimeout(() => {
         toast.classList.remove('show');
-      }, 2500);
+      }, 3000);
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAssignedRanksList();
+    });
   </script>
 </body>
 </html>
