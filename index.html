@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سليني - أجدد الفئات</title>
+  <title>سليني</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -17,20 +17,42 @@
       width: 100%;
       height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #ffffff;
+      background-color: #f8fafc;
       overflow-x: hidden;
     }
+
+    /* رسالة التطوير قيد التطوير التي طلبت إرجاعها */
+    #devNoticeBanner {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #ff7f00, #ff5500);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 35px;
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 10px 25px rgba(255,127,0,0.4);
+      z-index: 9999;
+      transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    #devNoticeBanner.show { top: 25px; }
 
     #toastNotification {
       position: fixed;
       top: -80px;
       left: 50%;
       transform: translateX(-50%);
-      background: #ff7f00;
+      background: #1e293b;
       color: white;
       padding: 12px 24px;
       border-radius: 30px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       z-index: 9999;
@@ -39,152 +61,78 @@
       align-items: center;
       gap: 10px;
     }
-    #toastNotification.show { top: 25px; }
+    #toastNotification.show { top: 85px; }
 
-    /* حاوية الصفحة الكاملة المطابقة تماماً للصورة المعروضة */
     .full-page-container {
       width: 100%;
       min-height: 100vh;
-      background: rgba(255, 255, 255, 0.98);
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 20px 40px 20px;
+      justify-content: center;
+      padding: 20px;
       position: relative;
     }
 
-    .categories-dialog {
+    .main-menu-card {
       background: #ffffff;
       border: 1px solid #f3f4f6;
       border-radius: 32px;
       width: 100%;
-      max-width: 1250px;
+      max-width: 600px;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      padding: 50px 40px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-      overflow: hidden;
-      position: relative;
+      gap: 30px;
     }
 
-    /* زر العودة أو التقليل الدائري الرمادي على اليسار/اليمين تماماً كالصورة */
-    .back-btn {
-      position: absolute;
-      top: 28px;
-      right: 30px;
-      background: #e5e7eb;
+    .app-logo-title {
+      font-size: 44px;
+      font-weight: 900;
+      color: #ff7f00;
+      letter-spacing: 1px;
+    }
+
+    .menu-buttons-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .menu-btn {
+      width: 100%;
+      background: #ff7f00;
+      color: white;
       border: none;
-      color: #6b7280;
-      width: 40px; 
-      height: 40px;
-      border-radius: 50%;
+      padding: 16px;
+      border-radius: 20px;
       font-size: 18px;
+      font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255,127,0,0.3);
+      transition: background 0.2s, transform 0.1s;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s, color 0.2s;
-      z-index: 10;
+      gap: 12px;
       text-decoration: none;
     }
-    .back-btn:hover { background: #d1d5db; color: #374151; }
 
-    /* شريط العنوان العلوي البرتقالي الكبسولة تماماً كالصورة */
-    .categories-header-bar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 28px 20px 20px 20px;
-    }
-    .categories-pill-title {
-      background: #ff7f00;
-      color: white;
-      font-size: 24px;
-      font-weight: 800;
-      padding: 10px 55px;
-      border-radius: 35px;
-      box-shadow: 0 4px 15px rgba(255,127,0,0.3);
-      letter-spacing: 0.5px;
+    .menu-btn:hover {
+      background: #e67200;
+      transform: translateY(-2px);
     }
 
-    /* شبكة الفئات تماماً كالصورة */
-    .categories-grid-container {
-      padding: 15px 35px 35px 35px;
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 18px;
-      background: #ffffff;
-    }
-
-    @media (max-width: 1100px) {
-      .categories-grid-container {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-    @media (max-width: 700px) {
-      .categories-grid-container {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .category-card-item {
-      background: #ffffff;
-      border: 1.5px solid #e0f2fe;
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-    }
-    .category-card-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(255,127,0,0.2);
-      border-color: #ff7f00;
-    }
-    .cat-info-icon {
-      position: absolute;
-      top: 8px; 
-      left: 8px;
+    .menu-btn.secondary {
       background: #3b82f6;
-      color: white;
-      width: 28px; 
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      z-index: 2;
-      box-shadow: 0 2px 5px rgba(59,130,246,0.3);
+      box-shadow: 0 4px 15px rgba(59,130,246,0.3);
     }
-    .cat-img-box {
-      width: 100%;
-      height: 115px;
-      background: #f0f9ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px;
-      position: relative;
-      overflow: hidden;
-    }
-    .cat-img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    .cat-title-bar {
-      background: #ff7f00;
-      color: white;
-      text-align: center;
-      padding: 10px 4px;
-      font-size: 13.5px;
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .menu-btn.secondary:hover {
+      background: #2563eb;
     }
   </style>
 </head>
@@ -217,223 +165,41 @@
         toast.classList.remove('show');
       }, 3000);
     }
+
+    // إظهار رسالة التطوير تلقائياً عند الدخول
+    window.addEventListener('DOMContentLoaded', () => {
+      const devBanner = document.getElementById('devNoticeBanner');
+      setTimeout(() => {
+        devBanner.classList.add('show');
+      }, 500);
+      setTimeout(() => {
+        devBanner.classList.remove('show');
+      }, 4000);
+    });
   </script>
 
+  <!-- رسالة التنبيه قيد التطوير -->
+  <div id="devNoticeBanner">
+    <i class="fa-solid fa-triangle-exclamation" style="font-size: 20px;"></i>
+    <span>بطلت تيجي رسالة تزعجنيش بطور... التطبيق قيد التطوير!</span>
+  </div>
+
   <div id="toastNotification">
-    <i class="fa-solid fa-triangle-exclamation"></i>
+    <i class="fa-solid fa-info-circle"></i>
     <span id="toastText">تنبيه</span>
   </div>
 
   <div class="full-page-container">
-    <div class="categories-dialog">
-      <!-- زر العودة الرمادي الدائري تماماً مثل الصورة -->
-      <a href="javascript:history.back()" class="back-btn" title="رجوع"><i class="fa-solid fa-minus"></i></a>
+    <div class="main-menu-card">
+      <div class="app-logo-title">سليني</div>
       
-      <!-- الشريط العلوي مع عنوان أجدد الفئات داخل كبسولة برتقالية مطابقة تماماً للصورة -->
-      <div class="categories-header-bar">
-        <div class="categories-pill-title">أجدد الفئات</div>
-      </div>
-
-      <div class="categories-grid-container">
-
-        <!-- 1: ما هي المدينة -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: ما هي المدينة')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 0%, 14% 0%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, 35%);" alt="ما هي المدينة">
-          </div>
-          <div class="cat-title-bar">ما هي المدينة</div>
-        </div>
-
-        <!-- 2: جوازات -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: جوازات')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 0%, 28% 0%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, 35%);" alt="جوازات">
-          </div>
-          <div class="cat-title-bar">جوازات</div>
-        </div>
-
-        <!-- 3: زووم -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: زووم')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 0%, 42% 0%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, 35%);" alt="زووم">
-          </div>
-          <div class="cat-title-bar">زووم</div>
-        </div>
-
-        <!-- 4: خمن الصوت -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: خمن الصوت')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 0%, 57% 0%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, 35%);" alt="خمن الصوت">
-          </div>
-          <div class="cat-title-bar">خمن الصوت</div>
-        </div>
-
-        <!-- 5: ترتيب -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: ترتيب')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 0%, 71% 0%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, 35%);" alt="ترتيب">
-          </div>
-          <div class="cat-title-bar">ترتيب</div>
-        </div>
-
-        <!-- 6: وضح شوي -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: وضح شوي')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 0%, 85% 0%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, 35%);" alt="وضح شوي">
-          </div>
-          <div class="cat-title-bar">وضح شوي</div>
-        </div>
-
-        <!-- 7: فن قطري -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: فن قطري')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 0%, 100% 0%, 100% 100%, 85% 100%); transform: scale(3.5) translate(-80%, 35%);" alt="فن قطري">
-          </div>
-          <div class="cat-title-bar">فن قطري</div>
-        </div>
-
-        <!-- 8: نحو وإعراب -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: نحو وإعراب')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 33%, 14% 33%, 14% 66%, 0% 66%); transform: scale(3.5) translate(40%, 0%);" alt="نحو وإعراب">
-          </div>
-          <div class="cat-title-bar">نحو وإعراب</div>
-        </div>
-
-        <!-- 9: وين بالأردن -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: وين بالأردن')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 33%, 28% 33%, 28% 66%, 14% 66%); transform: scale(3.5) translate(20%, 0%);" alt="وين بالأردن">
-          </div>
-          <div class="cat-title-bar">وين بالأردن</div>
-        </div>
-
-        <!-- 10: حكايات مصرحيات -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: حكايات مصرحيات')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 33%, 42% 33%, 42% 66%, 28% 66%); transform: scale(3.5) translate(0%, 0%);" alt="حكايات مصرحيات">
-          </div>
-          <div class="cat-title-bar">حكايات مصرحيات</div>
-        </div>
-
-        <!-- 11: مسيرة فنان أجنبي -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: مسيرة فنان أجنبي')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 33%, 57% 33%, 57% 66%, 42% 66%); transform: scale(3.5) translate(-20%, 0%);" alt="مسيرة فنان أجنبي">
-          </div>
-          <div class="cat-title-bar">مسيرة فنان أجنبي</div>
-        </div>
-
-        <!-- 12: كأس العالم 26 -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: كأس العالم 26')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 33%, 71% 33%, 71% 66%, 57% 66%); transform: scale(3.5) translate(-40%, 0%);" alt="كأس العالم 26">
-          </div>
-          <div class="cat-title-bar">كأس العالم 26</div>
-        </div>
-
-        <!-- 13: كابتن كأس العالم -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: كابتن كأس العالم')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 33%, 85% 33%, 85% 66%, 71% 66%); transform: scale(3.5) translate(-60%, 0%);" alt="كابتن كأس العالم">
-          </div>
-          <div class="cat-title-bar">كابتن كأس العالم</div>
-        </div>
-
-        <!-- 14: ترتيب كروي -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: ترتيب كروي')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 33%, 100% 33%, 100% 66%, 85% 66%); transform: scale(3.5) translate(-80%, 0%);" alt="ترتيب كروي">
-          </div>
-          <div class="cat-title-bar">ترتيب كروي</div>
-        </div>
-
-        <!-- 15: نيران -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: نيران')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 66%, 14% 66%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, -35%);" alt="نيران">
-          </div>
-          <div class="cat-title-bar">نيران</div>
-        </div>
-
-        <!-- 16: حروف انجليزي -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: حروف انجليزي')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 66%, 28% 66%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, -35%);" alt="حروف انجليزي">
-          </div>
-          <div class="cat-title-bar">حروف انجليزي</div>
-        </div>
-
-        <!-- 17: League of Legends -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: League of Legends')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 66%, 42% 66%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, -35%);" alt="League of Legends">
-          </div>
-          <div class="cat-title-bar">League of Legends</div>
-        </div>
-
-        <!-- 18: Overwatch -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: Overwatch')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 66%, 57% 66%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, -35%);" alt="Overwatch">
-          </div>
-          <div class="cat-title-bar">Overwatch</div>
-        </div>
-
-        <!-- 19: One Piece Manga -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: One Piece Manga')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 66%, 71% 66%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, -35%);" alt="One Piece Manga">
-          </div>
-          <div class="cat-title-bar">One Piece Manga</div>
-        </div>
-
-        <!-- 20: كرة سلة بحرينية -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: كرة سلة بحرينية')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 66%, 85% 66%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, -35%);" alt="كرة سلة بحرينية">
-          </div>
-          <div class="cat-title-bar">كرة سلة بحرينية</div>
-        </div>
-
-        <!-- 21: Fortnite -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: Fortnite')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 66%, 100% 66%, 100% 100%, 85% 66%); transform: scale(3.5) translate(-80%, -35%);" alt="Fortnite">
-          </div>
-          <div class="cat-title-bar">Fortnite</div>
-        </div>
-
-        <!-- 22: ترتيب إسلامي -->
-        <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: ترتيب إسلامي')">
-          <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-          <div class="cat-img-box">
-            <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 66%, 100% 66%, 100% 100%, 85% 66%); transform: scale(3.5) translate(-80%, -35%);" alt="ترتيب إسلامي">
-          </div>
-          <div class="cat-title-bar">ترتيب إسلامي</div>
-        </div>
-
+      <div class="menu-buttons-list">
+        <button class="menu-btn" onclick="playClickSound(); showToast('الانتقال إلى تصفح الفئات')">
+          <i class="fa-solid fa-layer-group"></i> تصفح الفئات
+        </button>
+        <button class="menu-btn secondary" onclick="playClickSound(); showToast('الانتقال لصفحة إنشاء لعبة')">
+          <i class="fa-solid fa-plus-circle"></i> إنشاء لعبة جديدة
+        </button>
       </div>
     </div>
   </div>
