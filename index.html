@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">سليني - Saleny</title>
+  <title>سليني - Saleny</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -17,8 +17,7 @@
       width: 100%;
       height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #1a0b2e;
-      color: #fce7f3;
+      background-color: #ff3b30;
       overflow-x: hidden;
     }
 
@@ -27,454 +26,26 @@
       top: -80px;
       left: 50%;
       transform: translateX(-50%);
-      background: #db2777;
+      background: #111;
       color: white;
-      padding: 14px 28px;
+      padding: 12px 24px;
       border-radius: 30px;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
-      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.4);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       z-index: 9999;
       transition: top 0.4s ease-in-out;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
     #toastNotification.show { top: 25px; }
 
-    /* نافذة الترحيب والتنبيه عند الدخول */
-    #welcomeModal {
-      display: flex;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 20000;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(8px);
-      padding: 20px;
-    }
-    .welcome-content {
-      background: #2e1065;
-      border: 3px solid #db2777;
-      border-radius: 35px;
-      width: 100%;
-      max-width: 420px;
-      padding: 35px 25px 25px 25px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(219, 39, 119, 0.4);
-      animation: popIn 0.4s ease-out;
-    }
-    @keyframes popIn {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .welcome-icon {
-      font-size: 55px;
-      color: #f472b6;
-      margin-bottom: 15px;
-      animation: bounce 1.5s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    .welcome-content h2 {
-      font-size: 22px;
-      color: #ffffff;
-      margin-bottom: 20px;
-      font-weight: 800;
-      line-height: 1.6;
-    }
-    .insta-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: bold;
-      box-shadow: 0 8px 20px rgba(220, 39, 67, 0.4);
-      transition: transform 0.2s, opacity 0.2s;
-      margin-bottom: 12px;
-    }
-    .insta-btn:hover {
-      transform: translateY(-2px);
-      opacity: 0.95;
-    }
-    .close-modal-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fce7f3;
-      width: 100%;
-      padding: 12px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .close-modal-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* نافذة التحديات */
-    #challengesModal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 18000;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(6px);
-      padding: 20px;
-    }
-    .challenges-content {
-      background: #2e1065;
-      border: 2px solid #db2777;
-      border-radius: 30px;
-      width: 100%;
-      max-width: 550px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 25px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    }
-    .challenges-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #581c87;
-      padding-bottom: 12px;
-    }
-    .challenges-header h3 {
-      font-size: 20px;
-      color: #f472b6;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .challenge-card-item {
-      background: #3b0764;
-      border: 1px solid #581c87;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .challenge-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .challenge-title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #fbcfe8;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .challenge-desc {
-      font-size: 13px;
-      color: #d8b4fe;
-    }
-    .challenge-add-box {
-      background: #3b0764;
-      border: 1px dashed #db2777;
-      border-radius: 15px;
-      padding: 15px;
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
-    .challenge-add-box h4 {
-      font-size: 15px;
-      color: #fbcfe8;
-      margin-bottom: 10px;
-    }
-
-    /* نافذة الإدارة والرتب */
-    #managementModal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 15000;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(5px);
-      padding: 20px;
-    }
-    .management-content {
-      background: #2e1065;
-      border: 2px solid #db2777;
-      border-radius: 30px;
-      width: 100%;
-      max-width: 550px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 25px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    }
-    .management-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #581c87;
-      padding-bottom: 12px;
-    }
-    .management-header h3 {
-      font-size: 20px;
-      color: #f472b6;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .admin-control-box {
-      background: #3b0764;
-      border: 1px solid #581c87;
-      border-radius: 18px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-    .admin-control-box h4 {
-      font-size: 16px;
-      color: #fbcfe8;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .form-group {
-      margin-bottom: 10px;
-    }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 10px 14px;
-      background: #1a0b2e;
-      border: 1px solid #581c87;
-      border-radius: 12px;
-      color: #fce7f3;
-      font-size: 14px;
-      outline: none;
-      font-family: inherit;
-    }
-    .assign-btn {
-      background: linear-gradient(90deg, #db2777, #9333ea);
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 10px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 5px;
-      transition: opacity 0.2s;
-    }
-    .assign-btn:hover { opacity: 0.9; }
-
-    .assigned-users-list {
-      margin-top: 15px;
-      max-height: 180px;
-      overflow-y: auto;
-    }
-    .user-rank-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #1a0b2e;
-      padding: 8px 12px;
-      border-radius: 10px;
-      margin-bottom: 8px;
-      border: 1px solid #581c87;
-      font-size: 14px;
-    }
-    .delete-rank-btn {
-      background: transparent;
-      border: none;
-      color: #f43f5e;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .rank-card {
-      background: #3b0764;
-      border: 1px solid #581c87;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 12px;
-    }
-    .rank-title {
-      font-size: 17px;
-      font-weight: bold;
-      color: #fbcfe8;
-      margin-bottom: 6px;
-    }
-    .rank-perms {
-      font-size: 14px;
-      color: #d8b4fe;
-      line-height: 1.5;
-    }
-
-    /* شاشة (اختر الفئات) تماماً كالصورة المطلوبة */
-    #gameScreenView {
-      display: none;
-      width: 100vw;
-      min-height: 100vh;
-      background: #f8fafc;
-      color: #1a1a1a;
-      padding: 40px 20px;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    .categories-main-wrapper {
-      width: 100%;
-      max-width: 1200px;
-      background: #ffffff;
-      border-radius: 35px;
-      padding: 40px 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border: 1px solid #e2e8f0;
-    }
-
-    .top-action-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 25px;
-    }
-
-    .confirm-categories-main-btn {
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: white;
-      border: none;
-      padding: 14px 45px;
-      border-radius: 30px;
-      font-size: 20px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
-      transition: transform 0.2s, opacity 0.2s;
-    }
-    .confirm-categories-main-btn:hover {
-      transform: translateY(-2px);
-      opacity: 0.95;
-    }
-
-    .back-home-link {
-      background: #f1f5f9;
-      border: none;
-      color: #475569;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 12px 25px;
-      border-radius: 20px;
-      transition: background 0.2s;
-    }
-    .back-home-link:hover { background: #e2e8f0; color: #1e293b; }
-
-    /* شبكة الفئات */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 20px;
-      width: 100%;
-      margin-top: 25px;
-      margin-bottom: 35px;
-    }
-
-    .category-card {
-      background: #ffffff;
-      border-radius: 24px;
-      overflow: hidden;
-      border: 2px solid #e2e8f0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-      cursor: pointer;
-      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .category-card:hover {
-      transform: translateY(-5px);
-      border-color: #f97316;
-      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.15);
-    }
-    .category-card.selected {
-      border-color: #f97316;
-      background: #fff7ed;
-      box-shadow: 0 6px 18px rgba(249, 115, 22, 0.25);
-    }
-
-    .category-info-icon {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      color: #3b82f6;
-      font-size: 18px;
-      background: #eff6ff;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-      z-index: 2;
-    }
-
-    .category-img-box {
-      width: 100%;
-      height: 140px;
-      background: #f8fafc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-      position: relative;
-    }
-    .category-img-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .category-fallback-icon {
-      font-size: 45px;
-      color: #cbd5e1;
-    }
-
-    .category-title-bar {
-      background: #f97316;
-      color: white;
-      padding: 12px 10px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    /* الشاشة الرئيسية */
+    /* الشاشة الرئيسية المطابقة تماماً للصورة */
     #homeScreen {
       width: 100vw;
       min-height: 100vh;
-      background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
+      background: linear-gradient(180deg, #ff3b30 0%, #ff9500 100%);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -482,7 +53,7 @@
     }
 
     .top-section {
-      padding: 30px 20px 80px 20px;
+      padding: 25px 25px 90px 25px;
       text-align: center;
       color: white;
       position: relative;
@@ -491,826 +62,314 @@
     .icon-btn {
       position: absolute; 
       top: 25px; 
-      background: rgba(255, 255, 255, 0.15); 
-      border: 1px solid rgba(255, 255, 255, 0.3); 
+      background: rgba(255, 255, 255, 0.25); 
+      border: none; 
       color: white; 
-      width: 50px; 
-      height: 50px; 
+      width: 45px; 
+      height: 45px; 
       border-radius: 50%; 
-      font-size: 20px; 
+      font-size: 18px; 
       cursor: pointer; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(4px);
       transition: background 0.2s;
     }
-    .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
-    .sound-btn { left: 30px; }
-    .settings-btn { right: 30px; }
-
-    html[dir="ltr"] .sound-btn { left: auto; right: 30px; }
-    html[dir="ltr"] .settings-btn { right: auto; left: 30px; }
+    .icon-btn:hover { background: rgba(255, 255, 255, 0.4); }
+    .sound-btn { left: 25px; }
+    .settings-btn { right: 25px; }
 
     .brand-header-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
-      margin: 20px auto 0 auto;
-      width: fit-content;
+      margin-top: 15px;
+    }
+
+    .main-logo-text {
+      font-size: 95px;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 6px 0px rgba(0, 0, 0, 0.12), 0 12px 25px rgba(0, 0, 0, 0.2);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 5px;
     }
 
     .crown-icon {
-      position: absolute;
-      top: -38px;
-      right: -10px;
-      font-size: 45px;
-      color: #f472b6;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-      transform: rotate(-15deg);
-    }
-    html[dir="ltr"] .crown-icon { right: auto; left: -10px; transform: rotate(15deg); }
-    
-    .brand-logo-svg {
-      width: 320px;
-      height: 90px;
-      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+      color: #ffd700;
+      font-size: 42px;
+      margin-bottom: -15px;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
     }
 
     .subtitle { 
-      font-size: 19px; 
-      margin-top: 5px; 
+      font-size: 17px; 
+      margin-top: 12px; 
       font-weight: 700; 
-      color: #fbcfe8; 
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+      color: #ffffff; 
+      text-shadow: 0 2px 4px rgba(0,0,0,0.15); 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      gap: 8px; 
+      gap: 6px; 
     }
-    .subtitle span { color: #f472b6; font-size: 22px; }
+    
+    .subtitle span { color: #ffd700; font-size: 18px; }
 
+    /* الأزرار السبعة في المنتصف */
     .main-menu { 
       display: flex; 
       justify-content: center; 
       align-items: center; 
-      gap: 15px; 
-      margin-top: -65px; 
+      gap: 12px; 
+      margin-top: -75px; 
       position: relative; 
       z-index: 10; 
-      padding: 0 20px; 
+      padding: 0 15px; 
       flex-wrap: wrap; 
     }
 
     .menu-card { 
-      width: 115px; 
-      height: 135px; 
-      border-radius: 24px; 
+      width: 105px; 
+      height: 125px; 
+      border-radius: 22px; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
       justify-content: center; 
       color: white; 
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18); 
       cursor: pointer; 
       transition: transform 0.2s; 
     }
-    .menu-card:hover { transform: translateY(-8px); }
-    .menu-card i { font-size: 30px; margin-bottom: 8px; }
-    .menu-card span { font-size: 15px; font-weight: bold; text-align: center; }
+    .menu-card:hover { transform: translateY(-6px); }
+    .menu-card i { font-size: 28px; margin-bottom: 8px; }
+    .menu-card span { font-size: 14px; font-weight: 800; text-align: center; }
 
-    .card-blue { background: linear-gradient(180deg, #db2777, #9d174d); }
-    .card-yellow { background: linear-gradient(180deg, #c026d3, #86198f); }
-    .card-green { background: linear-gradient(180deg, #e11d48, #9f1239); }
+    .card-blue { background: linear-gradient(180deg, #007aff, #0056b3); }
+    .card-orange { background: linear-gradient(180deg, #ff9500, #e07b00); }
+    .card-green { background: linear-gradient(180deg, #34c759, #248a3d); }
     
     .card-play { 
-      background: linear-gradient(180deg, #f43f5e, #be123c); 
-      width: 145px; 
-      height: 150px; 
-      border-radius: 28px; 
-      border: 4px solid #fbcfe8; 
-      box-shadow: 0 12px 25px rgba(244, 63, 94, 0.4); 
+      background: linear-gradient(180deg, #ff3b30, #d32f2f); 
+      width: 135px; 
+      height: 145px; 
+      border-radius: 26px; 
+      border: 4px solid #fff; 
+      box-shadow: 0 12px 30px rgba(255, 59, 48, 0.4); 
       position: relative;
     }
     .card-play::before {
       content: '';
       position: absolute;
-      top: -18px; left: 50%;
+      top: -16px; left: 50%;
       transform: translateX(-50%);
-      width: 25px; height: 8px;
-      background: #fbcfe8; border-radius: 4px;
-      box-shadow: 12px -6px 0 #fbcfe8, -12px -6px 0 #fbcfe8;
+      width: 22px; height: 7px;
+      background: #fff; border-radius: 4px;
+      box-shadow: 10px -5px 0 #fff, -10px -5px 0 #fff;
     }
-    .card-play i { font-size: 42px; color: #ffffff; }
-    .card-play span { font-size: 18px; font-weight: 900; }
+    .card-play i { font-size: 38px; color: #ffffff; }
+    .card-play span { font-size: 17px; font-weight: 900; }
 
+    .card-white { background: #ffffff; color: #333333; border: 1px solid rgba(0,0,0,0.05); }
+    .card-white i { color: #ff3b30; }
+    
+    .card-dark { background: #2c2c2e; color: #ffffff; }
+    .card-cyan { background: linear-gradient(180deg, #32ade6, #0077a3); }
+
+    /* القسم السفلي الأبيض */
     .home-bottom-bg { 
-      background: #2e1065; 
+      background: #ffffff; 
       width: 100%; 
-      padding: 50px 20px 25px 20px;
-      display: flex; flex-direction: column; align-items: center;
-      margin-top: -30px;
-      border-top: 1px solid #581c87;
+      padding: 45px 20px 25px 20px;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      margin-top: -35px;
+      border-top-left-radius: 35px;
+      border-top-right-radius: 35px;
+      box-shadow: 0 -10px 25px rgba(0,0,0,0.05);
     }
 
     .features-container {
-      display: flex; justify-content: center; gap: 45px; max-width: 1200px; width: 100%; flex-wrap: wrap; margin-bottom: 35px;
+      display: flex; 
+      justify-content: center; 
+      gap: 30px; 
+      max-width: 1100px; 
+      width: 100%; 
+      flex-wrap: wrap; 
+      margin-bottom: 35px;
     }
-    .feature-item { display: flex; align-items: center; gap: 15px; }
+
+    .feature-item { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      direction: rtl;
+    }
+
     .feature-icon-circle {
-      width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+      width: 55px; 
+      height: 55px; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 22px; 
+      flex-shrink: 0;
     }
-    .f-red { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
-    .f-yellow { background: rgba(192, 38, 211, 0.15); color: #e879f9; }
-    .feature-text h4 { font-size: 16px; font-weight: 800; color: #fce7f3; margin-bottom: 3px; }
-    .feature-text p { font-size: 13px; color: #d8b4fe; font-weight: 600; }
+    .f-red { background: #ffebee; color: #ff3b30; }
+    .f-yellow { background: #fff8e1; color: #ff9500; }
+    .f-green { background: #e8f5e9; color: #34c759; }
+    .f-blue { background: #e3f2fd; color: #007aff; }
+
+    .feature-text h4 { font-size: 15px; font-weight: 800; color: #1c1c1e; margin-bottom: 2px; text-align: right; }
+    .feature-text p { font-size: 12px; color: #8e8e93; font-weight: 600; text-align: right; line-height: 1.4; }
 
     .footer-credit {
-      font-size: 14px; color: #d8b4fe; font-weight: 700; display: flex; align-items: center; gap: 8px; background: #1a0b2e; padding: 10px 25px; border-radius: 20px; text-decoration: none; border: 1px solid #581c87;
+      font-size: 13px; 
+      color: #8e8e93; 
+      font-weight: 700; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      background: #f2f2f7; 
+      padding: 8px 20px; 
+      border-radius: 20px; 
     }
-    .footer-credit span.dev-name { color: #f472b6; font-weight: 900; }
+    .footer-credit span { color: #ff3b30; }
 
-    /* نافذة الإعدادات */
-    #settingsModal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 10000;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(5px);
-    }
-    .settings-modal-content {
-      background: #2e1065;
-      border: 2px solid #581c87;
-      border-radius: 30px;
-      width: 90%;
-      max-width: 480px;
-      padding: 30px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    }
-    .settings-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      border-bottom: 1px solid #581c87;
-      padding-bottom: 15px;
-    }
-    .settings-modal-header h3 {
-      font-size: 22px;
-      color: #f472b6;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .close-settings-btn {
-      background: transparent;
-      border: none;
-      color: #d8b4fe;
-      font-size: 22px;
-      cursor: pointer;
-    }
-    .setting-item {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #3b0764;
-      padding: 15px 20px;
-      border-radius: 15px;
-      border: 1px solid #581c87;
-    }
-    .setting-item label {
-      font-size: 16px;
-      font-weight: bold;
-      color: #fce7f3;
-    }
-    .setting-item input[type="range"] { accent-color: #db2777; cursor: pointer; }
-    .setting-item select {
-      background: #1a0b2e;
-      color: #fce7f3;
-      border: 1px solid #581c87;
-      padding: 8px 12px;
-      border-radius: 10px;
-      outline: none;
-      font-weight: bold;
-    }
-    .save-settings-btn {
-      background: linear-gradient(90deg, #db2777, #9333ea);
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 14px;
-      border-radius: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
-    }
+    /* تفاعلات صوتية ومبدئية */
   </style>
 </head>
 <body>
 
-  <script>
-    let isSoundEnabled = true;
-    let soundVolume = 0.5;
-    let currentLang = 'ar';
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
-    let challengesList = JSON.parse(localStorage.getItem('saleny_challenges_list')) || [
-      { title: "تحدي السرعة البرقية", desc: "أجب عن 10 أسئلة ثقافية في أقل من دقيقة واحدة دون أي خطأ." },
-      { title: "تحدي العباقرة الصعب", desc: "أسئلة ذكاء رياضية ومنطقية معقدة جداً للمحترفين فقط." }
-    ];
-
-    const categoriesData = [
-      { name: "جوازات", icon: "fa-solid fa-passport", color: "#f97316" },
-      { name: "زووم", icon: "fa-solid fa-magnifying-glass", color: "#f97316" },
-      { name: "خمن الصوت", icon: "fa-solid fa-volume-high", color: "#f97316" },
-      { name: "ترتيب", icon: "fa-solid fa-list-ol", color: "#f97316" },
-      { name: "وضح شوي", icon: "fa-solid fa-image", color: "#f97316" },
-      { name: "فن قطري", icon: "fa-solid fa-masks-theater", color: "#f97316" },
-      { name: "نحو وإعراب", icon: "fa-solid fa-book-quran", color: "#f97316" },
-      { name: "وين بالأردن", icon: "fa-solid fa-map-location-dot", color: "#f97316" },
-      { name: "دعايات مسرحيات", icon: "fa-solid fa-film", color: "#f97316" },
-      { name: "مسيرة فنان أجنبي", icon: "fa-solid fa-star", color: "#f97316" },
-      { name: "كأس العالم 26", icon: "fa-solid fa-trophy", color: "#f97316" },
-      { name: "كابتن كأس العالم", icon: "fa-solid fa-shirt", color: "#f97316" },
-      { name: "ترتيب كروي", icon: "fa-solid fa-futbol", color: "#f97316" },
-      { name: "نيران", icon: "fa-solid fa-fire", color: "#f97316" },
-      { name: "حروف انجليزي", icon: "fa-solid fa-font", color: "#f97316" },
-      { name: "League of Legends", icon: "fa-solid fa-gamepad", color: "#f97316" },
-      { name: "Overwatch", icon: "fa-solid fa-shield", color: "#f97316" },
-      { name: "One Piece Manga", icon: "fa-solid fa-skull", color: "#f97316" },
-      { name: "كرة سلة بحرينية", icon: "fa-solid fa-basketball", color: "#f97316" },
-      { name: "Fortnite", icon: "fa-solid fa-crosshairs", color: "#f97316" },
-      { name: "ترتيب إسلامي", icon: "fa-solid fa-kaaba", color: "#f97316" }
-    ];
-
-    const translations = {
-      ar: {
-        title: "سليني - Saleny",
-        logoText: "سليني",
-        subtitle1: "اختبر معلوماتك ونَافِس أصدقائك",
-        management: "الإدارة",
-        giants: "العمالقة",
-        stars: "النجوم",
-        startPlay: "إنشاء لعبة",
-        tournaments: "البطولات",
-        history: "السجل",
-        challenges: "التحديات",
-        feat1Title: "مستويات متقدمة",
-        feat1Desc: "فئات مخصصة لكل المجالات والاهتمامات",
-        feat2Title: "تفاعل حماسي",
-        feat2Desc: "وسائل مساعدة واستراتيجيات لعب ممتعة",
-        footerText: "تطوير:",
-        devName: "M__7_D_10",
-        settingsTitle: "إعدادات اللعبة",
-        langLabel: "لغة اللعبة / Language",
-        volumeLabel: "مستوى صوت المؤثرات",
-        speedLabel: "سرعة واجهة اللعبة",
-        speedNormal: "عادية",
-        speedFast: "سريعة",
-        effectsLabel: "المؤثرات البصرية",
-        effectsOn: "مفعلة",
-        effectsOff: "موقفة",
-        saveBtn: "حفظ التغييرات",
-        soundOnMsg: "تم تفعيل الصوت",
-        soundOffMsg: "تم كتم الصوت",
-        saveMsg: "تم حفظ الإعدادات بنجاح!",
-        devMsg: "قيد التطوير",
-        welcomeTitle: "هذا الموقع قيد التطوير للاستفسار",
-        welcomeBtn: "التواصل عبر إنستغرام",
-        closeBtnText: "حسناً، الدخول للموقع",
-        mgtTitle: "إدارة ورتب الموقع",
-        closeMgt: "إغلاق",
-        controlPanelTitle: "⚙️ لوحة تعيين ورتب الأعضاء",
-        usernamePlaceholder: "اسم المستخدم أو المعرف",
-        assignBtnText: "منح الرتبة",
-        chTitleText: "⚡ قسم التحديات الممتعة",
-        chAddTitle: "➕ إضافة تحدٍ جديد",
-        chNamePH: "عنوان التحدي...",
-        chDescPH: "وصف التحدي وقواعده...",
-        chAddBtn: "نشر التحدي",
-        chCloseBtn: "إغلاق التحديات"
-      },
-      en: {
-        title: "Saleny - Trivia",
-        logoText: "Saleny",
-        subtitle1: "Test your knowledge & challenge friends",
-        management: "Management",
-        giants: "Giants",
-        stars: "Stars",
-        startPlay: "Create Game",
-        tournaments: "Tournaments",
-        history: "History",
-        challenges: "Challenges",
-        feat1Title: "Advanced Levels",
-        feat1Desc: "Custom categories for all fields and interests",
-        feat2Title: "Exciting Interaction",
-        feat2Desc: "Helpful boosters and fun game strategies",
-        footerText: "Developer:",
-        devName: "M__7_D_10",
-        settingsTitle: "Game Settings",
-        langLabel: "Language / لغة اللعبة",
-        volumeLabel: "Sound Volume",
-        speedLabel: "Interface Speed",
-        speedNormal: "Normal",
-        speedFast: "Fast",
-        effectsLabel: "Visual Effects",
-        effectsOn: "Enabled",
-        effectsOff: "Disabled",
-        saveBtn: "Save Changes",
-        soundOnMsg: "Sound Enabled",
-        soundOffMsg: "Sound Muted",
-        saveMsg: "Settings saved successfully!",
-        devMsg: "Under Development",
-        welcomeTitle: "This site is under development for inquiry",
-        welcomeBtn: "Contact via Instagram",
-        closeBtnText: "OK, Enter Website",
-        mgtTitle: "Management & Ranks",
-        closeMgt: "Close",
-        controlPanelTitle: "⚙️ Assign Member Ranks",
-        usernamePlaceholder: "Username or ID",
-        assignBtnText: "Assign Rank",
-        chTitleText: "⚡ Exciting Challenges Section",
-        chAddTitle: "➕ Add New Challenge",
-        chNamePH: "Challenge Title...",
-        chDescPH: "Challenge description & rules...",
-        chAddBtn: "Publish Challenge",
-        chCloseBtn: "Close Challenges"
-      }
-    };
-
-    function playClickSound(type = 'click') {
-      if (!isSoundEnabled) return;
-      if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-      const osc = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-      osc.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-      gainNode.gain.setValueAtTime(soundVolume * 0.3, audioCtx.currentTime);
-
-      if (type === 'click') {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.08);
-      } else if (type === 'success') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.3);
-      }
-    }
-
-    function showToast(message) {
-      const toast = document.getElementById('toastNotification');
-      document.getElementById('toastText').textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 3000);
-    }
-
-    function closeWelcomeModal() {
-      playClickSound('click');
-      document.getElementById('welcomeModal').style.display = 'none';
-    }
-
-    function startGamePlay() {
-      playClickSound('success');
-      document.getElementById('homeScreen').style.display = 'none';
-      document.getElementById('gameScreenView').style.display = 'flex';
-      renderCategoriesGrid();
-    }
-
-    function backToHome() {
-      playClickSound('click');
-      document.getElementById('gameScreenView').style.display = 'none';
-      document.getElementById('homeScreen').style.display = 'flex';
-    }
-
-    function renderCategoriesGrid() {
-      const grid = document.getElementById('categoriesGridContainer');
-      grid.innerHTML = '';
-      categoriesData.forEach((cat, index) => {
-        const card = document.createElement('div');
-        card.className = 'category-card';
-        card.onclick = () => {
-          card.classList.toggle('selected');
-          playClickSound('click');
-        };
-        card.innerHTML = `
-          <div class="category-info-icon" onclick="event.stopPropagation(); showToast('معلومات فئة: ${cat.name}')"><i class="fa-solid fa-circle-info"></i></div>
-          <div class="category-img-box">
-            <i class="${cat.icon} category-fallback-icon"></i>
-          </div>
-          <div class="category-title-bar">${cat.name}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function openChallenges() {
-      playClickSound('click');
-      renderChallengesList();
-      document.getElementById('challengesModal').style.display = 'flex';
-    }
-
-    function closeChallenges() {
-      playClickSound('click');
-      document.getElementById('challengesModal').style.display = 'none';
-    }
-
-    function addNewChallenge(event) {
-      event.preventDefault();
-      const title = document.getElementById('newChTitle').value.trim();
-      const desc = document.getElementById('newChDesc').value.trim();
-      if (!title || !desc) return;
-      challengesList.push({ title, desc });
-      localStorage.setItem('saleny_challenges_list', JSON.stringify(challengesList));
-      document.getElementById('newChTitle').value = '';
-      document.getElementById('newChDesc').value = '';
-      renderChallengesList();
-      playClickSound('success');
-      showToast("تم إضافة التحدي بنجاح!");
-    }
-
-    function deleteChallenge(index) {
-      challengesList.splice(index, 1);
-      localStorage.setItem('saleny_challenges_list', JSON.stringify(challengesList));
-      renderChallengesList();
-      playClickSound('click');
-    }
-
-    function renderChallengesList() {
-      const container = document.getElementById('challengesListContainer');
-      container.innerHTML = '';
-      if (challengesList.length === 0) {
-        container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 14px; padding: 10px;">لا توجد تحديات مضافة حالياً</div>`;
-        return;
-      }
-      challengesList.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'challenge-card-item';
-        div.innerHTML = `
-          <div class="challenge-title-row">
-            <span class="challenge-title"><i class="fa-solid fa-bolt-lightning" style="color: #f472b6;"></i> ${item.title}</span>
-            <button class="delete-rank-btn" onclick="deleteChallenge(${index})"><i class="fa-solid fa-trash"></i></button>
-          </div>
-          <div class="challenge-desc">${item.desc}</div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function openManagement() {
-      playClickSound('click');
-      renderAssignedRanksList();
-      document.getElementById('managementModal').style.display = 'flex';
-    }
-
-    function closeManagement() {
-      playClickSound('click');
-      document.getElementById('managementModal').style.display = 'none';
-    }
-
-    function assignUserRank(event) {
-      event.preventDefault();
-      const username = document.getElementById('newUserName').value.trim();
-      const rankVal = document.getElementById('newRankSelect').value;
-      if (!username) return;
-      assignedRanks.push({ name: username, rank: rankVal });
-      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
-      document.getElementById('newUserName').value = '';
-      renderAssignedRanksList();
-      playClickSound('success');
-      showToast("تم منح الرتبة بنجاح!");
-    }
-
-    function removeAssignedRank(index) {
-      assignedRanks.splice(index, 1);
-      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
-      renderAssignedRanksList();
-      playClickSound('click');
-    }
-
-    function renderAssignedRanksList() {
-      const container = document.getElementById('assignedListContainer');
-      container.innerHTML = '';
-      if (assignedRanks.length === 0) {
-        container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 13px; padding: 5px;">لا توجد رتب ممنوحة حالياً</div>`;
-        return;
-      }
-      assignedRanks.forEach((item, index) => {
-        let rankBadgeName = item.rank === 'owner' ? '👑 مدير عام' : (item.rank === 'admin' ? '🛡️ مشرف عام' : '⭐ مساعد');
-        const div = document.createElement('div');
-        div.className = 'user-rank-item';
-        div.innerHTML = `
-          <span><b>${item.name}</b> (${rankBadgeName})</span>
-          <button class="delete-rank-btn" onclick="removeAssignedRank(${index})"><i class="fa-solid fa-trash"></i></button>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function toggleSound() {
-      isSoundEnabled = !isSoundEnabled;
-      const soundIcon = document.getElementById('soundIcon');
-      const t = translations[currentLang];
-      if (isSoundEnabled) {
-        soundIcon.className = "fa-solid fa-volume-high";
-        showToast(t.soundOnMsg);
-        playClickSound('success');
-      } else {
-        soundIcon.className = "fa-solid fa-volume-xmark";
-        showToast(t.soundOffMsg);
-      }
-    }
-
-    function openSettings() {
-      playClickSound('click');
-      document.getElementById('settingsModal').style.display = 'flex';
-    }
-
-    function closeSettings() {
-      playClickSound('click');
-      document.getElementById('settingsModal').style.display = 'none';
-    }
-
-    function saveSettings() {
-      soundVolume = parseFloat(document.getElementById('volumeRange').value);
-      currentLang = document.getElementById('languageSelect').value;
-      updateTexts();
-      playClickSound('success');
-      showToast(translations[currentLang].saveMsg);
-      closeSettings();
-    }
-
-    function updateTexts() {
-      const t = translations[currentLang];
-      const htmlTag = document.documentElement;
-      htmlTag.setAttribute('dir', currentLang === 'en' ? 'ltr' : 'rtl');
-      htmlTag.setAttribute('lang', currentLang);
-
-      document.getElementById('pageTitle').innerText = t.title;
-      document.getElementById('logoText').textContent = t.logoText;
-      document.getElementById('subText1').textContent = t.subtitle1;
-      document.getElementById('txtManagement').textContent = t.management;
-      document.getElementById('txtGiants').textContent = t.giants;
-      document.getElementById('txtStars').textContent = t.stars;
-      document.getElementById('txtPlay').textContent = t.startPlay;
-      document.getElementById('txtTournaments').textContent = t.tournaments;
-      document.getElementById('txtHistory').textContent = t.history;
-      document.getElementById('txtChallenges').textContent = t.challenges;
-
-      document.getElementById('txtFeat1Title').textContent = t.feat1Title;
-      document.getElementById('txtFeat1Desc').textContent = t.feat1Desc;
-      document.getElementById('txtFeat2Title').textContent = t.feat2Title;
-      document.getElementById('txtFeat2Desc').textContent = t.feat2Desc;
-      document.getElementById('txtFooterText').textContent = t.footerText;
-      document.getElementById('txtDevName').textContent = t.devName;
-
-      document.getElementById('stTitle').innerHTML = `<i class="fa-solid fa-gear"></i> ${t.settingsTitle}`;
-      document.getElementById('lblLang').textContent = t.langLabel;
-      document.getElementById('lblVol').textContent = t.volumeLabel;
-      document.getElementById('lblSpeed').textContent = t.speedLabel;
-      document.getElementById('optNormal').textContent = t.speedNormal;
-      document.getElementById('optFast').textContent = t.speedFast;
-      document.getElementById('lblEffects').textContent = t.effectsLabel;
-      document.getElementById('optOn').textContent = t.effectsOn;
-      document.getElementById('optOff').textContent = t.effectsOff;
-      document.getElementById('btnSave').textContent = t.saveBtn;
-
-      document.getElementById('welTitle').textContent = t.welcomeTitle;
-      document.getElementById('welBtnText').textContent = t.welcomeBtn;
-      document.getElementById('closeModalText').textContent = t.closeBtnText;
-
-      document.getElementById('mgtTitleText').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${t.mgtTitle}`;
-      document.getElementById('closeMgtText').textContent = t.closeMgt;
-      document.getElementById('controlTitleText').textContent = t.controlPanelTitle;
-      document.getElementById('newUserName').placeholder = t.usernamePlaceholder;
-      document.getElementById('assignBtnText').textContent = t.assignBtnText;
-
-      document.getElementById('chTitleText').innerHTML = `<i class="fa-solid fa-bolt"></i> ${t.chTitleText}`;
-      document.getElementById('chAddTitleText').textContent = t.chAddTitle;
-      document.getElementById('newChTitle').placeholder = t.chNamePH;
-      document.getElementById('newChDesc').placeholder = t.chDescPH;
-      document.getElementById('chAddBtnText').textContent = t.chAddBtn;
-      document.getElementById('chCloseBtnText').textContent = t.chCloseBtn;
-    }
-  </script>
-
   <div id="toastNotification">
-    <i class="fa-solid fa-triangle-exclamation"></i>
-    <span id="toastText">تنبيه</span>
+    <i class="fa-solid fa-circle-check" style="color: #34c759;"></i>
+    <span id="toastText">تم النقر بنجاح</span>
   </div>
 
-  <!-- نافذة ترحيبية عند الدخول برابط إنستغرام -->
-  <div id="welcomeModal">
-    <div class="welcome-content">
-      <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-      <h2 id="welTitle">هذا الموقع قيد التطوير للاستفسار</h2>
-      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-btn">
-        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
-        <span id="welBtnText">التواصل عبر إنستغرام</span>
-      </a>
-      <button class="close-modal-btn" onclick="closeWelcomeModal()">
-        <span id="closeModalText">حسناً، الدخول للموقع</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- شاشة "اختر الفئات" بالشبكة الكاملة تماماً كالصورة -->
-  <div id="gameScreenView">
-    <div class="categories-main-wrapper">
-      <div class="top-action-bar">
-        <button class="confirm-categories-main-btn" onclick="playClickSound('success'); showToast('جاري بدء اللعبة بالفئات المحددة...')">أجمد الفئات</button>
-        <button class="back-home-link" onclick="backToHome()">العودة للرئيسية</button>
-      </div>
-
-      <!-- شبكة الفئات الكاملة -->
-      <div class="categories-grid" id="categoriesGridContainer"></div>
-
-      <div style="width: 100%; display: flex; justify-content: center; margin-top: 15px;">
-        <button class="confirm-categories-main-btn" onclick="playClickSound('success'); showToast('جاري بدء اللعبة بالفئات المحددة...')">أجمد الفئات</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- نافذة التحديات المتنوعة -->
-  <div id="challengesModal">
-    <div class="challenges-content">
-      <div class="challenges-header">
-        <h3 id="chTitleText"><i class="fa-solid fa-bolt"></i> قسم التحديات الممتعة</h3>
-        <button class="close-settings-btn" onclick="closeChallenges()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="challenge-add-box">
-        <h4 id="chAddTitleText">➕ إضافة تحدٍ جديد</h4>
-        <form onsubmit="addNewChallenge(event)">
-          <div class="form-group">
-            <input type="text" id="newChTitle" placeholder="عنوان التحدي..." required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <textarea id="newChDesc" placeholder="وصف التحدي وقواعده..." rows="2" required></textarea>
-          </div>
-          <button type="submit" class="assign-btn" id="chAddBtnText">نشر التحدي</button>
-        </form>
-      </div>
-
-      <div id="challengesListContainer"></div>
-      <button id="chCloseBtnText" class="save-settings-btn" onclick="closeChallenges()" style="margin-top: 15px;">إغلاق التحديات</button>
-    </div>
-  </div>
-
-  <!-- نافذة الإدارة والرتب -->
-  <div id="managementModal">
-    <div class="management-content">
-      <div class="management-header">
-        <h3 id="mgtTitleText"><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
-        <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="admin-control-box">
-        <h4 id="controlTitleText">⚙️ لوحة تعيين ورتب الأعضاء</h4>
-        <form onsubmit="assignUserRank(event)">
-          <div class="form-group">
-            <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <select id="newRankSelect" style="width:100%; padding:10px; background:#1a0b2e; color:#fff; border:1px solid #581c87; border-radius:12px;">
-              <option value="owner">👑 المدير العام (Owner)</option>
-              <option value="admin">🛡️ مشرف عام (Admin)</option>
-              <option value="mod">⭐ مساعد إداري (Moderator)</option>
-            </select>
-          </div>
-          <button type="submit" class="assign-btn" id="assignBtnText">منح الرتبة</button>
-        </form>
-        <div class="assigned-users-list" id="assignedListContainer"></div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title">👑 المدير العام (Owner)</div>
-        <div class="rank-perms">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title">🛡️ مشرف عام (Admin)</div>
-        <div class="rank-perms">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
-      </div>
-
-      <button id="closeMgtText" class="save-settings-btn" onclick="closeManagement()" style="margin-top: 15px;">إغلاق</button>
-    </div>
-  </div>
-
-  <!-- نافذة الإعدادات المنبثقة -->
-  <div id="settingsModal">
-    <div class="settings-modal-content">
-      <div class="settings-modal-header">
-        <h3 id="stTitle"><i class="fa-solid fa-gear"></i> إعدادات اللعبة</h3>
-        <button class="close-settings-btn" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="setting-item">
-        <label id="lblLang">لغة اللعبة / Language</label>
-        <select id="languageSelect">
-          <option value="ar">العربية</option>
-          <option value="en">English</option>
-        </select>
-      </div>
-
-      <div class="setting-item">
-        <label id="lblVol">مستوى صوت المؤثرات</label>
-        <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="0.5">
-      </div>
-
-      <div class="setting-item">
-        <label id="lblSpeed">سرعة واجهة اللعبة</label>
-        <select id="gameSpeed">
-          <option id="optNormal" value="normal">عادية</option>
-          <option id="optFast" value="fast">سريعة</option>
-        </select>
-      </div>
-
-      <div class="setting-item">
-        <label id="lblEffects">المؤثرات البصرية</label>
-        <select id="visualEffects">
-          <option id="optOn" value="on">مفعلة</option>
-          <option id="optOff" value="off">موقفة</option>
-        </select>
-      </div>
-
-      <button id="btnSave" class="save-settings-btn" onclick="saveSettings()">حفظ التغييرات</button>
-    </div>
-  </div>
-
-  <!-- الشاشة الرئيسية -->
   <div id="homeScreen">
     <div class="top-section">
-      <button class="icon-btn sound-btn" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">
+      <button class="icon-btn sound-btn" onclick="toggleSound()" title="الصوت">
         <i id="soundIcon" class="fa-solid fa-volume-high"></i>
       </button>
       
-      <button class="icon-btn settings-btn" onclick="openSettings()" title="الإعدادات">
+      <button class="icon-btn settings-btn" onclick="showMsg('الإعدادات قيد التقدم')" title="الإعدادات">
         <i class="fa-solid fa-gear"></i>
       </button>
       
       <div class="brand-header-container">
-        <i class="fa-solid fa-crown crown-icon"></i>
-        <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 90">
-          <text id="logoText" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="52" font-weight="900" style="filter: drop-shadow(3px 3px 0px #9d174d);">سليني</text>
-        </svg>
+        <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+        <h1 class="main-logo-text">سليني</h1>
       </div>
-      <p class="subtitle"><span>+</span> <span id="subText1">اختبر معلوماتك ونَافِس أصدقائك</span> <span>+</span></p>
+      <p class="subtitle"><span>✦</span> اختبر معلوماتك ونَافِس أصدقائك <span>✦</span></p>
     </div>
 
+    <!-- الأزرار السبعة مطابقة للصورة تماماً -->
     <div class="main-menu">
-      <div class="menu-card card-blue" onclick="openManagement()"><i class="fa-solid fa-shield-halved"></i><span id="txtManagement">الإدارة</span></div>
-      <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].giants + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-fire"></i><span id="txtGiants">العمالقة</span></div>
-      <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].stars + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
+      <div class="menu-card card-blue" onclick="showMsg('قسم طلاب')">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>طلاب</span>
+        <span style="font-size:9px; opacity:0.8; font-weight:normal;">STUDENTS</span>
+      </div>
       
-      <!-- زر إنشاء اللعبة المنتقل لواجهة الفئات -->
-      <div class="menu-card card-play" onclick="startGamePlay()">
-        <i class="fa-solid fa-play"></i>
-        <span id="txtPlay">إنشاء لعبة</span>
+      <div class="menu-card card-orange" onclick="showMsg('قسم سنين كبير')">
+        <i class="fa-solid fa-people-group"></i>
+        <span>سنين كبير</span>
       </div>
 
-      <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].tournaments + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-trophy"></i><span id="txtTournaments">البطولات</span></div>
-      <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].history + ' ' + translations[currentLang].devMsg)"><i class="fa-solid fa-clock-rotate-left"></i><span id="txtHistory">السجل</span></div>
-      
-      <div class="menu-card card-cyan" onclick="openChallenges()"><i class="fa-solid fa-bolt"></i><span id="txtChallenges">التحديات</span></div>
+      <div class="menu-card card-green" onclick="showMsg('قسم كأس العالم')">
+        <i class="fa-solid fa-earth-americas"></i>
+        <span>كأس العالم</span>
+      </div>
+
+      <div class="menu-card card-play" onclick="showMsg('جاري بدء اللعبة...')">
+        <i class="fa-solid fa-gamepad"></i>
+        <span>ابدأ اللعبة</span>
+      </div>
+
+      <div class="menu-card card-white" onclick="showMsg('إنشاء بطولة جديدة')">
+        <i class="fa-solid fa-trophy"></i>
+        <span>إنشاء بطولة</span>
+      </div>
+
+      <div class="menu-card card-dark" onclick="showMsg('عرض الإحصائيات والنتائج')">
+        <i class="fa-solid fa-chart-column"></i>
+        <span>إحصائيات</span>
+        <span style="font-size:9px; opacity:0.7; font-weight:normal;">النتائج لكم</span>
+      </div>
+
+      <div class="menu-card card-cyan" onclick="showMsg('ألعاب خاصة')">
+        <i class="fa-solid fa-dice"></i>
+        <span>ألعاب</span>
+        <span style="font-size:10px; font-weight:normal;">خاصة</span>
+      </div>
     </div>
 
     <div class="home-bottom-bg">
       <div class="features-container">
+        
         <div class="feature-item">
-          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
+          <div class="feature-icon-circle f-red"><i class="fa-solid fa-palette"></i></div>
           <div class="feature-text">
-            <h4 id="txtFeat1Title">مستويات متقدمة</h4>
-            <p id="txtFeat1Desc">فئات مخصصة لكل المجالات والاهتمامات</p>
+            <h4>أسئلة متنوعة</h4>
+            <p>آلاف الأسئلة في مختلف المجالات</p>
           </div>
         </div>
+
         <div class="feature-item">
-          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-bolt"></i></div>
+          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-clock"></i></div>
           <div class="feature-text">
-            <h4 id="txtFeat2Title">تفاعل حماسي</h4>
-            <p id="txtFeat2Desc">وسائل مساعدة واستراتيجيات لعب ممتعة</p>
+            <h4>وقت ممتع</h4>
+            <p>تحديات شيقة ومتعة لا تنتهي</p>
           </div>
         </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-circle f-green"><i class="fa-solid fa-users"></i></div>
+          <div class="feature-text">
+            <h4>لعب جماعي</h4>
+            <p>نافس أصدقائك واختبر معلوماتك</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-circle f-blue"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="feature-text">
+            <h4>مستويات وإنجازات</h4>
+            <p>ارفع مستواك واكسب الإنجازات</p>
+          </div>
+        </div>
+
       </div>
 
-      <a href="https://www.instagram.com/m__7_d_10" target="_blank" class="footer-credit">
-        <span id="txtFooterText">تطوير:</span> <span class="dev-name" id="txtDevName">M__7_D_10</span>
-      </a>
+      <div class="footer-credit">
+        <span>♥</span> صمم في فلسطين ب حب
+      </div>
     </div>
   </div>
 
+  <script>
+    let soundOn = true;
+    function toggleSound() {
+      soundOn = !soundOn;
+      const icon = document.getElementById('soundIcon');
+      icon.className = soundOn ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark";
+      showMsg(soundOn ? "تم تفعيل الصوت" : "تم كتم الصوت");
+    }
+
+    function showMsg(text) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastText').textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+  </script>
 </body>
 </html>
