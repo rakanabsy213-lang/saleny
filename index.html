@@ -3,329 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سليني - إعدادات اللعبة</title>
+    <title>اختيار الفئات - سليني</title>
     <style>
         body {
             font-family: Tahoma, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #1a1a1a;
+            color: #fff;
             text-align: center;
-            padding: 30px;
-            margin: 0;
+            padding: 50px;
         }
 
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.08);
-        }
-
-        h2 {
-            font-size: 32px;
-            margin-bottom: 25px;
-            color: #111;
-        }
-
-        /* حقل اسم اللعبة */
-        .game-name-section {
-            margin-bottom: 35px;
-        }
-
-        input[type="text"] {
-            width: 65%;
-            padding: 14px 20px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 35px;
-            text-align: center;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus {
-            border-color: #ff5722;
-        }
-
-        /* قسم الفرق */
-        .teams-section {
-            display: flex;
-            justify-content: space-around;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .team-box {
-            flex: 1;
-            background: #fff;
-            padding: 15px;
-        }
-
-        .team-box h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-
-        /* وسائل المساعدة */
-        .helpers-grid {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .help-btn {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            border: 2px solid #b0bec5;
-            background-color: #fff;
-            cursor: pointer;
-            font-size: 11px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            text-align: center;
-            padding: 2px;
-        }
-
-        .help-btn.selected {
-            background-color: #e3f2fd;
-            border-color: #2196F3;
-            color: #0d47a1;
-            box-shadow: 0 0 8px rgba(33, 150, 243, 0.4);
-        }
-
-        .help-btn.dimmed {
-            opacity: 0.3;
-            cursor: not-allowed;
-            background-color: #f1f1f1;
-            border-color: #ddd;
-        }
-
-        /* قسم الفئات */
-        .categories-section {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 2px dashed #eee;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 15px;
+        .categories-container {
             max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .category-card {
-            padding: 14px;
-            background: #f1f3f4;
-            border: 2px solid #ddd;
+            margin: 0 auto;
+            background: #2b2b2b;
+            padding: 20px;
             border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .category-card.selected {
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .category-btn {
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid #444;
+            background-color: #3b3b3b;
+            color: #fff;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        /* شكل الزر عند اختياره */
+        .category-btn.selected {
             background-color: #4CAF50;
             color: white;
             border-color: #388E3C;
             font-weight: bold;
+            cursor: not-allowed;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
         }
 
-        .category-card.dimmed {
+        /* شكل الأزرار الباهتة عندما يتم الوصول للحد الأقصى (6 فئات) */
+        .category-btn.dimmed {
             opacity: 0.3;
             cursor: not-allowed;
-            background-color: #e0e0e0;
+            background-color: #2a2a2a;
+            border-color: #333;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         #counter {
-            margin-top: 10px;
             font-size: 14px;
-            color: #666;
+            color: #aaa;
         }
 
-        /* زر البدء */
-        .start-btn-container {
-            margin-top: 40px;
-        }
-
-        .start-btn {
-            background: linear-gradient(135deg, #ff9800, #f44336);
+        .reset-btn {
+            background-color: #d9534f;
             color: white;
             border: none;
-            padding: 16px 70px;
-            font-size: 22px;
-            font-weight: bold;
-            border-radius: 40px;
+            padding: 8px 15px;
+            border-radius: 6px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
-            transition: opacity 0.3s, transform 0.2s;
+            font-size: 14px;
+            transition: background 0.3s;
         }
 
-        .start-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .start-btn:not(:disabled):hover {
-            transform: scale(1.02);
+        .reset-btn:hover {
+            background-color: #c9302c;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>حدد معلومات الفرق</h2>
-
-        <!-- اسم اللعبة -->
-        <div class="game-name-section">
-            <input type="text" id="gameName" placeholder="اسم اللعبة" oninput="validateForm()">
+    <div class="categories-container">
+        <h3>اختر الفئات الخاصة بك</h3>
+        
+        <div class="grid" id="buttonsGrid">
+            <button class="category-btn" data-id="الرياضة" onclick="selectCategory(this)">فئة الرياضة</button>
+            <button class="category-btn" data-id="التكنولوجيا" onclick="selectCategory(this)">فئة التكنولوجيا</button>
+            <button class="category-btn" data-id="التاريخ" onclick="selectCategory(this)">فئة التاريخ</button>
+            <button class="category-btn" data-id="العلوم" onclick="selectCategory(this)">فئة العلوم</button>
+            <button class="category-btn" data-id="الجغرافيا" onclick="selectCategory(this)">فئة الجغرافيا</button>
+            <button class="category-btn" data-id="الفن" onclick="selectCategory(this)">فئة الفن</button>
+            <button class="category-btn" data-id="السينما" onclick="selectCategory(this)">فئة السينما</button>
+            <button class="category-btn" data-id="الألعاب" onclick="selectCategory(this)">فئة الألعاب</button>
         </div>
 
-        <!-- أسماء الفرق ووسائل المساعدة -->
-        <div class="teams-section">
-            <!-- الفريق الأول -->
-            <div class="team-box">
-                <h3>الفريق الأول</h3>
-                <input type="text" id="team1Name" placeholder="اسم الفريق" oninput="validateForm()">
-                <p style="margin: 15px 0 5px; font-size: 14px;">الفريق الأول : اختر 3 وسائل مساعدة</p>
-                <div class="helpers-grid" id="team1Helpers">
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">جاوب جواوب</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">اتصال بصديق</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الحفرة</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">استريح</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الفخ</button>
-                </div>
-            </div>
-
-            <!-- الفريق الثاني -->
-            <div class="team-box">
-                <h3>الفريق الثاني</h3>
-                <input type="text" id="team2Name" placeholder="اسم الفريق" oninput="validateForm()">
-                <p style="margin: 15px 0 5px; font-size: 14px;">الفريق الثاني : اختر 3 وسائل مساعدة</p>
-                <div class="helpers-grid" id="team2Helpers">
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">جاوب جواوب</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">اتصال بصديق</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الحفرة</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">استريح</button>
-                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الفخ</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- قسم الفئات (6 كحد أقصى) -->
-        <div class="categories-section">
-            <h3>اختر الفئات الخاصة بك</h3>
+        <div class="controls">
             <p id="counter">تم اختيار: 0 من 6</p>
-            <div class="categories-grid" id="categoriesGrid">
-                <div class="category-card" onclick="toggleCategory(this)">رياضة</div>
-                <div class="category-card" onclick="toggleCategory(this)">تكنولوجيا</div>
-                <div class="category-card" onclick="toggleCategory(this)">تاريخ</div>
-                <div class="category-card" onclick="toggleCategory(this)">علوم</div>
-                <div class="category-card" onclick="toggleCategory(this)">جغرافيا</div>
-                <div class="category-card" onclick="toggleCategory(this)">فن</div>
-                <div class="category-card" onclick="toggleCategory(this)">سينما</div>
-                <div class="category-card" onclick="toggleCategory(this)">ألعاب</div>
-                <div class="category-card" onclick="toggleCategory(this)">إسلاميات</div>
-            </div>
-        </div>
-
-        <!-- زر البدء -->
-        <div class="start-btn-container">
-            <button type="button" id="startBtn" class="start-btn" disabled onclick="startGame()">ابداً اللعب</button>
+            <button class="reset-btn" onclick="resetSelections()">إعادة التعيين</button>
         </div>
     </div>
 
     <script>
-        // تتبع عدد وسائل المساعدة المختارة لكل فريق
-        const teamHelps = { 1: 0, 2: 0 };
+        const MAX_SELECTIONS = 6;
+        let selectedCategories = JSON.parse(localStorage.getItem('selectedCategories')) || [];
 
-        function toggleHelp(teamNum, btn) {
-            const container = document.getElementById(teamNum === 1 ? 'team1Helpers' : 'team2Helpers');
+        // تحديث الواجهة عند تحميل الصفحة بناءً على البيانات المحفوظة
+        window.onload = function() {
+            updateUI();
+        };
+
+        function selectCategory(button) {
+            const categoryId = button.getAttribute('data-id');
+
+            // إذا كان الزر مختاراً مسبقاً أو باهتًا، لا تفعل شيئاً
+            if (button.classList.contains('selected') || button.classList.contains('dimmed')) {
+                return;
+            }
+
+            // إذا لم نصل للحد الأقصى بعد
+            if (selectedCategories.length < MAX_SELECTIONS) {
+                selectedCategories.push(categoryId);
+                localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const buttons = document.querySelectorAll('.category-btn');
             
-            if (btn.classList.contains('selected')) {
-                btn.classList.remove('selected');
-                teamHelps[teamNum]--;
-                // إزالة التعتيم عن باقي الأزرار إذا قل العدد عن 3
-                container.querySelectorAll('.help-btn').forEach(b => b.classList.remove('dimmed'));
-            } else {
-                if (teamHelps[teamNum] < 3) {
+            buttons.forEach(btn => {
+                const categoryId = btn.getAttribute('data-id');
+                
+                // إعادة ضبط الحالة مبدئياً
+                btn.classList.remove('selected', 'dimmed');
+
+                if (selectedCategories.includes(categoryId)) {
                     btn.classList.add('selected');
-                    teamHelps[teamNum]++;
-                    
-                    // إذا وصل العدد لـ 3، تعتيم المتبقي
-                    if (teamHelps[teamNum] === 3) {
-                        container.querySelectorAll('.help-btn').forEach(b => {
-                            if (!b.classList.contains('selected')) b.classList.add('dimmed');
-                        });
-                    }
                 }
-            }
-            validateForm();
-        }
+            });
 
-        // تتبع الفئات (6 فئات)
-        let selectedCategoriesCount = 0;
-        const MAX_CATEGORIES = 6;
+            // تحديث العداد
+            document.getElementById('counter').innerText = `تم اختيار: ${selectedCategories.length} من 6`;
 
-        function toggleCategory(card) {
-            if (card.classList.contains('selected')) {
-                card.classList.remove('selected');
-                selectedCategoriesCount--;
-                document.querySelectorAll('.category-card').forEach(c => c.classList.remove('dimmed'));
-            } else {
-                if (selectedCategoriesCount < MAX_CATEGORIES) {
-                    card.classList.add('selected');
-                    selectedCategoriesCount++;
-
-                    if (selectedCategoriesCount === MAX_CATEGORIES) {
-                        document.querySelectorAll('.category-card').forEach(c => {
-                            if (!c.classList.contains('selected')) c.classList.add('dimmed');
-                        });
+            // إذا وصلنا للحد الأقصى، قم بتبهيت باقي الأزرار غير المختارة
+            if (selectedCategories.length >= MAX_SELECTIONS) {
+                buttons.forEach(btn => {
+                    if (!btn.classList.contains('selected')) {
+                        btn.classList.add('dimmed');
                     }
-                }
-            }
-            document.getElementById('counter').innerText = `تم اختيار: ${selectedCategoriesCount} من 6`;
-            validateForm();
-        }
-
-        // دالة التحقق الشاملة
-        function validateForm() {
-            const gameName = document.getElementById('gameName').value.trim();
-            const team1Name = document.getElementById('team1Name').value.trim();
-            const team2Name = document.getElementById('team2Name').value.trim();
-
-            const isGameFilled = gameName !== "";
-            const areTeamsFilled = team1Name !== "" && team2Name !== "";
-            const areHelpersDone = teamHelps[1] === 3 && teamHelps[2] === 3;
-            const areCategoriesDone = selectedCategoriesCount === MAX_CATEGORIES;
-
-            const startBtn = document.getElementById('startBtn');
-
-            // فتح زر اللعب فقط لو تحققت كل الشروط
-            if (isGameFilled && areTeamsFilled && areHelpersDone && areCategoriesDone) {
-                startBtn.removeAttribute('disabled');
-            } else {
-                startBtn.setAttribute('disabled', 'true');
+                });
             }
         }
 
-        function startGame() {
-            alert('تم إدخال كافة البيانات واختيار الفئات والمساعدات بنجاح! جاري الدخول للعبة...');
-            // يمكنك هنا وضع رابط الانتقال لصفحة اللعبة الفعليّة، مثلاً:
-            // window.location.href = "game.html";
+        // دالة إعادة التعيين لمسح الاختيارات والبدء من جديد
+        function resetSelections() {
+            selectedCategories = [];
+            localStorage.removeItem('selectedCategories');
+            updateUI();
         }
     </script>
 
