@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>سليني - Saleny</title>
-  <!-- إضافة أيقونة الموقع (Favicon) -->
   <link rel="icon" type="image/png" href="https://i.ibb.co/3ykX1sWb/image-ccd465.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -43,7 +42,6 @@
     }
     #toastNotification.show { top: 25px; }
 
-    /* نافذة الترحيب والتنبيه عند الدخول */
     #welcomeModal {
       display: flex;
       position: fixed;
@@ -100,17 +98,10 @@
       font-size: 16px;
       font-weight: bold;
       box-shadow: 0 8px 20px rgba(220, 39, 67, 0.4);
-      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.2s;
+      transition: transform 0.1s ease, opacity 0.2s;
       margin-bottom: 12px;
     }
-    .insta-btn:hover {
-      transform: translateY(-2px);
-      opacity: 0.95;
-    }
-    .insta-btn:active {
-      transform: scale(0.97);
-      box-shadow: none;
-    }
+    .insta-btn:hover { transform: translateY(-2px); opacity: 0.95; }
     .close-modal-btn {
       background: #f3f4f6;
       border: 1px solid #e5e7eb;
@@ -121,12 +112,10 @@
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s ease;
+      transition: background 0.2s;
     }
     .close-modal-btn:hover { background: #e5e7eb; }
-    .close-modal-btn:active { transform: scale(0.97); }
 
-    /* نافذة الإدارة والرتب */
     #managementModal {
       display: none;
       position: fixed;
@@ -179,9 +168,7 @@
       align-items: center;
       gap: 8px;
     }
-    .form-group {
-      margin-bottom: 10px;
-    }
+    .form-group { margin-bottom: 10px; }
     .form-group input, .form-group select {
       width: 100%;
       padding: 10px 14px;
@@ -204,16 +191,8 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 5px;
-      transition: opacity 0.2s, transform 0.1s ease;
     }
-    .assign-btn:hover { opacity: 0.9; }
-    .assign-btn:active { transform: scale(0.97); }
-
-    .assigned-users-list {
-      margin-top: 15px;
-      max-height: 180px;
-      overflow-y: auto;
-    }
+    .assigned-users-list { margin-top: 15px; max-height: 180px; overflow-y: auto; }
     .user-rank-item {
       display: flex;
       justify-content: space-between;
@@ -226,13 +205,7 @@
       font-size: 14px;
       color: #1f2937;
     }
-    .delete-rank-btn {
-      background: transparent;
-      border: none;
-      color: #ef4444;
-      cursor: pointer;
-      font-size: 16px;
-    }
+    .delete-rank-btn { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 16px; }
     .rank-card {
       background: #fff7ed;
       border: 1px solid #fed7aa;
@@ -264,7 +237,6 @@
       margin-top: 10px;
     }
 
-    /* الشاشة الرئيسية */
     #homeScreen {
       width: 100vw;
       min-height: 100vh;
@@ -300,7 +272,6 @@
       transition: background 0.2s, transform 0.1s ease;
     }
     .icon-btn:hover { background: rgba(255, 255, 255, 0.35); }
-    .icon-btn:active { transform: scale(0.92); }
     .sound-btn { left: 30px; }
     .settings-btn { right: 30px; }
 
@@ -317,24 +288,17 @@
       font-weight: 900;
       color: #ffffff;
       text-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      letter-spacing: -1px;
       line-height: 1.1;
       margin-bottom: 2px;
     }
 
-    .crown-icon {
-      color: #ffffff;
-      font-size: 32px;
-      margin-bottom: -10px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-    }
+    .crown-icon { color: #ffffff; font-size: 32px; margin-bottom: -10px; }
 
     .subtitle { 
       font-size: 17px; 
       margin-top: 10px; 
       font-weight: 700; 
       color: #ffffff; 
-      text-shadow: 0 2px 4px rgba(0,0,0,0.15); 
       display: flex; 
       align-items: center; 
       justify-content: center; 
@@ -342,7 +306,6 @@
     }
     .subtitle span { color: #ffe4e6; font-size: 18px; }
 
-    /* الأزرار الـ 7 */
     .main-menu { 
       display: flex; 
       justify-content: center; 
@@ -368,14 +331,12 @@
       border: 1px solid #f3f4f6;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
       cursor: pointer; 
-      transition: transform 0.15s ease, box-shadow 0.15s ease; 
+      transition: transform 0.15s ease; 
     }
     .menu-card:hover { transform: translateY(-6px); }
-    .menu-card:active { transform: scale(0.96); box-shadow: none; }
     .menu-card i { font-size: 26px; margin-bottom: 8px; color: #ff7f00; }
-    .menu-card span { font-size: 14px; font-weight: 700; text-align: center; color: #374151; }
+    .menu-card span { font-size: 14px; font-weight: 700; color: #374151; }
 
-    /* الزر المركزي البارز (ابدأ اللعبة) */
     .card-center-active { 
       background: linear-gradient(180deg, #ff5722, #f4511e); 
       width: 135px; 
@@ -384,13 +345,7 @@
       border: 4px solid #ffffff; 
       box-shadow: 0 12px 30px rgba(244, 81, 30, 0.35); 
       position: relative;
-      animation: subtlePulse 2s infinite ease-in-out;
     }
-    @keyframes subtlePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-    }
-    .card-center-active:active { transform: scale(0.96) !important; animation: none; }
     .card-center-active::before {
       content: '';
       position: absolute;
@@ -403,7 +358,6 @@
     .card-center-active i { font-size: 36px; color: #ffffff; }
     .card-center-active span { font-size: 16px; font-weight: 900; color: #ffffff; }
 
-    /* القسم السفلي الأبيض بالرئيسية */
     .home-bottom-bg { 
       background: #ffffff; 
       width: 100%; 
@@ -414,7 +368,6 @@
       margin-top: -35px;
       border-top-left-radius: 50px;
       border-top-right-radius: 50px;
-      border-top: 1px solid #f3f4f6;
       position: relative;
       z-index: 5;
     }
@@ -429,49 +382,28 @@
       margin-bottom: 30px;
     }
 
-    .feature-item { 
-      display: flex; 
-      align-items: center; 
-      gap: 15px; 
-      direction: rtl;
-    }
-
+    .feature-item { display: flex; align-items: center; gap: 15px; direction: rtl; }
     .feature-icon-circle {
-      width: 55px; 
-      height: 55px; 
-      border-radius: 50%; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-size: 22px; 
-      flex-shrink: 0;
+      width: 55px; height: 55px; border-radius: 50%; 
+      display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
     }
     .f-pink { background: rgba(255, 127, 0, 0.1); color: #ff7f00; }
     .f-purple { background: rgba(234, 88, 12, 0.1); color: #ea580c; }
-
     .feature-text h4 { font-size: 15px; font-weight: 800; color: #1f2937; margin-bottom: 3px; text-align: right; }
     .feature-text p { font-size: 13px; color: #6b7280; font-weight: 600; text-align: right; line-height: 1.4; }
 
     .footer-credit {
-      font-size: 13px; 
-      color: #4b5563; 
-      font-weight: 700; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      background: #f9fafb; 
-      padding: 8px 22px; 
-      border-radius: 20px; 
-      border: 1px solid #f3f4f6;
-      text-decoration: none;
+      font-size: 13px; color: #4b5563; font-weight: 700; 
+      display: flex; align-items: center; gap: 8px; 
+      background: #f9fafb; padding: 8px 22px; border-radius: 20px; border: 1px solid #f3f4f6;
     }
     .footer-credit span.dev-name { color: #ff7f00; font-weight: 900; }
 
     /* ================================================== */
-    /* تصميم الصفحة الثانية (اختر الفئات والأقسام تحتها) */
+    /* تصميم الصفحة الثانية (اختيار الفئات وتحديد 6 بحد أقصى) */
     /* ================================================== */
     #categoriesPage {
-      display: none; /* مخفية بالبداية وتظهر عند الضغط على ابدأ اللعبة */
+      display: none;
       width: 100vw;
       min-height: 100vh;
       background: #ffffff;
@@ -487,225 +419,103 @@
     .back-home-btn {
       position: absolute;
       top: 25px; right: 25px;
-      background: #f3f4f6;
-      border: none;
-      color: #374151;
-      width: 45px; height: 45px;
-      border-radius: 50%;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s, transform 0.1s ease;
+      background: #f3f4f6; border: none; color: #374151;
+      width: 45px; height: 45px; border-radius: 50%;
+      font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
     .back-home-btn:hover { background: #e5e7eb; }
-    .back-home-btn:active { transform: scale(0.9); }
 
     .categories-page-title {
-      font-size: 45px;
-      font-weight: 900;
-      color: #222222;
-      margin-bottom: 10px;
-      text-align: center;
+      font-size: 42px; font-weight: 900; color: #222222; margin-bottom: 8px; text-align: center;
+    }
+
+    /* عداد اختيار الفئات (مهم جداً عشان تعرف كم اخترت) */
+    .selection-counter-badge {
+      background: #ff7f00;
+      color: white;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(255, 127, 0, 0.25);
     }
 
     .categories-page-desc {
-      font-size: 15px;
-      color: #555555;
-      max-width: 750px;
-      text-align: center;
-      line-height: 1.6;
-      margin-bottom: 25px;
-      font-weight: 600;
+      font-size: 15px; color: #555555; max-width: 750px; text-align: center; line-height: 1.6; margin-bottom: 25px; font-weight: 600;
     }
 
-    /* شريط الأعلام والفلاتر الذي طلبته في الصورة */
     .flags-filter-bar {
-      display: flex;
-      align-items: center;
-      background: #e5e7eb;
-      padding: 6px 14px;
-      border-radius: 35px;
-      gap: 12px;
-      margin-bottom: 25px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-      flex-wrap: wrap;
-      justify-content: center;
+      display: flex; align-items: center; background: #e5e7eb; padding: 8px 20px; border-radius: 35px; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center;
     }
-    .flag-item-icon {
-      font-size: 22px;
-      cursor: pointer;
-      transition: transform 0.15s ease;
-    }
+    .flag-item-icon { font-size: 22px; cursor: pointer; transition: transform 0.15s ease; }
     .flag-item-icon:hover { transform: scale(1.15); }
     
-    .filter-pills-group {
-      display: flex;
-      background: #4b5563;
-      padding: 4px;
-      border-radius: 20px;
-      gap: 4px;
-    }
-    .filter-pill-btn {
-      background: transparent;
-      border: none;
-      color: white;
-      width: 32px; height: 28px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 13px;
-    }
+    .filter-pills-group { display: flex; background: #4b5563; padding: 5px 8px; border-radius: 20px; gap: 6px; align-items: center; }
+    .filter-pill-btn { background: transparent; border: none; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
     .filter-pill-btn.active { background: #f97316; }
-    .all-pill {
-      background: transparent;
-      border: none;
-      color: #374151;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-      padding: 0 8px;
-    }
+    .all-pill { background: #d1d5db; border: none; color: #1f2937; font-weight: 900; font-size: 12px; cursor: pointer; padding: 4px 12px; border-radius: 15px; }
 
-    /* شريط البحث وزر الاختيار العشوائي */
     .search-and-random-container {
-      display: flex;
-      gap: 15px;
-      width: 100%;
-      max-width: 850px;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 35px;
+      display: flex; gap: 15px; width: 100%; max-width: 850px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 35px;
     }
     .search-input-box {
-      flex: 1;
-      min-width: 300px;
-      position: relative;
-      background: #ffffff;
-      border: 3px solid #f97316;
-      border-radius: 40px;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      height: 55px;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.1);
+      flex: 1; min-width: 300px; position: relative; background: #ffffff; border: 3px solid #f97316; border-radius: 40px; display: flex; align-items: center; padding: 0 20px; height: 55px;
     }
-    .search-input-box input {
-      width: 100%;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      background: transparent;
-      text-align: right;
-      color: #333;
-      font-weight: 700;
-    }
+    .search-input-box input { width: 100%; border: none; outline: none; font-size: 16px; background: transparent; text-align: right; color: #333; font-weight: 700; }
     .search-input-box input::placeholder { color: #f97316; opacity: 0.8; }
     .search-input-box i { color: #f97316; font-size: 20px; margin-left: 10px; }
 
     .random-choice-btn {
-      background: #fb923c;
-      border: none;
-      border-radius: 40px;
-      padding: 0 25px;
-      height: 55px;
-      color: white;
-      font-size: 16px;
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      cursor: pointer;
+      background: #fb923c; border: none; border-radius: 40px; padding: 0 25px; height: 55px; color: white; font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
       box-shadow: 0 6px 20px rgba(251, 146, 60, 0.4);
-      transition: transform 0.1s ease, background 0.2s;
     }
-    .random-choice-btn:hover { background: #f97316; transform: translateY(-2px); }
-    .random-choice-btn:active { transform: scale(0.97); }
+    .random-choice-btn:hover { background: #f97316; }
 
-    /* شبكة الفئات والأقسام التي تحت الصورة والشريط */
+    /* شبكة الفئات والتعديلات البصرية لحالة التعتيم */
     .categories-grid-container {
-      max-width: 1100px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 18px;
-      background: #fdfbf7;
-      padding: 20px;
-      border-radius: 25px;
-      border: 2px solid #fed7aa;
+      max-width: 1100px; width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 18px; background: #fdfbf7; padding: 20px; border-radius: 25px; border: 2px solid #fed7aa;
     }
 
     .category-card-item {
-      background: #ffffff;
-      border: 2px solid #fed7aa;
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.06);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s;
-      cursor: pointer;
+      background: #ffffff; border: 2px solid #fed7aa; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 6px 15px rgba(0,0,0,0.06); cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .category-card-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(255,127,0,0.2);
-      border-color: #ff7f00;
-    }
-    .category-card-item:active { transform: scale(0.96); box-shadow: none; }
     
-    .cat-info-icon {
-      position: absolute;
-      top: 8px; left: 8px;
-      background: #3b82f6;
-      color: white;
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      z-index: 2;
+    /* عند اختيار الفئة: يصبح لون إطارها مميزاً */
+    .category-card-item.selected {
+      border-color: #10b981;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+      transform: translateY(-4px);
     }
-    .cat-img-box {
-      width: 100%;
-      height: 105px;
-      background: #fff7ed;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      position: relative;
-    }
-    .cat-img-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .cat-title-bar {
-      background: #ff7f00;
-      color: white;
-      text-align: center;
-      padding: 8px 5px;
-      font-size: 13px;
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .category-card-item.selected .cat-title-bar {
+      background: #10b981;
     }
 
-    /* التجاوب مع الهواتف */
+    /* عندما تصبح الفئة باهتة (عند اكتمال الـ 6 فئات ولم تُختر) */
+    .category-card-item.dimmed {
+      opacity: 0.35;
+      filter: grayscale(60%);
+      pointer-events: none; /* تمنع الضغط عليها تماماً */
+    }
+
+    .cat-info-icon {
+      position: absolute; top: 8px; left: 8px; background: #3b82f6; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 2;
+    }
+    .cat-img-box {
+      width: 100%; height: 105px; background: #fff7ed; display: flex; align-items: center; justify-content: center; padding: 10px; position: relative;
+    }
+    .cat-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .cat-title-bar {
+      background: #ff7f00; color: white; text-align: center; padding: 8px 5px; font-size: 13px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background 0.2s;
+    }
+
     @media (max-width: 768px) {
       .main-logo-text { font-size: 55px; }
       .main-menu { gap: 10px; margin-top: -65px; }
       .menu-card { width: 85px; height: 105px; border-radius: 18px; }
       .card-center-active { width: 110px; height: 120px; }
-      .categories-page-title { font-size: 34px; }
+      .categories-page-title { font-size: 32px; }
       .search-and-random-container { flex-direction: column; }
       .search-input-box { width: 100%; min-width: unset; }
       .random-choice-btn { width: 100%; }
@@ -717,12 +527,10 @@
   <!-- الشاشة الرئيسية الأولى -->
   <div id="homeScreen">
     <div class="top-section">
-      <!-- زر كتم/إلغاء الصوت -->
       <button class="icon-btn sound-btn" onclick="toggleSound()" title="التحكم بالصوت">
         <i id="soundIcon" class="fa-solid fa-volume-high"></i>
       </button>
 
-      <!-- زر الإدارة -->
       <button class="icon-btn settings-btn" onclick="openManagement()" title="إدارة ورتب الموقع">
         <i class="fa-solid fa-shield-halved"></i>
       </button>
@@ -736,7 +544,6 @@
       </div>
     </div>
 
-    <!-- الأزرار الـ 7 الرئيسية -->
     <div class="main-menu">
       <div class="menu-card" onclick="playClickSound(); showToast('قريباً: قسم المفضلة')">
         <i class="fa-solid fa-bookmark"></i>
@@ -751,7 +558,6 @@
         <span>الأوسمة</span>
       </div>
 
-      <!-- الزر المركزي البارز: ابدأ اللعبة (ينقلنا للصفحة الثانية) -->
       <div class="menu-card card-center-active" onclick="openCategoriesPage()">
         <i class="fa-solid fa-play"></i>
         <span>ابدأ اللعبة</span>
@@ -771,7 +577,6 @@
       </div>
     </div>
 
-    <!-- القسم السفلي الأبيض -->
     <div class="home-bottom-bg">
       <div class="features-container">
         <div class="feature-item">
@@ -798,16 +603,15 @@
 
 
   <!-- ======================================================= -->
-  <!-- الصفحة الثانية: "اختر الفئات" مع الأعلام والشريط وتحتها الفئات -->
+  <!-- الصفحة الثانية: اختيار الفئات (بحد أقصى 6 وتعتيم الباقي) -->
   <!-- ======================================================= -->
   <div id="categoriesPage">
-    <!-- زر العودة للصفحة الرئيسية -->
     <button class="back-home-btn" onclick="closeCategoriesPage()" title="العودة للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
 
     <h1 class="categories-page-title">اختر الفئات</h1>
+    <div class="selection-counter-badge" id="selectionCounterText">تم اختيار: 0 / 6 فئات</div>
     <p class="categories-page-desc">٣ فئات لفريقك، و ٣ فئات للفريق المنافس، بمجموع ٦ فئات بـ ٣٦ سؤال مختلف، اختاروا الفئات بعناية عشان تضمنون الفرصة الأكبر للفوز</p>
 
-    <!-- شريط الأعلام والفلاتر المطابق للصورة -->
     <div class="flags-filter-bar">
       <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة الأردن')">🇯🇴</span>
       <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة البحرين')">🇧🇭</span>
@@ -826,7 +630,6 @@
       <button class="all-pill" onclick="playClickSound(); showToast('عرض الكل')">ALL</button>
     </div>
 
-    <!-- شريط البحث وزر الاختيار العشوائي -->
     <div class="search-and-random-container">
       <div class="search-input-box">
         <input type="text" placeholder="البحث باسم الفئة" id="categorySearchInput">
@@ -839,192 +642,134 @@
       </button>
     </div>
 
-    <!-- شبكة الفئات الـ 20 تحت الصورة والشريط -->
-    <div class="categories-grid-container">
-      <!-- 1: ما هي المدينة -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: ما هي المدينة')">
+    <!-- شبكة الفئات الـ 20 -->
+    <div class="categories-grid-container" id="categoriesGrid">
+      
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 0%, 14% 0%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, 35%);" alt="ما هي المدينة">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 0%, 14% 0%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, 35%);" alt="ما هي المدينة"></div>
         <div class="cat-title-bar">ما هي المدينة</div>
       </div>
 
-      <!-- 2: جوازات -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: جوازات')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 0%, 28% 0%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, 35%);" alt="جوازات">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 0%, 28% 0%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, 35%);" alt="جوازات"></div>
         <div class="cat-title-bar">جوازات</div>
       </div>
 
-      <!-- 3: زووم -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: زووم')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 0%, 42% 0%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, 35%);" alt="زووم">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 0%, 42% 0%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, 35%);" alt="زووم"></div>
         <div class="cat-title-bar">زووم</div>
       </div>
 
-      <!-- 4: خمن الصوت -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: خمن الصوت')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 0%, 57% 0%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, 35%);" alt="خمن الصوت">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 0%, 57% 0%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, 35%);" alt="خمن الصوت"></div>
         <div class="cat-title-bar">خمن الصوت</div>
       </div>
 
-      <!-- 5: ترتيب -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: ترتيب')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 0%, 71% 0%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, 35%);" alt="ترتيب">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 0%, 71% 0%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, 35%);" alt="ترتيب"></div>
         <div class="cat-title-bar">ترتيب</div>
       </div>
 
-      <!-- 6: وضح شوي -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: وضح شوي')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 0%, 85% 0%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, 35%);" alt="وضح شوي">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 0%, 85% 0%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, 35%);" alt="وضح شوي"></div>
         <div class="cat-title-bar">وضح شوي</div>
       </div>
 
-      <!-- 7: فن قطري -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: فن قطري')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 0%, 100% 0%, 100% 100%, 85% 100%); transform: scale(3.5) translate(-80%, 35%);" alt="فن قطري">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 0%, 100% 0%, 100% 100%, 85% 100%); transform: scale(3.5) translate(-80%, 35%);" alt="فن قطري"></div>
         <div class="cat-title-bar">فن قطري</div>
       </div>
 
-      <!-- 8: نحو وإعراب -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: نحو وإعراب')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 33%, 14% 33%, 14% 66%, 0% 66%); transform: scale(3.5) translate(40%, 0%);" alt="نحو وإعراب">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 33%, 14% 33%, 14% 66%, 0% 66%); transform: scale(3.5) translate(40%, 0%);" alt="نحو وإعراب"></div>
         <div class="cat-title-bar">نحو وإعراب</div>
       </div>
 
-      <!-- 9: وين بالأردن -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: وين بالأردن')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 33%, 28% 33%, 28% 66%, 14% 66%); transform: scale(3.5) translate(20%, 0%);" alt="وين بالأردن">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 33%, 28% 33%, 28% 66%, 14% 66%); transform: scale(3.5) translate(20%, 0%);" alt="وين بالأردن"></div>
         <div class="cat-title-bar">وين بالأردن</div>
       </div>
 
-      <!-- 10: حكايات مسرحيات -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: حكايات مسرحيات')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 33%, 42% 33%, 42% 66%, 28% 66%); transform: scale(3.5) translate(0%, 0%);" alt="حكايات مسرحيات">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 33%, 42% 33%, 42% 66%, 28% 66%); transform: scale(3.5) translate(0%, 0%);" alt="حكايات مسرحيات"></div>
         <div class="cat-title-bar">حكايات مسرحيات</div>
       </div>
 
-      <!-- 11: مسيرة فنان أجنبي -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: مسيرة فنان أجنبي')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 33%, 57% 33%, 57% 66%, 42% 66%); transform: scale(3.5) translate(-20%, 0%);" alt="مسيرة فنان أجنبي">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 33%, 57% 33%, 57% 66%, 42% 66%); transform: scale(3.5) translate(-20%, 0%);" alt="مسيرة فنان أجنبي"></div>
         <div class="cat-title-bar">مسيرة فنان أجنبي</div>
       </div>
 
-      <!-- 12: كأس العالم 26 -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: كأس العالم 26')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 33%, 71% 33%, 71% 66%, 57% 66%); transform: scale(3.5) translate(-40%, 0%);" alt="كأس العالم 26">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 33%, 71% 33%, 71% 66%, 57% 66%); transform: scale(3.5) translate(-40%, 0%);" alt="كأس العالم 26"></div>
         <div class="cat-title-bar">كأس العالم 26</div>
       </div>
 
-      <!-- 13: كابتن كأس العالم -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: كابتن كأس العالم')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 33%, 85% 33%, 85% 66%, 71% 66%); transform: scale(3.5) translate(-60%, 0%);" alt="كابتن كأس العالم">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 33%, 85% 33%, 85% 66%, 71% 66%); transform: scale(3.5) translate(-60%, 0%);" alt="كابتن كأس العالم"></div>
         <div class="cat-title-bar">كابتن كأس العالم</div>
       </div>
 
-      <!-- 14: ترتيب كروي -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: ترتيب كروي')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 33%, 100% 33%, 100% 66%, 85% 66%); transform: scale(3.5) translate(-80%, 0%);" alt="ترتيب كروي">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 33%, 100% 33%, 100% 66%, 85% 66%); transform: scale(3.5) translate(-80%, 0%);" alt="ترتيب كروي"></div>
         <div class="cat-title-bar">ترتيب كروي</div>
       </div>
 
-      <!-- 15: نيران -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: نيران')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 66%, 14% 66%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, -35%);" alt="نيران">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 66%, 14% 66%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, -35%);" alt="نيران"></div>
         <div class="cat-title-bar">نيران</div>
       </div>
 
-      <!-- 16: حروف انجليزي -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: حروف انجليزي')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 66%, 28% 66%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, -35%);" alt="حروف انجليزي">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 66%, 28% 66%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, -35%);" alt="حروف انجليزي"></div>
         <div class="cat-title-bar">حروف انجليزي</div>
       </div>
 
-      <!-- 17: League of Legends -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: League of Legends')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 66%, 42% 66%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, -35%);" alt="League of Legends">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 66%, 42% 66%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, -35%);" alt="League of Legends"></div>
         <div class="cat-title-bar">League of Legends</div>
       </div>
 
-      <!-- 18: Overwatch -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: Overwatch')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 66%, 57% 66%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, -35%);" alt="Overwatch">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 66%, 57% 66%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, -35%);" alt="Overwatch"></div>
         <div class="cat-title-bar">Overwatch</div>
       </div>
 
-      <!-- 19: One Piece Manga -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: One Piece Manga')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 66%, 71% 66%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, -35%);" alt="One Piece Manga">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 66%, 71% 66%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, -35%);" alt="One Piece Manga"></div>
         <div class="cat-title-bar">One Piece Manga</div>
       </div>
 
-      <!-- 20: كرة سلة -->
-      <div class="category-card-item" onclick="playClickSound(); showToast('تم اختيار فئة: كرة سلة')">
+      <div class="category-card-item" onclick="toggleCategorySelection(this)">
         <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box">
-          <img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 66%, 85% 66%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, -35%);" alt="كرة سلة">
-        </div>
+        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 66%, 85% 66%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, -35%);" alt="كرة سلة"></div>
         <div class="cat-title-bar">كرة سلة</div>
       </div>
+
     </div>
   </div>
 
 
-  <!-- نافذة ترحيبية عند الدخول -->
+  <!-- النوافذ المساعدة (ترحيب + إدارة) -->
   <div id="welcomeModal">
     <div class="welcome-content">
       <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
@@ -1037,7 +782,6 @@
     </div>
   </div>
 
-  <!-- نافذة الإدارة والرتب -->
   <div id="managementModal">
     <div class="management-content">
       <div class="management-header">
@@ -1067,17 +811,6 @@
         <div class="rank-title">👑 المدير العام (Owner)</div>
         <div class="rank-perms">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
       </div>
-
-      <div class="rank-card">
-        <div class="rank-title">🛡️ مشرف عام (Admin)</div>
-        <div class="rank-perms">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title">⭐ مساعد إداري (Moderator)</div>
-        <div class="rank-perms">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
-      </div>
-
       <button class="save-settings-btn" onclick="closeManagement()">إغلاق</button>
     </div>
   </div>
@@ -1093,6 +826,10 @@
                            
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
+
+    // متغير لتتبع عدد الفئات المختارة
+    let selectedCategoriesCount = 0;
+    const maxCategoriesSelection = 6;
 
     window.addEventListener('DOMContentLoaded', () => {
       const soundIcon = document.getElementById('soundIcon');
@@ -1132,7 +869,6 @@
       document.getElementById('managementModal').style.display = 'none';
     }
 
-    // التنقل إلى الصفحة الثانية (اختر الفئات والأقسام)
     function openCategoriesPage() {
       playClickSound();
       document.getElementById('homeScreen').style.display = 'none';
@@ -1140,11 +876,53 @@
       window.scrollTo(0, 0);
     }
 
-    // العودة للصفحة الرئيسية
     function closeCategoriesPage() {
       playClickSound();
       document.getElementById('categoriesPage').style.display = 'none';
       document.getElementById('homeScreen').style.display = 'flex';
+    }
+
+    // دالة التعامل مع اختيار الفئات والتحكم بتعتيم الباقي عند الوصول لـ 6
+    function toggleCategorySelection(cardElement) {
+      playClickSound();
+      const isSelected = cardElement.classList.contains('selected');
+
+      if (isSelected) {
+        // إذا كانت مختارة وتم النقر عليها لإلغاء تحديدها
+        cardElement.classList.remove('selected');
+        selectedCategoriesCount--;
+        updateCategoriesDimmingState();
+      } else {
+        // إذا لم تكن مختارة ونريد اختيارها
+        if (selectedCategoriesCount >= maxCategoriesSelection) {
+          showToast("لقد اخترت الحد الأقصى (6 فئات) بالفعل!");
+          return;
+        }
+        cardElement.classList.add('selected');
+        selectedCategoriesCount++;
+        updateCategoriesDimmingState();
+      }
+
+      // تحديث نص العداد
+      document.getElementById('selectionCounterText').innerText = `تم اختيار: ${selectedCategoriesCount} / ${maxCategoriesSelection} فئات`;
+      
+      if (selectedCategoriesCount === maxCategoriesSelection) {
+        showToast("ممتاز! لقد اخترت الـ 6 فئات كاملة بنجاح");
+      }
+    }
+
+    // دالة لتعتيم البطاقات الباقية إذا وصل العداد إلى 6، أو إرجاعها لوضعها الطبيعي إذا قلّت
+    function updateCategoriesDimmingState() {
+      const allCards = document.querySelectorAll('.category-card-item');
+      allCards.forEach(card => {
+        if (selectedCategoriesCount >= maxCategoriesSelection) {
+          if (!card.classList.contains('selected')) {
+            card.classList.add('dimmed');
+          }
+        } else {
+          card.classList.remove('dimmed');
+        }
+      });
     }
 
     function assignUserRank(event) {
