@@ -1,997 +1,333 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سليني - Saleny</title>
-  <link rel="icon" type="image/png" href="https://i.ibb.co/3ykX1sWb/image-ccd465.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سليني - إعدادات اللعبة</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+            padding: 30px;
+            margin: 0;
+        }
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #ff7f00;
-      overflow-x: hidden;
-    }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+        }
 
-    #toastNotification {
-      position: fixed;
-      top: -80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ff7f00;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: bold;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      z-index: 9999;
-      transition: top 0.4s ease-in-out;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    #toastNotification.show { top: 25px; }
+        h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: #111;
+        }
 
-    #welcomeModal {
-      display: flex;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 20000;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(8px);
-      padding: 20px;
-    }
-    .welcome-content {
-      background: #ffffff;
-      border: 3px solid #ff7f00;
-      border-radius: 35px;
-      width: 100%;
-      max-width: 420px;
-      padding: 35px 25px 25px 25px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(255, 127, 0, 0.3);
-      animation: popIn 0.4s ease-out;
-    }
-    @keyframes popIn {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .welcome-icon {
-      font-size: 55px;
-      color: #ff7f00;
-      margin-bottom: 15px;
-      animation: bounce 1.5s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    .welcome-content h2 {
-      font-size: 22px;
-      color: #333333;
-      margin-bottom: 20px;
-      font-weight: 800;
-      line-height: 1.6;
-    }
-    .insta-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: bold;
-      box-shadow: 0 8px 20px rgba(220, 39, 67, 0.4);
-      transition: transform 0.1s ease, opacity 0.2s;
-      margin-bottom: 12px;
-    }
-    .insta-btn:hover { transform: translateY(-2px); opacity: 0.95; }
-    .close-modal-btn {
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      color: #374151;
-      width: 100%;
-      padding: 12px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .close-modal-btn:hover { background: #e5e7eb; }
+        /* حقل اسم اللعبة */
+        .game-name-section {
+            margin-bottom: 35px;
+        }
 
-    #managementModal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 15000;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(5px);
-      padding: 20px;
-    }
-    .management-content {
-      background: #ffffff;
-      border: 2px solid #ff7f00;
-      border-radius: 30px;
-      width: 100%;
-      max-width: 550px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 25px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    }
-    .management-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #f3f4f6;
-      padding-bottom: 12px;
-    }
-    .management-header h3 {
-      font-size: 20px;
-      color: #ff7f00;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .admin-control-box {
-      background: #fff7ed;
-      border: 1px solid #ffedd5;
-      border-radius: 18px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-    .admin-control-box h4 {
-      font-size: 16px;
-      color: #c2410c;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .form-group { margin-bottom: 10px; }
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px 14px;
-      background: #ffffff;
-      border: 1px solid #fed7aa;
-      border-radius: 12px;
-      color: #1f2937;
-      font-size: 14px;
-      outline: none;
-    }
-    .form-group input:focus, .form-group select:focus { border-color: #ff7f00; }
-    .assign-btn {
-      background: linear-gradient(90deg, #ff7f00, #ea580c);
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 10px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-    .assigned-users-list { margin-top: 15px; max-height: 180px; overflow-y: auto; }
-    .user-rank-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #ffffff;
-      padding: 8px 12px;
-      border-radius: 10px;
-      margin-bottom: 8px;
-      border: 1px solid #fed7aa;
-      font-size: 14px;
-      color: #1f2937;
-    }
-    .delete-rank-btn { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 16px; }
-    .rank-card {
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      border-radius: 15px;
-      padding: 15px;
-      margin-bottom: 12px;
-    }
-    .rank-title {
-      font-size: 17px;
-      font-weight: bold;
-      color: #c2410c;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .rank-perms { font-size: 14px; color: #9a3412; line-height: 1.5; }
-    .close-settings-btn { background: transparent; border: none; color: #6b7280; font-size: 22px; cursor: pointer; }
-    .save-settings-btn {
-      background: linear-gradient(90deg, #ff7f00, #ea580c);
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 12px;
-      border-radius: 15px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+        input[type="text"] {
+            width: 65%;
+            padding: 14px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 35px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
 
-    #homeScreen {
-      width: 100vw;
-      min-height: 100vh;
-      background: #ff7f00;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-    }
+        input[type="text"]:focus {
+            border-color: #ff5722;
+        }
 
-    .top-section {
-      padding: 30px 30px 110px 30px;
-      text-align: center;
-      color: white;
-      position: relative;
-    }
+        /* قسم الفرق */
+        .teams-section {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
 
-    .icon-btn {
-      position: absolute; 
-      top: 30px; 
-      background: rgba(255, 255, 255, 0.2); 
-      border: 1px solid rgba(255, 255, 255, 0.4); 
-      color: white; 
-      width: 48px; 
-      height: 48px; 
-      border-radius: 50%; 
-      font-size: 18px; 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      backdrop-filter: blur(5px);
-      transition: background 0.2s, transform 0.1s ease;
-    }
-    .icon-btn:hover { background: rgba(255, 255, 255, 0.35); }
-    .sound-btn { left: 30px; }
-    .settings-btn { right: 30px; }
+        .team-box {
+            flex: 1;
+            background: #fff;
+            padding: 15px;
+        }
 
-    .brand-header-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-top: 5px;
-    }
+        .team-box h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
 
-    .main-logo-text {
-      font-size: 75px;
-      font-weight: 900;
-      color: #ffffff;
-      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      line-height: 1.1;
-      margin-bottom: 2px;
-    }
+        /* وسائل المساعدة */
+        .helpers-grid {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
 
-    .crown-icon { color: #ffffff; font-size: 32px; margin-bottom: -10px; }
+        .help-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 2px solid #b0bec5;
+            background-color: #fff;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+            padding: 2px;
+        }
 
-    .subtitle { 
-      font-size: 17px; 
-      margin-top: 10px; 
-      font-weight: 700; 
-      color: #ffffff; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 6px; 
-    }
-    .subtitle span { color: #ffe4e6; font-size: 18px; }
+        .help-btn.selected {
+            background-color: #e3f2fd;
+            border-color: #2196F3;
+            color: #0d47a1;
+            box-shadow: 0 0 8px rgba(33, 150, 243, 0.4);
+        }
 
-    .main-menu { 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      gap: 14px; 
-      margin-top: -85px; 
-      position: relative; 
-      z-index: 10; 
-      padding: 0 20px; 
-      flex-wrap: wrap; 
-    }
+        .help-btn.dimmed {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background-color: #f1f1f1;
+            border-color: #ddd;
+        }
 
-    .menu-card { 
-      width: 105px; 
-      height: 125px; 
-      border-radius: 22px; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      color: #4b5563; 
-      background: #ffffff;
-      border: 1px solid #f3f4f6;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
-      cursor: pointer; 
-      transition: transform 0.15s ease; 
-    }
-    .menu-card:hover { transform: translateY(-6px); }
-    .menu-card i { font-size: 26px; margin-bottom: 8px; color: #ff7f00; }
-    .menu-card span { font-size: 14px; font-weight: 700; color: #374151; }
+        /* قسم الفئات */
+        .categories-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px dashed #eee;
+        }
 
-    .card-center-active { 
-      background: linear-gradient(180deg, #ff5722, #f4511e); 
-      width: 135px; 
-      height: 140px; 
-      border-radius: 26px; 
-      border: 4px solid #ffffff; 
-      box-shadow: 0 12px 30px rgba(244, 81, 30, 0.35); 
-      position: relative;
-    }
-    .card-center-active::before {
-      content: '';
-      position: absolute;
-      top: -16px; left: 50%;
-      transform: translateX(-50%);
-      width: 22px; height: 7px;
-      background: #ffffff; border-radius: 4px;
-      box-shadow: 10px -5px 0 #ffffff, -10px -5px 0 #ffffff;
-    }
-    .card-center-active i { font-size: 36px; color: #ffffff; }
-    .card-center-active span { font-size: 16px; font-weight: 900; color: #ffffff; }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .home-bottom-bg { 
-      background: #ffffff; 
-      width: 100%; 
-      padding: 55px 30px 25px 30px;
-      display: flex; 
-      flex-direction: column; 
-      align-items: center;
-      margin-top: -35px;
-      border-top-left-radius: 50px;
-      border-top-right-radius: 50px;
-      position: relative;
-      z-index: 5;
-    }
+        .category-card {
+            padding: 14px;
+            background: #f1f3f4;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
 
-    .features-container {
-      display: flex; 
-      justify-content: center; 
-      gap: 50px; 
-      max-width: 1100px; 
-      width: 100%; 
-      flex-wrap: wrap; 
-      margin-bottom: 30px;
-    }
+        .category-card.selected {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #388E3C;
+            font-weight: bold;
+        }
 
-    .feature-item { display: flex; align-items: center; gap: 15px; direction: rtl; }
-    .feature-icon-circle {
-      width: 55px; height: 55px; border-radius: 50%; 
-      display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
-    }
-    .f-pink { background: rgba(255, 127, 0, 0.1); color: #ff7f00; }
-    .f-purple { background: rgba(234, 88, 12, 0.1); color: #ea580c; }
-    .feature-text h4 { font-size: 15px; font-weight: 800; color: #1f2937; margin-bottom: 3px; text-align: right; }
-    .feature-text p { font-size: 13px; color: #6b7280; font-weight: 600; text-align: right; line-height: 1.4; }
+        .category-card.dimmed {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background-color: #e0e0e0;
+        }
 
-    .footer-credit {
-      font-size: 13px; color: #4b5563; font-weight: 700; 
-      display: flex; align-items: center; gap: 8px; 
-      background: #f9fafb; padding: 8px 22px; border-radius: 20px; border: 1px solid #f3f4f6;
-    }
-    .footer-credit span.dev-name { color: #ff7f00; font-weight: 900; }
+        #counter {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
 
-    /* ================================================== */
-    /* تصميم الصفحة الثانية (اختيار الفئات وتحديد 6 بحد أقصى) */
-    /* ================================================== */
-    #categoriesPage {
-      display: none;
-      width: 100vw;
-      min-height: 100vh;
-      background: #ffffff;
-      position: absolute;
-      top: 0; left: 0;
-      z-index: 1000;
-      flex-direction: column;
-      align-items: center;
-      padding: 30px 20px 50px 20px;
-      direction: rtl;
-    }
+        /* زر البدء */
+        .start-btn-container {
+            margin-top: 40px;
+        }
 
-    .back-home-btn {
-      position: absolute;
-      top: 25px; right: 25px;
-      background: #f3f4f6; border: none; color: #374151;
-      width: 45px; height: 45px; border-radius: 50%;
-      font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    .back-home-btn:hover { background: #e5e7eb; }
+        .start-btn {
+            background: linear-gradient(135deg, #ff9800, #f44336);
+            color: white;
+            border: none;
+            padding: 16px 70px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+            transition: opacity 0.3s, transform 0.2s;
+        }
 
-    .categories-page-title {
-      font-size: 42px; font-weight: 900; color: #222222; margin-bottom: 8px; text-align: center;
-    }
+        .start-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
 
-    /* عداد اختيار الفئات (مهم جداً عشان تعرف كم اخترت) */
-    .selection-counter-badge {
-      background: #ff7f00;
-      color: white;
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      box-shadow: 0 4px 10px rgba(255, 127, 0, 0.25);
-    }
-
-    .categories-page-desc {
-      font-size: 15px; color: #555555; max-width: 750px; text-align: center; line-height: 1.6; margin-bottom: 25px; font-weight: 600;
-    }
-
-    .flags-filter-bar {
-      display: flex; align-items: center; background: #e5e7eb; padding: 8px 20px; border-radius: 35px; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; justify-content: center;
-    }
-    .flag-item-icon { font-size: 22px; cursor: pointer; transition: transform 0.15s ease; }
-    .flag-item-icon:hover { transform: scale(1.15); }
-    
-    .filter-pills-group { display: flex; background: #4b5563; padding: 5px 8px; border-radius: 20px; gap: 6px; align-items: center; }
-    .filter-pill-btn { background: transparent; border: none; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
-    .filter-pill-btn.active { background: #f97316; }
-    .all-pill { background: #d1d5db; border: none; color: #1f2937; font-weight: 900; font-size: 12px; cursor: pointer; padding: 4px 12px; border-radius: 15px; }
-
-    .search-and-random-container {
-      display: flex; gap: 15px; width: 100%; max-width: 850px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 35px;
-    }
-    .search-input-box {
-      flex: 1; min-width: 300px; position: relative; background: #ffffff; border: 3px solid #f97316; border-radius: 40px; display: flex; align-items: center; padding: 0 20px; height: 55px;
-    }
-    .search-input-box input { width: 100%; border: none; outline: none; font-size: 16px; background: transparent; text-align: right; color: #333; font-weight: 700; }
-    .search-input-box input::placeholder { color: #f97316; opacity: 0.8; }
-    .search-input-box i { color: #f97316; font-size: 20px; margin-left: 10px; }
-
-    .random-choice-btn {
-      background: #fb923c; border: none; border-radius: 40px; padding: 0 25px; height: 55px; color: white; font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
-      box-shadow: 0 6px 20px rgba(251, 146, 60, 0.4);
-    }
-    .random-choice-btn:hover { background: #f97316; }
-
-    /* شبكة الفئات والتعديلات البصرية لحالة التعتيم */
-    .categories-grid-container {
-      max-width: 1100px; width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 18px; background: #fdfbf7; padding: 20px; border-radius: 25px; border: 2px solid #fed7aa;
-    }
-
-    .category-card-item {
-      background: #ffffff; border: 2px solid #fed7aa; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 6px 15px rgba(0,0,0,0.06); cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    /* عند اختيار الفئة: يصبح لون إطارها مميزاً */
-    .category-card-item.selected {
-      border-color: #10b981;
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-      transform: translateY(-4px);
-    }
-    .category-card-item.selected .cat-title-bar {
-      background: #10b981;
-    }
-
-    /* عندما تصبح الفئة باهتة (عند اكتمال الـ 6 فئات ولم تُختر) */
-    .category-card-item.dimmed {
-      opacity: 0.35;
-      filter: grayscale(60%);
-      pointer-events: none; /* تمنع الضغط عليها تماماً */
-    }
-
-    .cat-info-icon {
-      position: absolute; top: 8px; left: 8px; background: #3b82f6; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 2;
-    }
-    .cat-img-box {
-      width: 100%; height: 105px; background: #fff7ed; display: flex; align-items: center; justify-content: center; padding: 10px; position: relative;
-    }
-    .cat-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .cat-title-bar {
-      background: #ff7f00; color: white; text-align: center; padding: 8px 5px; font-size: 13px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background 0.2s;
-    }
-
-    @media (max-width: 768px) {
-      .main-logo-text { font-size: 55px; }
-      .main-menu { gap: 10px; margin-top: -65px; }
-      .menu-card { width: 85px; height: 105px; border-radius: 18px; }
-      .card-center-active { width: 110px; height: 120px; }
-      .categories-page-title { font-size: 32px; }
-      .search-and-random-container { flex-direction: column; }
-      .search-input-box { width: 100%; min-width: unset; }
-      .random-choice-btn { width: 100%; }
-    }
-  </style>
+        .start-btn:not(:disabled):hover {
+            transform: scale(1.02);
+        }
+    </style>
 </head>
 <body>
 
-  <!-- الشاشة الرئيسية الأولى -->
-  <div id="homeScreen">
-    <div class="top-section">
-      <button class="icon-btn sound-btn" onclick="toggleSound()" title="التحكم بالصوت">
-        <i id="soundIcon" class="fa-solid fa-volume-high"></i>
-      </button>
+    <div class="container">
+        <h2>حدد معلومات الفرق</h2>
 
-      <button class="icon-btn settings-btn" onclick="openManagement()" title="إدارة ورتب الموقع">
-        <i class="fa-solid fa-shield-halved"></i>
-      </button>
-
-      <div class="brand-header-container">
-        <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
-        <h1 class="main-logo-text">سليني</h1>
-        <div class="subtitle">
-          <span>أقوى</span> منصة مسابقات وتحديات عربية تفاعلية
+        <!-- اسم اللعبة -->
+        <div class="game-name-section">
+            <input type="text" id="gameName" placeholder="اسم اللعبة" oninput="validateForm()">
         </div>
-      </div>
-    </div>
 
-    <div class="main-menu">
-      <div class="menu-card" onclick="playClickSound(); showToast('قريباً: قسم المفضلة')">
-        <i class="fa-solid fa-bookmark"></i>
-        <span>المفضلة</span>
-      </div>
-      <div class="menu-card" onclick="playClickSound(); showToast('قريباً: سجل النتائج')">
-        <i class="fa-solid fa-chart-line"></i>
-        <span>النتائج</span>
-      </div>
-      <div class="menu-card" onclick="playClickSound(); showToast('قريباً: الإنجازات')">
-        <i class="fa-solid fa-trophy"></i>
-        <span>الأوسمة</span>
-      </div>
+        <!-- أسماء الفرق ووسائل المساعدة -->
+        <div class="teams-section">
+            <!-- الفريق الأول -->
+            <div class="team-box">
+                <h3>الفريق الأول</h3>
+                <input type="text" id="team1Name" placeholder="اسم الفريق" oninput="validateForm()">
+                <p style="margin: 15px 0 5px; font-size: 14px;">الفريق الأول : اختر 3 وسائل مساعدة</p>
+                <div class="helpers-grid" id="team1Helpers">
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">جاوب جواوب</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">اتصال بصديق</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الحفرة</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">استريح</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الفخ</button>
+                </div>
+            </div>
 
-      <div class="menu-card card-center-active" onclick="openCategoriesPage()">
-        <i class="fa-solid fa-play"></i>
-        <span>ابدأ اللعبة</span>
-      </div>
-
-      <div class="menu-card" onclick="playClickSound(); showToast('قريباً: إنشاء غرفة')">
-        <i class="fa-solid fa-users"></i>
-        <span>الغرف</span>
-      </div>
-      <div class="menu-card" onclick="playClickSound(); showToast('قريباً: قسم الإعدادات')">
-        <i class="fa-solid fa-gear"></i>
-        <span>الإعدادات</span>
-      </div>
-      <div class="menu-card" onclick="playClickSound(); showToast('قريباً: المتجر والمكافآت')">
-        <i class="fa-solid fa-store"></i>
-        <span>المتجر</span>
-      </div>
-    </div>
-
-    <div class="home-bottom-bg">
-      <div class="features-container">
-        <div class="feature-item">
-          <div class="feature-icon-circle f-pink"><i class="fa-solid fa-bolt"></i></div>
-          <div class="feature-text">
-            <h4>تحديات فورية ومباشرة</h4>
-            <p>العب مع أصدقائك في أي وقت وبكل سهولة</p>
-          </div>
+            <!-- الفريق الثاني -->
+            <div class="team-box">
+                <h3>الفريق الثاني</h3>
+                <input type="text" id="team2Name" placeholder="اسم الفريق" oninput="validateForm()">
+                <p style="margin: 15px 0 5px; font-size: 14px;">الفريق الثاني : اختر 3 وسائل مساعدة</p>
+                <div class="helpers-grid" id="team2Helpers">
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">جاوب جواوب</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">اتصال بصديق</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الحفرة</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">استريح</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الفخ</button>
+                </div>
+            </div>
         </div>
-        <div class="feature-item">
-          <div class="feature-icon-circle f-purple"><i class="fa-solid fa-puzzle-piece"></i></div>
-          <div class="feature-text">
-            <h4>فئات منوعة ومبتكرة</h4>
-            <p>أكثر من 20 فئة تغطي كافة الاهتمامات</p>
-          </div>
+
+        <!-- قسم الفئات (6 كحد أقصى) -->
+        <div class="categories-section">
+            <h3>اختر الفئات الخاصة بك</h3>
+            <p id="counter">تم اختيار: 0 من 6</p>
+            <div class="categories-grid" id="categoriesGrid">
+                <div class="category-card" onclick="toggleCategory(this)">رياضة</div>
+                <div class="category-card" onclick="toggleCategory(this)">تكنولوجيا</div>
+                <div class="category-card" onclick="toggleCategory(this)">تاريخ</div>
+                <div class="category-card" onclick="toggleCategory(this)">علوم</div>
+                <div class="category-card" onclick="toggleCategory(this)">جغرافيا</div>
+                <div class="category-card" onclick="toggleCategory(this)">فن</div>
+                <div class="category-card" onclick="toggleCategory(this)">سينما</div>
+                <div class="category-card" onclick="toggleCategory(this)">ألعاب</div>
+                <div class="category-card" onclick="toggleCategory(this)">إسلاميات</div>
+            </div>
         </div>
-      </div>
 
-      <div class="footer-credit">
-        <span>تطوير وإشراف:</span> <span class="dev-name">M__7_D_10</span>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ======================================================= -->
-  <!-- الصفحة الثانية: اختيار الفئات (بحد أقصى 6 وتعتيم الباقي) -->
-  <!-- ======================================================= -->
-  <div id="categoriesPage">
-    <button class="back-home-btn" onclick="closeCategoriesPage()" title="العودة للرئيسية"><i class="fa-solid fa-arrow-right"></i></button>
-
-    <h1 class="categories-page-title">اختر الفئات</h1>
-    <div class="selection-counter-badge" id="selectionCounterText">تم اختيار: 0 / 6 فئات</div>
-    <p class="categories-page-desc">٣ فئات لفريقك، و ٣ فئات للفريق المنافس، بمجموع ٦ فئات بـ ٣٦ سؤال مختلف، اختاروا الفئات بعناية عشان تضمنون الفرصة الأكبر للفوز</p>
-
-    <div class="flags-filter-bar">
-      <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة الأردن')">🇯🇴</span>
-      <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة البحرين')">🇧🇭</span>
-      <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة الإمارات')">🇦🇪</span>
-      <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة قطر')">🇶🇦</span>
-      <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة عمان')">🇴🇲</span>
-      <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة السعودية')">🇸🇦</span>
-      <span class="flag-item-icon" onclick="playClickSound(); showToast('فئة الكويت')">🇰🇼</span>
-      
-      <div class="filter-pills-group">
-        <button class="filter-pill-btn active" onclick="playClickSound()"><i class="fa-solid fa-border-all"></i></button>
-        <button class="filter-pill-btn" onclick="playClickSound()"><i class="fa-solid fa-bars"></i></button>
-        <button class="filter-pill-btn" onclick="playClickSound()"><i class="fa-solid fa-heart"></i></button>
-      </div>
-      
-      <button class="all-pill" onclick="playClickSound(); showToast('عرض الكل')">ALL</button>
+        <!-- زر البدء -->
+        <div class="start-btn-container">
+            <button type="button" id="startBtn" class="start-btn" disabled onclick="startGame()">ابداً اللعب</button>
+        </div>
     </div>
 
-    <div class="search-and-random-container">
-      <div class="search-input-box">
-        <input type="text" placeholder="البحث باسم الفئة" id="categorySearchInput">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </div>
-      
-      <button class="random-choice-btn" onclick="playClickSound(); showToast('جاري اختيار فئات عشوائية...')">
-        <i class="fa-solid fa-shuffle"></i>
-        <span>اختر فئات عشوائية</span>
-      </button>
-    </div>
+    <script>
+        // تتبع عدد وسائل المساعدة المختارة لكل فريق
+        const teamHelps = { 1: 0, 2: 0 };
 
-    <!-- شبكة الفئات الـ 20 -->
-    <div class="categories-grid-container" id="categoriesGrid">
-      
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 0%, 14% 0%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, 35%);" alt="ما هي المدينة"></div>
-        <div class="cat-title-bar">ما هي المدينة</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 0%, 28% 0%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, 35%);" alt="جوازات"></div>
-        <div class="cat-title-bar">جوازات</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 0%, 42% 0%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, 35%);" alt="زووم"></div>
-        <div class="cat-title-bar">زووم</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 0%, 57% 0%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, 35%);" alt="خمن الصوت"></div>
-        <div class="cat-title-bar">خمن الصوت</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 0%, 71% 0%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, 35%);" alt="ترتيب"></div>
-        <div class="cat-title-bar">ترتيب</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 0%, 85% 0%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, 35%);" alt="وضح شوي"></div>
-        <div class="cat-title-bar">وضح شوي</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 0%, 100% 0%, 100% 100%, 85% 100%); transform: scale(3.5) translate(-80%, 35%);" alt="فن قطري"></div>
-        <div class="cat-title-bar">فن قطري</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 33%, 14% 33%, 14% 66%, 0% 66%); transform: scale(3.5) translate(40%, 0%);" alt="نحو وإعراب"></div>
-        <div class="cat-title-bar">نحو وإعراب</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 33%, 28% 33%, 28% 66%, 14% 66%); transform: scale(3.5) translate(20%, 0%);" alt="وين بالأردن"></div>
-        <div class="cat-title-bar">وين بالأردن</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 33%, 42% 33%, 42% 66%, 28% 66%); transform: scale(3.5) translate(0%, 0%);" alt="حكايات مسرحيات"></div>
-        <div class="cat-title-bar">حكايات مسرحيات</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 33%, 57% 33%, 57% 66%, 42% 66%); transform: scale(3.5) translate(-20%, 0%);" alt="مسيرة فنان أجنبي"></div>
-        <div class="cat-title-bar">مسيرة فنان أجنبي</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 33%, 71% 33%, 71% 66%, 57% 66%); transform: scale(3.5) translate(-40%, 0%);" alt="كأس العالم 26"></div>
-        <div class="cat-title-bar">كأس العالم 26</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 33%, 85% 33%, 85% 66%, 71% 66%); transform: scale(3.5) translate(-60%, 0%);" alt="كابتن كأس العالم"></div>
-        <div class="cat-title-bar">كابتن كأس العالم</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(85% 33%, 100% 33%, 100% 66%, 85% 66%); transform: scale(3.5) translate(-80%, 0%);" alt="ترتيب كروي"></div>
-        <div class="cat-title-bar">ترتيب كروي</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(0% 66%, 14% 66%, 14% 100%, 0% 100%); transform: scale(3.5) translate(40%, -35%);" alt="نيران"></div>
-        <div class="cat-title-bar">نيران</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(14% 66%, 28% 66%, 28% 100%, 14% 100%); transform: scale(3.5) translate(20%, -35%);" alt="حروف انجليزي"></div>
-        <div class="cat-title-bar">حروف انجليزي</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(28% 66%, 42% 66%, 42% 100%, 28% 100%); transform: scale(3.5) translate(0%, -35%);" alt="League of Legends"></div>
-        <div class="cat-title-bar">League of Legends</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(42% 66%, 57% 66%, 57% 100%, 42% 100%); transform: scale(3.5) translate(-20%, -35%);" alt="Overwatch"></div>
-        <div class="cat-title-bar">Overwatch</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(57% 66%, 71% 66%, 71% 100%, 57% 100%); transform: scale(3.5) translate(-40%, -35%);" alt="One Piece Manga"></div>
-        <div class="cat-title-bar">One Piece Manga</div>
-      </div>
-
-      <div class="category-card-item" onclick="toggleCategorySelection(this)">
-        <div class="cat-info-icon"><i class="fa-solid fa-info"></i></div>
-        <div class="cat-img-box"><img src="https://i.ibb.co/3ykX1sWb/image-ccd465.png" style="clip-path: polygon(71% 66%, 85% 66%, 85% 100%, 71% 100%); transform: scale(3.5) translate(-60%, -35%);" alt="كرة سلة"></div>
-        <div class="cat-title-bar">كرة سلة</div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- النوافذ المساعدة (ترحيب + إدارة) -->
-  <div id="welcomeModal">
-    <div class="welcome-content">
-      <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-      <h2>هذا الموقع قيد التطوير للاستفسار</h2>
-      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-btn">
-        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
-        <span>التواصل عبر إنستغرام</span>
-      </a>
-      <button class="close-modal-btn" onclick="closeWelcomeModal()">حسناً، الدخول للموقع</button>
-    </div>
-  </div>
-
-  <div id="managementModal">
-    <div class="management-content">
-      <div class="management-header">
-        <h3><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
-        <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="admin-control-box">
-        <h4>⚙️ لوحة تعيين ورتب الأعضاء</h4>
-        <form onsubmit="assignUserRank(event)">
-          <div class="form-group">
-            <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <select id="newRankSelect">
-              <option value="owner">👑 المدير العام (Owner)</option>
-              <option value="admin">🛡️ مشرف عام (Admin)</option>
-              <option value="mod">⭐ مساعد إداري (Moderator)</option>
-            </select>
-          </div>
-          <button type="submit" class="assign-btn">منح الرتبة</button>
-        </form>
-        <div class="assigned-users-list" id="assignedListContainer"></div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title">👑 المدير العام (Owner)</div>
-        <div class="rank-perms">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
-      </div>
-      <button class="save-settings-btn" onclick="closeManagement()">إغلاق</button>
-    </div>
-  </div>
-
-  <div id="toastNotification">
-    <i class="fa-solid fa-triangle-exclamation"></i>
-    <span id="toastText">تنبيه</span>
-  </div>
-
-  <script>
-    let isSoundEnabled = localStorage.getItem('saleny_sound_state') !== null ? 
-                           JSON.parse(localStorage.getItem('saleny_sound_state')) : true;
-                           
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
-
-    // متغير لتتبع عدد الفئات المختارة
-    let selectedCategoriesCount = 0;
-    const maxCategoriesSelection = 6;
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const soundIcon = document.getElementById('soundIcon');
-      if (!isSoundEnabled) {
-        soundIcon.className = "fa-solid fa-volume-xmark";
-      }
-    });
-
-    function playClickSound() {
-      if (!isSoundEnabled) return;
-      if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-      const osc = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-      osc.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-      gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.08);
-    }
-
-    function closeWelcomeModal() {
-      playClickSound();
-      document.getElementById('welcomeModal').style.display = 'none';
-    }
-
-    function openManagement() {
-      playClickSound();
-      renderAssignedRanksList();
-      document.getElementById('managementModal').style.display = 'flex';
-    }
-
-    function closeManagement() {
-      playClickSound();
-      document.getElementById('managementModal').style.display = 'none';
-    }
-
-    function openCategoriesPage() {
-      playClickSound();
-      document.getElementById('homeScreen').style.display = 'none';
-      document.getElementById('categoriesPage').style.display = 'flex';
-      window.scrollTo(0, 0);
-    }
-
-    function closeCategoriesPage() {
-      playClickSound();
-      document.getElementById('categoriesPage').style.display = 'none';
-      document.getElementById('homeScreen').style.display = 'flex';
-    }
-
-    // دالة التعامل مع اختيار الفئات والتحكم بتعتيم الباقي عند الوصول لـ 6
-    function toggleCategorySelection(cardElement) {
-      playClickSound();
-      const isSelected = cardElement.classList.contains('selected');
-
-      if (isSelected) {
-        // إذا كانت مختارة وتم النقر عليها لإلغاء تحديدها
-        cardElement.classList.remove('selected');
-        selectedCategoriesCount--;
-        updateCategoriesDimmingState();
-      } else {
-        // إذا لم تكن مختارة ونريد اختيارها
-        if (selectedCategoriesCount >= maxCategoriesSelection) {
-          showToast("لقد اخترت الحد الأقصى (6 فئات) بالفعل!");
-          return;
+        function toggleHelp(teamNum, btn) {
+            const container = document.getElementById(teamNum === 1 ? 'team1Helpers' : 'team2Helpers');
+            
+            if (btn.classList.contains('selected')) {
+                btn.classList.remove('selected');
+                teamHelps[teamNum]--;
+                // إزالة التعتيم عن باقي الأزرار إذا قل العدد عن 3
+                container.querySelectorAll('.help-btn').forEach(b => b.classList.remove('dimmed'));
+            } else {
+                if (teamHelps[teamNum] < 3) {
+                    btn.classList.add('selected');
+                    teamHelps[teamNum]++;
+                    
+                    // إذا وصل العدد لـ 3، تعتيم المتبقي
+                    if (teamHelps[teamNum] === 3) {
+                        container.querySelectorAll('.help-btn').forEach(b => {
+                            if (!b.classList.contains('selected')) b.classList.add('dimmed');
+                        });
+                    }
+                }
+            }
+            validateForm();
         }
-        cardElement.classList.add('selected');
-        selectedCategoriesCount++;
-        updateCategoriesDimmingState();
-      }
 
-      // تحديث نص العداد
-      document.getElementById('selectionCounterText').innerText = `تم اختيار: ${selectedCategoriesCount} / ${maxCategoriesSelection} فئات`;
-      
-      if (selectedCategoriesCount === maxCategoriesSelection) {
-        showToast("ممتاز! لقد اخترت الـ 6 فئات كاملة بنجاح");
-      }
-    }
+        // تتبع الفئات (6 فئات)
+        let selectedCategoriesCount = 0;
+        const MAX_CATEGORIES = 6;
 
-    // دالة لتعتيم البطاقات الباقية إذا وصل العداد إلى 6، أو إرجاعها لوضعها الطبيعي إذا قلّت
-    function updateCategoriesDimmingState() {
-      const allCards = document.querySelectorAll('.category-card-item');
-      allCards.forEach(card => {
-        if (selectedCategoriesCount >= maxCategoriesSelection) {
-          if (!card.classList.contains('selected')) {
-            card.classList.add('dimmed');
-          }
-        } else {
-          card.classList.remove('dimmed');
+        function toggleCategory(card) {
+            if (card.classList.contains('selected')) {
+                card.classList.remove('selected');
+                selectedCategoriesCount--;
+                document.querySelectorAll('.category-card').forEach(c => c.classList.remove('dimmed'));
+            } else {
+                if (selectedCategoriesCount < MAX_CATEGORIES) {
+                    card.classList.add('selected');
+                    selectedCategoriesCount++;
+
+                    if (selectedCategoriesCount === MAX_CATEGORIES) {
+                        document.querySelectorAll('.category-card').forEach(c => {
+                            if (!c.classList.contains('selected')) c.classList.add('dimmed');
+                        });
+                    }
+                }
+            }
+            document.getElementById('counter').innerText = `تم اختيار: ${selectedCategoriesCount} من 6`;
+            validateForm();
         }
-      });
-    }
 
-    function assignUserRank(event) {
-      event.preventDefault();
-      const username = document.getElementById('newUserName').value.trim();
-      const rankVal = document.getElementById('newRankSelect').value;
-      if (!username) return;
+        // دالة التحقق الشاملة
+        function validateForm() {
+            const gameName = document.getElementById('gameName').value.trim();
+            const team1Name = document.getElementById('team1Name').value.trim();
+            const team2Name = document.getElementById('team2Name').value.trim();
 
-      assignedRanks.push({ name: username, rank: rankVal });
-      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
-      document.getElementById('newUserName').value = '';
-      renderAssignedRanksList();
-      playClickSound();
-      showToast("تم منح الرتبة بنجاح!");
-    }
+            const isGameFilled = gameName !== "";
+            const areTeamsFilled = team1Name !== "" && team2Name !== "";
+            const areHelpersDone = teamHelps[1] === 3 && teamHelps[2] === 3;
+            const areCategoriesDone = selectedCategoriesCount === MAX_CATEGORIES;
 
-    function removeAssignedRank(index) {
-      assignedRanks.splice(index, 1);
-      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
-      renderAssignedRanksList();
-      playClickSound();
-    }
+            const startBtn = document.getElementById('startBtn');
 
-    function renderAssignedRanksList() {
-      const container = document.getElementById('assignedListContainer');
-      container.innerHTML = '';
-      if (assignedRanks.length === 0) {
-        container.innerHTML = `<div style="text-align: center; color: #9ca3af; font-size: 13px; padding: 5px;">لا توجد رتب ممنوحة حالياً</div>`;
-        return;
-      }
-      assignedRanks.forEach((item, index) => {
-        let rankBadgeName = item.rank;
-        if(item.rank === 'owner') rankBadgeName = '👑 مدير عام';
-        if(item.rank === 'admin') rankBadgeName = '🛡️ مشرف عام';
-        if(item.rank === 'mod') rankBadgeName = '⭐ مساعد';
+            // فتح زر اللعب فقط لو تحققت كل الشروط
+            if (isGameFilled && areTeamsFilled && areHelpersDone && areCategoriesDone) {
+                startBtn.removeAttribute('disabled');
+            } else {
+                startBtn.setAttribute('disabled', 'true');
+            }
+        }
 
-        const div = document.createElement('div');
-        div.className = 'user-rank-item';
-        div.innerHTML = `
-          <span><b>${item.name}</b> (${rankBadgeName})</span>
-          <button class="delete-rank-btn" onclick="removeAssignedRank(${index})"><i class="fa-solid fa-trash"></i></button>
-        `;
-        container.appendChild(div);
-      });
-    }
+        function startGame() {
+            alert('تم إدخال كافة البيانات واختيار الفئات والمساعدات بنجاح! جاري الدخول للعبة...');
+            // يمكنك هنا وضع رابط الانتقال لصفحة اللعبة الفعليّة، مثلاً:
+            // window.location.href = "game.html";
+        }
+    </script>
 
-    function toggleSound() {
-      isSoundEnabled = !isSoundEnabled;
-      localStorage.setItem('saleny_sound_state', JSON.stringify(isSoundEnabled));
-      const soundIcon = document.getElementById('soundIcon');
-      if (isSoundEnabled) {
-        soundIcon.className = "fa-solid fa-volume-high";
-        showToast("تم تفعيل الصوت");
-      } else {
-        soundIcon.className = "fa-solid fa-volume-xmark";
-        showToast("تم كتم الصوت");
-      }
-    }
-
-    let toastTimeout;
-    function showToast(message) {
-      const toast = document.getElementById('toastNotification');
-      document.getElementById('toastText').innerText = message;
-      toast.classList.add('show');
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2500);
-    }
-  </script>
 </body>
 </html>
