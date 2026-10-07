@@ -43,6 +43,95 @@
 
     #toastNotification.show { top: 25px; }
 
+    /* نافذة تسجيل الدخول الإجبارية */
+    #loginModal {
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 30000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      padding: 20px;
+    }
+    .login-content {
+      background: #2e1065;
+      border: 3px solid #db2777;
+      border-radius: 35px;
+      width: 100%;
+      max-width: 400px;
+      padding: 35px 25px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(219, 39, 119, 0.5);
+      animation: popIn 0.4s ease-out;
+    }
+    .login-logo {
+      font-size: 50px;
+      color: #f472b6;
+      margin-bottom: 15px;
+    }
+    .login-content h2 {
+      font-size: 22px;
+      color: #ffffff;
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+    .login-content p {
+      font-size: 13px;
+      color: #d8b4fe;
+      margin-bottom: 25px;
+    }
+    .login-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: #1a0b2e;
+      border: 2px solid #581c87;
+      border-radius: 18px;
+      color: #fce7f3;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .login-input:focus {
+      border-color: #db2777;
+    }
+    .login-btn {
+      background: linear-gradient(90deg, #f43f5e, #db2777);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(244, 63, 94, 0.4);
+      transition: transform 0.2s;
+    }
+    .login-btn:hover { transform: translateY(-2px); }
+
+    /* شارة اسم المستخدم والرتبة في الواجهة الرئيسية */
+    .user-badge-container {
+      position: absolute;
+      top: 25px;
+      left: 95px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 25px;
+      backdrop-filter: blur(5px);
+      font-size: 14px;
+      font-weight: bold;
+      color: #fbcfe8;
+    }
+    html[dir="ltr"] .user-badge-container { left: auto; right: 95px; }
+
     /* نافذة الترحيب والتنبيه عند الدخول */
     #welcomeModal {
       display: flex;
@@ -662,6 +751,19 @@
     <span id="toastText">تنبيه</span>
   </div>
 
+  <!-- نافذة تسجيل الدخول الإجبارية -->
+  <div id="loginModal">
+    <div class="login-content">
+      <div class="login-logo"><i class="fa-solid fa-user-circle"></i></div>
+      <h2>تسجيل الدخول</h2>
+      <p>أدخل اسمك للدخول إلى لعبة سليني واستكشاف الرتب</p>
+      <form onsubmit="handleLogin(event)">
+        <input type="text" id="loginUsernameInput" class="login-input" placeholder="اكتب اسم المستخدم هنا..." required autocomplete="off">
+        <button type="submit" class="login-btn">دخول الموقع</button>
+      </form>
+    </div>
+  </div>
+
   <!-- نافذة ترحيبية عند الدخول -->
   <div id="welcomeModal">
     <div class="welcome-content">
@@ -721,6 +823,11 @@
   <!-- الشاشة الرئيسية -->
   <div id="homeScreen">
     <div class="top-section">
+      <div class="user-badge-container" id="userBadgeDisplay">
+        <i class="fa-solid fa-user"></i>
+        <span id="displayUsernameName">زائر</span>
+      </div>
+
       <button class="icon-btn sound-btn" onclick="toggleSound()" title="التحكم بالصوت">
         <i id="soundIcon" class="fa-solid fa-volume-high"></i>
       </button>
@@ -921,6 +1028,43 @@
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
+    let currentUser = localStorage.getItem('saleny_current_user') || null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (currentUser) {
+        document.getElementById('loginModal').style.display = 'none';
+        updateUserBadgeDisplay(currentUser);
+      } else {
+        document.getElementById('loginModal').style.display = 'flex';
+      }
+    });
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const usernameInput = document.getElementById('loginUsernameInput').value.trim();
+      if (!usernameInput) return;
+
+      currentUser = usernameInput;
+      localStorage.setItem('saleny_current_user', currentUser);
+      
+      playClickSound('success');
+      document.getElementById('loginModal').style.display = 'none';
+      updateUserBadgeDisplay(currentUser);
+      showToast(`أهلاً بك، ${currentUser}!`);
+    }
+
+    function updateUserBadgeDisplay(username) {
+      const foundRankObj = assignedRanks.find(r => r.name.toLowerCase() === username.toLowerCase());
+      let rankTitleStr = '';
+      
+      if (foundRankObj) {
+        if (foundRankObj.rank === 'owner') rankTitleStr = ' 👑';
+        else if (foundRankObj.rank === 'admin') rankTitleStr = ' 🛡️';
+        else if (foundRankObj.rank === 'mod') rankTitleStr = ' ⭐';
+      }
+
+      document.getElementById('displayUsernameName').textContent = username + rankTitleStr;
+    }
 
     const translations = {
       ar: {
@@ -1144,14 +1288,25 @@
 
       document.getElementById('newUserName').value = '';
       renderAssignedRanksList();
+      
+      if (currentUser && currentUser.toLowerCase() === username.toLowerCase()) {
+        updateUserBadgeDisplay(currentUser);
+      }
+
       playClickSound('success');
       showToast("تم منح الرتبة بنجاح!");
     }
 
     function removeAssignedRank(index) {
+      const removedItem = assignedRanks[index];
       assignedRanks.splice(index, 1);
       localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
       renderAssignedRanksList();
+
+      if (currentUser && removedItem && currentUser.toLowerCase() === removedItem.name.toLowerCase()) {
+        updateUserBadgeDisplay(currentUser);
+      }
+
       playClickSound('click');
     }
 
