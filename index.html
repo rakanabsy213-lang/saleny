@@ -124,7 +124,7 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* نافذة الإدارة والرتب الحقيقية */
+    /* نافذة الإدارة ورتب الموقع */
     #managementModal {
       display: none;
       position: fixed;
@@ -585,7 +585,7 @@
       filter: grayscale(80%);
     }
 
-    /* قسم وسائل المساعدة المضافة في الأسفل */
+    /* قسم وسائل المساعدة المضافة في الأسفل (بدون فرق) */
     .game-settings-bottom-section {
       width: 100%;
       max-width: 600px;
@@ -620,14 +620,14 @@
       background: #1a0b2e;
       border: 2px solid #581c87;
       color: #fce7f3;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
       gap: 5px;
       cursor: pointer;
       transition: all 0.2s;
     }
     .booster-badge i {
-      font-size: 20px;
+      font-size: 18px;
       color: #f472b6;
     }
     .booster-badge.active-booster {
@@ -795,7 +795,7 @@
     </div>
   </div>
 
-  <!-- شاشة اختيار الفئات والألعاب مع وسائل المساعدة بالأسفل -->
+  <!-- شاشة اختيار الفئات والألعاب مع وسائل المساعدة العامة بالأسفل -->
   <div id="categoryScreen">
     <button class="back-home-btn" onclick="backToHome()"><i class="fa-solid fa-arrow-right"></i></button>
     <h2 style="margin-top: 10px; color: #f472b6;" id="catScreenTitle">اختر 7 ألعاب أو أقسام</h2>
@@ -844,7 +844,7 @@
       </div>
     </div>
 
-    <!-- قسم وسائل المساعدة المضافة بأسلوب تنافسي فردي -->
+    <!-- قسم وسائل المساعدة المتاحة للجلسة (بدون تقسيم فرق أشخاص) -->
     <div class="game-settings-bottom-section">
       <h3>اختر وسائل المساعدة المتاحة للجلسة</h3>
       <div class="boosters-row">
@@ -1270,8 +1270,8 @@
       document.getElementById('r1Desc').textContent = t.rank1Desc;
       document.getElementById('r2Title').textContent = t.rank2Title;
       document.getElementById('r2Desc').textContent = t.rank2Desc;
-      document.getElementById('r3Title').textContent = t.rank3Title;
-      document.getElementById('r3Desc').textContent = t.rank3Desc;
+      document.getElementById('r3Title').textContent = t.r3Title;
+      document.getElementById('r3Desc').textContent = t.r3Desc;
 
       document.getElementById('catScreenTitle').textContent = t.catTitle;
       updateCategorySelectionState();
