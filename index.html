@@ -124,12 +124,12 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* نافذة تسجيل الدخول بقوقل (تظهر بعد نافذة الترحيب) */
+    /* نافذة تسجيل الدخول بقوقل أو فيسبوك (تظهر في المنتصف بعد الترحيب) */
     #loginModal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 15000;
       justify-content: center;
       align-items: center;
@@ -142,36 +142,64 @@
       border-radius: 35px;
       width: 100%;
       max-width: 400px;
-      padding: 40px 25px;
+      padding: 35px 25px;
       text-align: center;
       box-shadow: 0 20px 40px rgba(219, 39, 119, 0.5);
       animation: popIn 0.4s ease-out;
     }
-    .google-signin-btn {
+    .login-content h2 {
+      font-size: 24px;
+      color: #ffffff;
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+    .login-content p {
+      font-size: 13px;
+      color: #d8b4fe;
+      margin-bottom: 25px;
+    }
+    .auth-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      background: #ffffff;
-      color: #333333;
-      border: none;
       width: 100%;
       padding: 14px;
       border-radius: 18px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      border: none;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s, background 0.2s;
-      margin-top: 20px;
+      transition: transform 0.2s, opacity 0.2s;
+      margin-bottom: 15px;
     }
-    .google-signin-btn:hover { 
-      transform: translateY(-2px); 
-      background: #f1f1f1;
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
     }
-    .google-icon {
-      font-size: 20px;
-      color: #ea4335;
+    .google-btn {
+      background: #ffffff;
+      color: #333333;
+    }
+    .facebook-btn {
+      background: #1877f2;
+      color: #ffffff;
+    }
+    .skip-login-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fbcfe8;
+      width: 100%;
+      padding: 10px;
+      border-radius: 15px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: background 0.2s;
+    }
+    .skip-login-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
 
     /* شارة اسم المستخدم والرتبة في الواجهة الرئيسية */
@@ -746,15 +774,25 @@
     </div>
   </div>
 
-  <!-- نافذة تسجيل الدخول بقوقل (تظهر بعد نافذة الترحيب) -->
+  <!-- نافذة تسجيل الدخول (تظهر في المنتصف بعد إغلاق الترحيب) -->
   <div id="loginModal">
     <div class="login-content">
-      <div style="font-size: 50px; color: #f472b6; margin-bottom: 15px;"><i class="fa-solid fa-user-shield"></i></div>
+      <div style="font-size: 50px; color: #f472b6; margin-bottom: 12px;"><i class="fa-solid fa-user-shield"></i></div>
       <h2>تسجيل الدخول</h2>
-      <p style="font-size: 13px; color: #d8b4fe; margin-bottom: 15px;">سجل دخولك باستخدام حساب Google لاستكشاف الرتب وبدء اللعبة</p>
-      <button class="google-signin-btn" onclick="loginWithGoogle()">
-        <i class="fa-brands fa-google google-icon"></i>
-        <span>تسجيل الدخول بواسطة Google</span>
+      <p>اختر طريقة تسجيل الدخول للمتابعة إلى اللعبة</p>
+      
+      <button class="auth-btn google-btn" onclick="loginWithProvider('Google')">
+        <i class="fa-brands fa-google" style="font-size: 20px; color: #ea4335;"></i>
+        <span>المتابعة باستخدام Google</span>
+      </button>
+
+      <button class="auth-btn facebook-btn" onclick="loginWithProvider('Facebook')">
+        <i class="fa-brands fa-facebook" style="font-size: 20px;"></i>
+        <span>المتابعة باستخدام Facebook</span>
+      </button>
+
+      <button class="skip-login-btn" onclick="skipLogin()">
+        <span>الدخول كزائر</span>
       </button>
     </div>
   </div>
@@ -1014,49 +1052,52 @@
       // إبقاء نافذة الترحيب ظاهرة أولاً عند فتح الموقع
       document.getElementById('welcomeModal').style.display = 'flex';
       document.getElementById('loginModal').style.display = 'none';
+      
+      if (currentUser) {
+        updateUserBadgeDisplay(currentUser);
+      }
     });
 
-    // إغلاق نافذة الترحيب وإظهار نافذة تسجيل الدخول بقوقل
+    // إغلاق نافذة الترحيب وإظهار نافذة تسجيل الدخول فوراً
     function closeWelcomeModal() {
       playClickSound();
       document.getElementById('welcomeModal').style.display = 'none';
       
-      if (currentUser) {
-        document.getElementById('loginModal').style.display = 'none';
-        updateUserBadgeDisplay(currentUser);
-      } else {
-        document.getElementById('loginModal').style.display = 'flex'; // إظهار نافذة تسجيل الدخول بقوقل
+      if (!currentUser) {
+        document.getElementById('loginModal').style.display = 'flex'; // إظهار نافذة خيارات تسجيل الدخول
       }
     }
 
-    // محاكاة تسجيل الدخول عبر Google
-    function loginWithGoogle() {
+    // محاكاة تسجيل الدخول عبر مزود الخدمة (Google أو Facebook)
+    function loginWithProvider(providerName) {
       playClickSound();
-      // محاكاة جلب بيانات مستخدم تجريبي من قوقل (يمكن لاحقاً ربطه بـ Firebase Auth)
-      const mockGoogleNames = ["أحمد القحطاني", "محمد العتيبي", "خالد الشمري", "سارة الدوسري", "فيصل العنزي"];
-      const randomName = mockGoogleNames[Math.floor(Math.random() * mockGoogleNames.length)];
-      const googleEmail = randomName.replace(/\s+/g, '').toLowerCase() + "@gmail.com";
+      const mockNames = {
+        'Google': 'أحمد القحطاني (Google)',
+        'Facebook': 'محمد العتيبي (Facebook)'
+      };
       
-      currentUser = { name: randomName, email: googleEmail };
-      localStorage.setItem('saleny_current_user', JSON.stringify(currentUser));
+      currentUser = mockNames[providerName] || 'مستخدم جديد';
+      localStorage.setItem('saleny_current_user', currentUser);
       
       document.getElementById('loginModal').style.display = 'none';
       updateUserBadgeDisplay(currentUser);
-      showToast('تم تسجيل الدخول بنجاح عبر Google 🎉');
+      showToast(`تم تسجيل الدخول بنجاح عبر ${providerName} 🎉`);
     }
 
-    function updateUserBadgeDisplay(user) {
-      const badgeSpan = document.getElementById('displayUsernameName');
-      if (typeof user === 'string') {
-        badgeSpan.textContent = user;
-      } else if (user && user.name) {
-        badgeSpan.textContent = user.name;
-      } else {
-        badgeSpan.textContent = "زائر";
-      }
+    // التخطي الدخول كزائر
+    function skipLogin() {
+      playClickSound();
+      currentUser = 'زائر';
+      document.getElementById('loginModal').style.display = 'none';
+      updateUserBadgeDisplay(currentUser);
+      showToast('تم الدخول كزائر');
     }
 
-    // بقية دوال اللعبة والإدارة والصوتيات
+    function updateUserBadgeDisplay(name) {
+      document.getElementById('displayUsernameName').textContent = name;
+    }
+
+    // دوال الموقع العامة
     function showToast(message) {
       const toast = document.getElementById('toastNotification');
       document.getElementById('toastText').textContent = message;
