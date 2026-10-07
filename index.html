@@ -1,1 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة سليني - الإعدادات</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+            padding: 30px;
+            margin: 0;
+        }
 
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+        }
+
+        /* القائمة الرئيسية */
+        .main-menu {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .main-menu h1 {
+            font-size: 38px;
+            color: #ff5722;
+            margin-bottom: 15px;
+        }
+
+        .menu-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .menu-btn {
+            background-color: #f1f3f4;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .menu-btn:hover {
+            background-color: #e3f2fd;
+            border-color: #2196F3;
+            color: #0d47a1;
+        }
+
+        h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: #111;
+        }
+
+        /* حقل اسم اللعبة */
+        .game-name-section {
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            width: 65%;
+            padding: 14px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 35px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff5722;
+        }
+
+        /* قسم الفرق */
+        .teams-section {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        .team-box {
+            flex: 1;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .team-box h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* وسائل المساعدة */
+        .helpers-grid {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .help-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 2px solid #b0bec5;
+            background-color: #fff;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+            padding: 2px;
+        }
+
+        .help-btn.selected {
+            background-color: #e3f2fd;
+            border-color: #2196F3;
+            color: #0d47a1;
+            box-shadow: 0 0 8px rgba(33, 150, 243, 0.4);
+        }
+
+        .help-btn.dimmed {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background-color: #f1f1f1;
+            border-color: #ddd;
+        }
+
+        /* قسم الفئات (في الأسفل) */
+        .categories-section {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px dashed #ddd;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .category-card {
+            padding: 14px;
+            background: #f1f3f4;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .category-card.selected {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #388E3C;
+            font-weight: bold;
+        }
+
+        .category-card.dimmed {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background-color: #e0e0e0;
+        }
+
+        #counter {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        /* زر البدء */
+        .start-btn-container {
+            margin-top: 40px;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #ff9800, #f44336);
+            color: white;
+            border: none;
+            padding: 16px 70px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+            transition: opacity 0.3s, transform 0.2s;
+        }
+
+        .start-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .start-btn:not(:disabled):hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- القائمة الرئيسية -->
+        <div class="main-menu">
+            <h1>لعبة سليني</h1>
+            <div class="menu-buttons">
+                <button type="button" class="menu-btn" onclick="menuAction('settings')">الإعدادات</button>
+                <button type="button" class="menu-btn" onclick="menuAction('instructions')">تعليمات اللعب</button>
+                <button type="button" class="menu-btn" onclick="menuAction('about')">حول اللعبة</button>
+            </div>
+        </div>
+
+        <h2>حدد معلومات الفرق</h2>
+
+        <!-- اسم اللعبة -->
+        <div class="game-name-section">
+            <input type="text" id="gameName" placeholder="اسم اللعبة" oninput="validateForm()">
+        </div>
+
+        <!-- أسماء الفرق ووسائل المساعدة -->
+        <div class="teams-section">
+            <!-- الفريق الأول -->
+            <div class="team-box">
+                <h3>الفريق الأول</h3>
+                <input type="text" id="team1Name" placeholder="اسم الفريق" oninput="validateForm()">
+                <p style="margin: 15px 0 5px; font-size: 13px;">اختر 3 وسائل مساعدة:</p>
+                <div class="helpers-grid" id="team1Helpers">
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">جاوب جواوب</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">اتصال بصديق</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الحفرة</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">استريح</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(1, this)">الفخ</button>
+                </div>
+            </div>
+
+            <!-- الفريق الثاني -->
+            <div class="team-box">
+                <h3>الفريق الثاني</h3>
+                <input type="text" id="team2Name" placeholder="اسم الفريق" oninput="validateForm()">
+                <p style="margin: 15px 0 5px; font-size: 13px;">اختر 3 وسائل مساعدة:</p>
+                <div class="helpers-grid" id="team2Helpers">
+                    <button type="button" class="help-btn" onclick="toggleHelp(2, this)">جاوب جواوب</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(2, this)">اتصال بصديق</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(2, this)">الحفرة</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(2, this)">استريح</button>
+                    <button type="button" class="help-btn" onclick="toggleHelp(2, this)">الفخ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الفئات في أسفل الصفحة (6 فئات كحد أقصى) -->
+        <div class="categories-section">
+            <h2>اختر الفئات (6 فئات)</h2>
+            <p id="counter">تم اختيار: 0 من 6</p>
+            <div class="categories-grid" id="categoriesGrid">
+                <div class="category-card" onclick="toggleCategory(this)">رياضة</div>
+                <div class="category-card" onclick="toggleCategory(this)">تكنولوجيا</div>
+                <div class="category-card" onclick="toggleCategory(this)">تاريخ</div>
+                <div class="category-card" onclick="toggleCategory(this)">علوم</div>
+                <div class="category-card" onclick="toggleCategory(this)">جغرافيا</div>
+                <div class="category-card" onclick="toggleCategory(this)">فن</div>
+                <div class="category-card" onclick="toggleCategory(this)">سينما</div>
+                <div class="category-card" onclick="toggleCategory(this)">ألعاب</div>
+                <div class="category-card" onclick="toggleCategory(this)">إسلاميات</div>
+            </div>
+        </div>
+
+        <!-- زر البدء في النهاية -->
+        <div class="start-btn-container">
+            <button type="button" id="startBtn" class="start-btn" disabled onclick="startGame()">ابداً اللعب</button>
+        </div>
+    </div>
+
+    <script>
+        function menuAction(action) {
+            if (action === 'instructions') {
+                alert('تعليمات اللعبة: تنافس بين فريقين، اختر 3 وسائل مساعدة لكل فريق، وحدد 6 فئات للبدء!');
+            } else if (action === 'about') {
+                alert('لعبة سليني التفاعلية.');
+            } else {
+                alert('أنت في صفحة إعدادات اللعبة الحالية.');
+            }
+        }
+
+        const teamHelps = { 1: 0, 2: 0 };
+
+        function toggleHelp(teamNum, btn) {
+            const container = document.getElementById(teamNum === 1 ? 'team1Helpers' : 'team2Helpers');
+            
+            if (btn.classList.contains('selected')) {
+                btn.classList.remove('selected');
+                teamHelps[teamNum]--;
+                container.querySelectorAll('.help-btn').forEach(b => b.classList.remove('dimmed'));
+            } else {
+                if (teamHelps[teamNum] < 3) {
+                    btn.classList.add('selected');
+                    teamHelps[teamNum]++;
+                    
+                    if (teamHelps[teamNum] === 3) {
+                        container.querySelectorAll('.help-btn').forEach(b => {
+                            if (!b.classList.contains('selected')) b.classList.add('dimmed');
+                        });
+                    }
+                }
+            }
+            validateForm();
+        }
+
+        let selectedCategoriesCount = 0;
+        const MAX_CATEGORIES = 6;
+
+        function toggleCategory(card) {
+            if (card.classList.contains('selected')) {
+                card.classList.remove('selected');
+                selectedCategoriesCount--;
+                document.querySelectorAll('.category-card').forEach(c => c.classList.remove('dimmed'));
+            } else {
+                if (selectedCategoriesCount < MAX_CATEGORIES) {
+                    card.classList.add('selected');
+                    selectedCategoriesCount++;
+
+                    if (selectedCategoriesCount === MAX_CATEGORIES) {
+                        document.querySelectorAll('.category-card').forEach(c => {
+                            if (!c.classList.contains('selected')) c.classList.add('dimmed');
+                        });
+                    }
+                }
+            }
+            document.getElementById('counter').innerText = `تم اختيار: ${selectedCategoriesCount} من 6`;
+            validateForm();
+        }
+
+        function validateForm() {
+            const gameName = document.getElementById('gameName').value.trim();
+            const team1Name = document.getElementById('team1Name').value.trim();
+            const team2Name = document.getElementById('team2Name').value.trim();
+
+            const isGameFilled = gameName !== "";
+            const areTeamsFilled = team1Name !== "" && team2Name !== "";
+            const areHelpersDone = teamHelps[1] === 3 && teamHelps[2] === 3;
+            const areCategoriesDone = selectedCategoriesCount === MAX_CATEGORIES;
+
+            const startBtn = document.getElementById('startBtn');
+
+            if (isGameFilled && areTeamsFilled && areHelpersDone && areCategoriesDone) {
+                startBtn.removeAttribute('disabled');
+            } else {
+                startBtn.setAttribute('disabled', 'true');
+            }
+        }
+
+        function startGame() {
+            alert('تم استيفاء جميع الشروط بنجاح! جاري الدخول للعبة...');
+        }
+    </script>
+
+</body>
+</html>
