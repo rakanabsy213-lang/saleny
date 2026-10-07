@@ -43,7 +43,7 @@
 
     #toastNotification.show { top: 25px; }
 
-    /* نافذة الترحيب والتنبيه عند الدخول (تظهر أولاً) */
+    /* نافذة الترحيب والتنبيه عند الدخول (تظهر أولاً بشكل افتراضي) */
     #welcomeModal {
       display: flex;
       position: fixed;
@@ -124,13 +124,13 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* نافذة تسجيل الدخول بقوقل أو فيسبوك (تظهر في المنتصف بعد الترحيب) */
+    /* نافذة تسجيل الدخول بقوقل أو فيسبوك (مخفية افتراضياً وتظهر حصرياً بعد إغلاق الترحيب) */
     #loginModal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.85);
-      z-index: 15000;
+      z-index: 19000;
       justify-content: center;
       align-items: center;
       backdrop-filter: blur(10px);
@@ -774,7 +774,7 @@
     </div>
   </div>
 
-  <!-- نافذة تسجيل الدخول (تظهر في المنتصف بعد إغلاق الترحيب) -->
+  <!-- نافذة تسجيل الدخول (تظهر في المنتصف حصرياً بعد إغلاق الترحيب) -->
   <div id="loginModal">
     <div class="login-content">
       <div style="font-size: 50px; color: #f472b6; margin-bottom: 12px;"><i class="fa-solid fa-user-shield"></i></div>
@@ -1049,7 +1049,7 @@
     let currentUser = localStorage.getItem('saleny_current_user') || null;
 
     window.addEventListener('DOMContentLoaded', () => {
-      // إبقاء نافذة الترحيب ظاهرة أولاً عند فتح الموقع
+      // التأكد من إظهار نافذة الترحيب وإخفاء تسجيل الدخول عند التحميل لأول مرة
       document.getElementById('welcomeModal').style.display = 'flex';
       document.getElementById('loginModal').style.display = 'none';
       
@@ -1063,8 +1063,9 @@
       playClickSound();
       document.getElementById('welcomeModal').style.display = 'none';
       
+      // إظهار نافذة تسجيل الدخول فور إغلاق الترحيب (إن لم يكن مسجلاً مسبقاً)
       if (!currentUser) {
-        document.getElementById('loginModal').style.display = 'flex'; // إظهار نافذة خيارات تسجيل الدخول
+        document.getElementById('loginModal').style.display = 'flex';
       }
     }
 
@@ -1084,7 +1085,7 @@
       showToast(`تم تسجيل الدخول بنجاح عبر ${providerName} 🎉`);
     }
 
-    // التخطي الدخول كزائر
+    // التخطي والدخول كزائر
     function skipLogin() {
       playClickSound();
       currentUser = 'زائر';
