@@ -412,3 +412,769 @@
     .feature-text p { font-size: 12px; color: #d8b4fe; font-weight: 600; }
     html[dir="rtl"] .feature-text { text-align: right; }
     html[dir="ltr"] .feature-text { text-align: left; }
+
+    .footer-credit {
+      font-size: 13px; color: #d8b4fe; font-weight: 700; display: flex; align-items: center; gap: 8px; background: #1a0b2e; padding: 8px 20px; border-radius: 20px; text-decoration: none; border: 1px solid #581c87;
+    }
+    .footer-credit span.dev-name {
+      color: #f472b6;
+      font-weight: 900;
+    }
+
+    /* نافذة الإعدادات */
+    #settingsModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .settings-modal-content {
+      background: #2e1065;
+      border: 2px solid #581c87;
+      border-radius: 30px;
+      width: 90%;
+      max-width: 480px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    html[dir="rtl"] .settings-modal-content { text-align: right; }
+    html[dir="ltr"] .settings-modal-content { text-align: left; }
+
+    .settings-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-bottom: 1px solid #581c87;
+      padding-bottom: 15px;
+    }
+    .settings-modal-header h3 {
+      font-size: 22px;
+      color: #f472b6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .close-settings-btn {
+      background: transparent;
+      border: none;
+      color: #d8b4fe;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .setting-item {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #3b0764;
+      padding: 15px 20px;
+      border-radius: 15px;
+      border: 1px solid #581c87;
+    }
+    .setting-item label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fce7f3;
+    }
+    .setting-item input[type="range"] {
+      accent-color: #db2777;
+      cursor: pointer;
+    }
+    .setting-item select {
+      background: #1a0b2e;
+      color: #fce7f3;
+      border: 1px solid #581c87;
+      padding: 8px 12px;
+      border-radius: 10px;
+      outline: none;
+      font-weight: bold;
+    }
+    .save-settings-btn {
+      background: linear-gradient(90deg, #db2777, #9333ea);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
+    }
+
+    /* شاشة اختيار الفئات والألعاب */
+    #categoryScreen {
+      display: none;
+      width: 100vw;
+      min-height: 100vh;
+      background: #1a0b2e;
+      color: #fce7f3;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+      position: absolute;
+      top: 0; left: 0;
+      z-index: 500;
+    }
+    .back-home-btn {
+      position: absolute;
+      top: 25px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #581c87;
+      color: white;
+      width: 45px; height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    html[dir="ltr"] .back-home-btn { right: auto; left: 30px; }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 20px;
+    }
+    .game-category-card {
+      background: #2e1065;
+      border: 2px solid #581c87;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .game-category-card i {
+      font-size: 32px;
+      color: #f472b6;
+      transition: color 0.3s ease;
+    }
+    .game-category-card span {
+      font-size: 15px;
+      font-weight: bold;
+      color: #fce7f3;
+    }
+    /* تنسيق مميز عند اختيار البطاقة لتغيير شكلها ولونها بالكامل */
+    .game-category-card.selected {
+      background: linear-gradient(135deg, #db2777, #be185d);
+      border-color: #fbcfe8;
+      box-shadow: 0 0 20px rgba(244, 114, 182, 0.7);
+      transform: scale(1.03);
+    }
+    .game-category-card.selected i,
+    .game-category-card.selected span {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .game-category-card.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+      filter: grayscale(80%);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toastNotification">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="toastText">تنبيه</span>
+  </div>
+
+  <!-- نافذة ترحيبية عند الدخول -->
+  <div id="welcomeModal">
+    <div class="welcome-content">
+      <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+      <h2 id="welTitle">هذا الموقع قيد التطوير للاستفسار</h2>
+      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-btn">
+        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
+        <span id="welBtnText">التواصل عبر إنستغرام</span>
+      </a>
+      <button class="close-modal-btn" onclick="closeWelcomeModal()">
+        <span id="closeModalText">حسناً، الدخول للموقع</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- نافذة الإدارة والرتب -->
+  <div id="managementModal">
+    <div class="management-content">
+      <div class="management-header">
+        <h3 id="mgtTitleText"><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
+        <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="admin-control-box">
+        <h4 id="controlTitleText">⚙️ لوحة تعيين ورتب الأعضاء</h4>
+        <form onsubmit="assignUserRank(event)">
+          <div class="form-group">
+            <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required>
+          </div>
+          <div class="form-group">
+            <select id="newRankSelect">
+              <option value="owner">👑 المدير العام (Owner)</option>
+              <option value="admin">🛡️ مشرف عام (Admin)</option>
+              <option value="mod">⭐ مساعد إداري (Moderator)</option>
+            </select>
+          </div>
+          <button type="submit" class="assign-btn" id="assignBtnText">منح الرتبة</button>
+        </form>
+        <div class="assigned-users-list" id="assignedListContainer"></div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title" id="r1Title">👑 المدير العام (Owner)</div>
+        <div class="rank-perms" id="r1Desc">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-title" id="r2Title">🛡️ مشرف عام (Admin)</div>
+        <div class="rank-perms" id="r2Desc">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-title" id="r3Title">⭐ مساعد إداري (Moderator)</div>
+        <div class="rank-perms" id="r3Desc">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- الشاشة الرئيسية -->
+  <div id="homeScreen">
+    <div class="top-section">
+      <button class="icon-btn sound-btn" onclick="toggleSound()" title="التحكم بالصوت">
+        <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+      </button>
+      <button class="icon-btn settings-btn" onclick="openSettings()" title="الإعدادات">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+
+      <div class="brand-header-container">
+        <i class="fa-solid fa-crown crown-icon"></i>
+        <svg class="brand-logo-svg" viewBox="0 0 280 80">
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="42" font-weight="900" id="logoText" style="font-family: 'Segoe UI', Tahoma, sans-serif;">سليني</text>
+        </svg>
+      </div>
+      <div class="subtitle">
+        <span id="subText1">اختبر معلوماتك ونَافِس أصدقائك</span>
+      </div>
+    </div>
+
+    <!-- القائمة الرئيسية -->
+    <div class="main-menu">
+      <div class="menu-card card-play" onclick="startCategoryScreen()">
+        <i class="fa-solid fa-play"></i>
+        <span id="txtPlay">ابدأ اللعبة</span>
+      </div>
+      <div class="menu-card card-blue" onclick="openManagement()">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span id="txtManagement">الإدارة</span>
+      </div>
+      <div class="menu-card card-yellow" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-gem"></i>
+        <span id="txtGiants">العمالقة</span>
+      </div>
+      <div class="menu-card card-green" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-star"></i>
+        <span id="txtStars">النجوم</span>
+      </div>
+      <div class="menu-card card-white" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-trophy"></i>
+        <span id="txtTournaments">البطولات</span>
+      </div>
+      <div class="menu-card card-dark" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span id="txtHistory">السجل</span>
+      </div>
+      <div class="menu-card card-cyan" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-bolt"></i>
+        <span id="txtChallenges">التحديات</span>
+      </div>
+    </div>
+
+    <div class="home-bottom-bg">
+      <div class="features-container">
+        <div class="feature-item">
+          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
+          <div class="feature-text">
+            <h4 id="txtFeat1Title">مستويات متقدمة</h4>
+            <p id="txtFeat1Desc">فئات مخصصة لكل المجالات</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-gamepad"></i></div>
+          <div class="feature-text">
+            <h4 id="txtFeat2Title">تفاعل حماسي</h4>
+            <p id="txtFeat2Desc">وسائل مساعدة واستراتيجيات لعب</p>
+          </div>
+        </div>
+      </div>
+      <a href="https://www.instagram.com/m__7_d_10" target="_blank" class="footer-credit">
+        <span id="txtFooterText">تطوير:</span>
+        <span class="dev-name" id="txtDevName">M__7_D_10</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- شاشة اختيار الفئات والألعاب (الأقسام الأصلية كما طلبتها) -->
+  <div id="categoryScreen">
+    <button class="back-home-btn" onclick="backToHome()"><i class="fa-solid fa-arrow-right"></i></button>
+    <h2 style="margin-top: 10px; color: #f472b6;" id="catScreenTitle">اختر 7 ألعاب أو أقسام</h2>
+    <p style="color: #d8b4fe; margin-top: 5px; font-size: 14px;" id="catCounterText">تم اختيار: 0 / 7</p>
+    
+    <div class="category-grid" id="categoryGridContainer">
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-brain"></i>
+        <span>اختبار الذكاء</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-futbol"></i>
+        <span>الرياضة والكرة</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-film"></i>
+        <span>أفلام ومسلسلات</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-globe"></i>
+        <span>معلومات عامة</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-laptop-code"></i>
+        <span>تكنولوجيا وبرمجة</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-dice"></i>
+        <span>ألغاز وحزورات</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-clone"></i>
+        <span>الأوراق المقلوبة</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-music"></i>
+        <span>أغاني وتراث</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-car"></i>
+        <span>سيارات ومحركات</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-utensils"></i>
+        <span>طبخ ومأكولات</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الإعدادات -->
+  <div id="settingsModal">
+    <div class="settings-modal-content">
+      <div class="settings-modal-header">
+        <h3 id="stTitle"><i class="fa-solid fa-gear"></i> إعدادات اللعبة</h3>
+        <button class="close-settings-btn" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="setting-item">
+        <label id="lblLang">لغة اللعبة / Language</label>
+        <select id="languageSelect">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblVol">مستوى صوت المؤثرات</label>
+        <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="0.5">
+      </div>
+
+      <div class="setting-item">
+        <label id="lblSpeed">سرعة واجهة اللعبة</label>
+        <select id="speedSelect">
+          <option value="normal" id="optNormal">عادية</option>
+          <option value="fast" id="optFast">سريعة</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblEffects">المؤثرات البصرية</label>
+        <select id="effectsSelect">
+          <option value="on" id="optOn">مفعلة</option>
+          <option value="off" id="optOff">موقفة</option>
+        </select>
+      </div>
+
+      <button class="save-settings-btn" onclick="saveSettings()" id="btnSave">حفظ التغييرات</button>
+    </div>
+  </div>
+
+  <script>
+    let isSoundEnabled = true;
+    let soundVolume = 0.5;
+    let currentLang = 'ar';
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
+
+    const translations = {
+      ar: {
+        title: "سليني - Saleny",
+        logoText: "سليني",
+        subtitle1: "اختبر معلوماتك ونَافِس أصدقائك",
+        management: "الإدارة",
+        giants: "العمالقة",
+        stars: "النجوم",
+        startPlay: "ابدأ اللعبة",
+        tournaments: "البطولات",
+        history: "السجل",
+        challenges: "التحديات",
+        feat1Title: "مستويات متقدمة",
+        feat1Desc: "فئات مخصصة لكل المجالات",
+        feat2Title: "تفاعل حماسي",
+        feat2Desc: "وسائل مساعدة واستراتيجيات لعب",
+        footerText: "تطوير:",
+        devName: "M__7_D_10",
+        settingsTitle: "إعدادات اللعبة",
+        langLabel: "لغة اللعبة / Language",
+        volumeLabel: "مستوى صوت المؤثرات",
+        speedLabel: "سرعة واجهة اللعبة",
+        speedNormal: "عادية",
+        speedFast: "سريعة",
+        effectsLabel: "المؤثرات البصرية",
+        effectsOn: "مفعلة",
+        effectsOff: "موقفة",
+        saveBtn: "حفظ التغييرات",
+        soundOnMsg: "تم تفعيل الصوت",
+        soundOffMsg: "تم كتم الصوت",
+        saveMsg: "تم حفظ الإعدادات بنجاح!",
+        devMsg: "قيد التطوير",
+        welcomeTitle: "هذا الموقع قيد التطوير للاستفسار",
+        welcomeBtn: "التواصل عبر إنستغرام",
+        closeBtnText: "حسناً، الدخول للموقع",
+        mgtTitle: "إدارة ورتب الموقع",
+        controlPanelTitle: "⚙️ لوحة تعيين ورتب الأعضاء",
+        usernamePlaceholder: "اسم المستخدم أو المعرف",
+        assignBtnText: "منح الرتبة",
+        rank1Title: "👑 المدير العام (Owner)",
+        rank1Desc: "صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.",
+        rank2Title: "🛡️ مشرف عام (Admin)",
+        rank2Desc: "صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.",
+        rank3Title: "⭐ مساعد إداري (Moderator)",
+        rank3Desc: "صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.",
+        catTitle: "اختر 7 ألعاب أو أقسام",
+        catCounter: "تم اختيار: "
+      },
+      en: {
+        title: "Saleny - Trivia",
+        logoText: "Saleny",
+        subtitle1: "Test your knowledge & challenge friends",
+        management: "Management",
+        giants: "Giants",
+        stars: "Stars",
+        startPlay: "Play Now",
+        tournaments: "Tournaments",
+        history: "History",
+        challenges: "Challenges",
+        feat1Title: "Advanced Levels",
+        feat1Desc: "Custom categories for all fields",
+        feat2Title: "Exciting Interaction",
+        feat2Desc: "Helpful boosters and fun game strategies",
+        footerText: "Developer:",
+        devName: "M__7_D_10",
+        settingsTitle: "Game Settings",
+        langLabel: "Language / لغة اللعبة",
+        volumeLabel: "Sound Volume",
+        speedLabel: "Interface Speed",
+        speedNormal: "Normal",
+        speedFast: "Fast",
+        effectsLabel: "Visual Effects",
+        effectsOn: "Enabled",
+        effectsOff: "Disabled",
+        saveBtn: "Save Changes",
+        soundOnMsg: "Sound Enabled",
+        soundOffMsg: "Sound Muted",
+        saveMsg: "Settings saved successfully!",
+        devMsg: "Under Development",
+        welcomeTitle: "This site is under development for inquiry",
+        welcomeBtn: "Contact via Instagram",
+        closeBtnText: "OK, Enter Website",
+        mgtTitle: "Management & Ranks",
+        controlPanelTitle: "⚙️ Assign Member Ranks",
+        usernamePlaceholder: "Username or ID",
+        assignBtnText: "Assign Rank",
+        rank1Title: "👑 General Manager (Owner)",
+        rank1Desc: "Full access: Control all settings, add/edit sections, and manage users.",
+        rank2Title: "🛡️ Admin",
+        rank2Desc: "Supervisory access: Monitor content, assist players, and manage tournaments.",
+        rank3Title: "⭐ Moderator",
+        rank3Desc: "Basic access: Track workflow, answer inquiries, and report issues.",
+        catTitle: "Choose 7 Games or Sections",
+        catCounter: "Selected: "
+      }
+    };
+
+    function playClickSound(type = 'click') {
+      if (!isSoundEnabled) return;
+      if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      gainNode.gain.setValueAtTime(soundVolume * 0.3, audioCtx.currentTime);
+
+      if (type === 'click') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.08);
+      } else if (type === 'success') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastText').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function closeWelcomeModal() {
+      playClickSound('click');
+      document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    function openManagement() {
+      playClickSound('click');
+      renderAssignedRanksList();
+      document.getElementById('managementModal').style.display = 'flex';
+    }
+
+    function closeManagement() {
+      playClickSound('click');
+      document.getElementById('managementModal').style.display = 'none';
+    }
+
+    function startCategoryScreen() {
+      playClickSound('success');
+      document.getElementById('homeScreen').style.display = 'none';
+      document.getElementById('categoryScreen').style.display = 'flex';
+      resetCategorySelections();
+    }
+
+    function backToHome() {
+      playClickSound('click');
+      document.getElementById('categoryScreen').style.display = 'none';
+      document.getElementById('homeScreen').style.display = 'flex';
+    }
+
+    function toggleGameSelection(card) {
+      const isSelected = card.classList.contains('selected');
+      const selectedCards = document.querySelectorAll('.game-category-card.selected');
+
+      if (!isSelected && selectedCards.length >= 7) {
+        showToast(currentLang === 'ar' ? 'لقد اخترت 7 ألعاب بالفعل!' : 'You have already selected 7 games!');
+        return;
+      }
+
+      playClickSound('click');
+      card.classList.toggle('selected');
+      
+      updateCategorySelectionState();
+    }
+
+    function updateCategorySelectionState() {
+      const selectedCards = document.querySelectorAll('.game-category-card.selected');
+      const allCards = document.querySelectorAll('.game-category-card');
+      const count = selectedCards.length;
+
+      const t = translations[currentLang];
+      document.getElementById('catCounterText').textContent = `${t.catCounter} ${count} / 7`;
+
+      if (count >= 7) {
+        allCards.forEach(c => {
+          if (!c.classList.contains('selected')) {
+            c.classList.add('disabled');
+          }
+        });
+      } else {
+        allCards.forEach(c => {
+          c.classList.remove('disabled');
+        });
+      }
+    }
+
+    function resetCategorySelections() {
+      const allCards = document.querySelectorAll('.game-category-card');
+      allCards.forEach(c => {
+        c.classList.remove('selected');
+        c.classList.remove('disabled');
+      });
+      const t = translations[currentLang];
+      document.getElementById('catCounterText').textContent = `${t.catCounter} 0 / 7`;
+    }
+
+    function assignUserRank(event) {
+      event.preventDefault();
+      const username = document.getElementById('newUserName').value.trim();
+      const rankVal = document.getElementById('newRankSelect').value;
+
+      if (!username) return;
+
+      assignedRanks.push({ name: username, rank: rankVal });
+      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
+
+      document.getElementById('newUserName').value = '';
+      renderAssignedRanksList();
+      playClickSound('success');
+      showToast("تم منح الرتبة بنجاح!");
+    }
+
+    function removeAssignedRank(index) {
+      assignedRanks.splice(index, 1);
+      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
+      renderAssignedRanksList();
+      playClickSound('click');
+    }
+
+    function renderAssignedRanksList() {
+      const container = document.getElementById('assignedListContainer');
+      container.innerHTML = '';
+
+      if (assignedRanks.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: #a78bfa; font-size: 13px; padding: 5px;">لا توجد رتب ممنوحة حالياً</div>`;
+        return;
+      }
+
+      assignedRanks.forEach((item, index) => {
+        let rankBadgeName = item.rank;
+        if(item.rank === 'owner') rankBadgeName = '👑 مدير عام';
+        if(item.rank === 'admin') rankBadgeName = '🛡️ مشرف عام';
+        if(item.rank === 'mod') rankBadgeName = '⭐ مساعد';
+
+        const div = document.createElement('div');
+        div.className = 'user-rank-item';
+        div.innerHTML = `
+          <span><b>${item.name}</b> (${rankBadgeName})</span>
+          <button class="delete-rank-btn" onclick="removeAssignedRank(${index})"><i class="fa-solid fa-trash"></i></button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleSound() {
+      isSoundEnabled = !isSoundEnabled;
+      const soundIcon = document.getElementById('soundIcon');
+      const t = translations[currentLang];
+      if (isSoundEnabled) {
+        soundIcon.className = "fa-solid fa-volume-high";
+        showToast(t.soundOnMsg);
+        playClickSound('success');
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark";
+        showToast(t.soundOffMsg);
+      }
+    }
+
+    function openSettings() {
+      playClickSound('click');
+      document.getElementById('settingsModal').style.display = 'flex';
+    }
+
+    function closeSettings() {
+      playClickSound('click');
+      document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function saveSettings() {
+      soundVolume = parseFloat(document.getElementById('volumeRange').value);
+      currentLang = document.getElementById('languageSelect').value;
+      
+      updateTexts();
+      playClickSound('success');
+      showToast(translations[currentLang].saveMsg);
+      closeSettings();
+    }
+
+    function updateTexts() {
+      const t = translations[currentLang];
+      const htmlTag = document.documentElement;
+
+      if (currentLang === 'en') {
+        htmlTag.setAttribute('dir', 'ltr');
+        htmlTag.setAttribute('lang', 'en');
+      } else {
+        htmlTag.setAttribute('dir', 'rtl');
+        htmlTag.setAttribute('lang', 'ar');
+      }
+
+      document.getElementById('pageTitle').innerText = t.title;
+      document.getElementById('logoText').textContent = t.logoText;
+      document.getElementById('subText1').textContent = t.subtitle1;
+      
+      document.getElementById('txtManagement').textContent = t.management;
+      document.getElementById('txtGiants').textContent = t.giants;
+      document.getElementById('txtStars').textContent = t.stars;
+      document.getElementById('txtPlay').textContent = t.startPlay;
+      document.getElementById('txtTournaments').textContent = t.tournaments;
+      document.getElementById('txtHistory').textContent = t.history;
+      document.getElementById('txtChallenges').textContent = t.challenges;
+
+      document.getElementById('txtFeat1Title').textContent = t.feat1Title;
+      document.getElementById('txtFeat1Desc').textContent = t.feat1Desc;
+      document.getElementById('txtFeat2Title').textContent = t.feat2Title;
+      document.getElementById('txtFeat2Desc').textContent = t.feat2Desc;
+      
+      document.getElementById('txtFooterText').textContent = t.footerText;
+      document.getElementById('txtDevName').textContent = t.devName;
+
+      document.getElementById('stTitle').innerHTML = `<i class="fa-solid fa-gear"></i> ${t.settingsTitle}`;
+      document.getElementById('lblLang').textContent = t.langLabel;
+      document.getElementById('lblVol').textContent = t.volumeLabel;
+      document.getElementById('lblSpeed').textContent = t.speedLabel;
+      document.getElementById('optNormal').textContent = t.speedNormal;
+      document.getElementById('optFast').textContent = t.speedFast;
+      document.getElementById('lblEffects').textContent = t.effectsLabel;
+      document.getElementById('optOn').textContent = t.effectsOn;
+      document.getElementById('optOff').textContent = t.effectsOff;
+      document.getElementById('btnSave').textContent = t.saveBtn;
+
+      document.getElementById('welTitle').textContent = t.welcomeTitle;
+      document.getElementById('welBtnText').textContent = t.welcomeBtn;
+      document.getElementById('closeModalText').textContent = t.closeBtnText;
+
+      document.getElementById('mgtTitleText').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${t.mgtTitle}`;
+      document.getElementById('controlTitleText').textContent = t.controlPanelTitle;
+      document.getElementById('newUserName').placeholder = t.usernamePlaceholder;
+      document.getElementById('assignBtnText').textContent = t.assignBtnText;
+      
+      document.getElementById('r1Title').textContent = t.rank1Title;
+      document.getElementById('r1Desc').textContent = t.rank1Desc;
+      document.getElementById('r2Title').textContent = t.rank2Title;
+      document.getElementById('r2Desc').textContent = t.rank2Desc;
+      document.getElementById('r3Title').textContent = t.rank3Title;
+      document.getElementById('r3Desc').textContent = t.rank3Desc;
+
+      document.getElementById('catScreenTitle').textContent = t.catTitle;
+      updateCategorySelectionState();
+    }
+  </script>
+</body>
+</html>
