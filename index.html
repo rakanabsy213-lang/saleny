@@ -338,7 +338,7 @@
     
     .subtitle span { color: #f472b6; font-size: 18px; }
 
-    /* تعديل القائمة الرئيسية لتصبح شبكية (Grid) متناسقة على الهواتف والشاشات */
+    /* شبكة القائمة الرئيسية */
     .main-menu { 
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -367,7 +367,6 @@
     .menu-card i { font-size: 26px; margin-bottom: 6px; }
     .menu-card span { font-size: 13px; font-weight: bold; text-align: center; }
 
-    /* تمييز زر ابدأ اللعبة ليأخذ عمودين أو يبرز بمنتصف الشبكة */
     .card-play { 
       background: linear-gradient(180deg, #f43f5e, #be123c); 
       grid-column: span 3;
@@ -509,198 +508,307 @@
       box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
     }
 
-    /* --- تصميم شاشة اختيار الفئات (Category Screen) --- */
+    /* شاشة اختيار الفئات والألعاب (محدثة) */
     #categoryScreen {
       display: none;
       width: 100vw;
       min-height: 100vh;
-      background: #f3f4f6;
-      color: #1f2937;
+      background: #1a0b2e;
+      color: #fce7f3;
       flex-direction: column;
       align-items: center;
-      padding-bottom: 50px;
+      padding: 30px 20px;
       position: absolute;
       top: 0; left: 0;
       z-index: 500;
     }
-
-    .cat-top-nav {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      padding: 15px;
-      flex-wrap: wrap;
-      background: #ffffff;
-      width: 100%;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
     .back-home-btn {
       position: absolute;
-      top: 15px;
-      right: 20px;
-      background: #db2777;
+      top: 25px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #581c87;
       color: white;
-      border: none;
-      width: 40px;
-      height: 40px;
+      width: 45px; height: 45px;
       border-radius: 50%;
-      font-size: 16px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3);
-      z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
     }
+    html[dir="ltr"] .back-home-btn { right: auto; left: 30px; }
 
-    .flag-pill {
-      background: #e5e7eb;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: background 0.2s;
-    }
-    .flag-pill:hover, .flag-pill.active {
-      background: #d1d5db;
-    }
-
-    .cat-search-random-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      width: 90%;
-      max-width: 1100px;
-      margin: 20px 0;
-      flex-wrap: wrap;
-    }
-
-    .cat-search-box {
-      flex: 1;
-      min-width: 260px;
-      background: #ffffff;
-      border: 2px solid #e5e7eb;
-      border-radius: 35px;
-      display: flex;
-      align-items: center;
-      padding: 10px 18px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    }
-    .cat-search-box i { color: #f97316; font-size: 18px; margin-left: 10px; }
-    .cat-search-box input {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 15px;
-      background: transparent;
-      color: #374151;
-      font-family: inherit;
-    }
-
-    .random-cat-btn {
-      background: linear-gradient(135deg, #fb923c, #f97316);
-      color: white;
-      border: none;
-      padding: 14px 25px;
-      border-radius: 35px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform 0.2s;
-    }
-    .random-cat-btn:hover { transform: translateY(-2px); }
-
-    .update-cats-btn {
-      background: #fb923c;
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 20px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
-
-    .categories-grid-wrapper {
-      background: #ffffff;
-      width: 92%;
-      max-width: 1200px;
-      border-radius: 30px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      border: 1px solid #e5e7eb;
-    }
-
-    .categories-grid {
+    .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 15px;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 20px;
     }
-
-    .category-card {
-      background: #ebf8ff;
-      border: 2px solid #bee3f8;
-      border-radius: 18px;
-      overflow: hidden;
+    .game-category-card {
+      background: #2e1065;
+      border: 2px solid #581c87;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
+      gap: 10px;
     }
-    .category-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
-
-    .category-card-info {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: #3182ce;
-      color: white;
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px;
-    }
-
-    .category-card-img {
-      width: 100%;
-      height: 95px;
-      background: #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .game-category-card i {
       font-size: 32px;
-      color: #4a5568;
+      color: #f472b6;
     }
-
-    .category-card-title {
-      width: 100%;
-      background: #dd6b20;
-      color: white;
-      padding: 8px 4px;
-      text-align: center;
-      font-size: 13px;
+    .game-category-card span {
+      font-size: 15px;
       font-weight: bold;
+      color: #fce7f3;
+    }
+    .game-category-card.selected {
+      background: #db2777;
+      border-color: #f472b6;
+      box-shadow: 0 0 15px rgba(219, 39, 119, 0.6);
+    }
+    .game-category-card.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+      filter: grayscale(80%);
     }
   </style>
 </head>
 <body>
+
+  <div id="toastNotification">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span id="toastText">تنبيه</span>
+  </div>
+
+  <!-- نافذة ترحيبية عند الدخول -->
+  <div id="welcomeModal">
+    <div class="welcome-content">
+      <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+      <h2 id="welTitle">هذا الموقع قيد التطوير للاستفسار</h2>
+      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-btn">
+        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
+        <span id="welBtnText">التواصل عبر إنستغرام</span>
+      </a>
+      <button class="close-modal-btn" onclick="closeWelcomeModal()">
+        <span id="closeModalText">حسناً، الدخول للموقع</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- نافذة الإدارة والرتب -->
+  <div id="managementModal">
+    <div class="management-content">
+      <div class="management-header">
+        <h3 id="mgtTitleText"><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
+        <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="admin-control-box">
+        <h4 id="controlTitleText">⚙️ لوحة تعيين ورتب الأعضاء</h4>
+        <form onsubmit="assignUserRank(event)">
+          <div class="form-group">
+            <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required>
+          </div>
+          <div class="form-group">
+            <select id="newRankSelect">
+              <option value="owner">👑 المدير العام (Owner)</option>
+              <option value="admin">🛡️ مشرف عام (Admin)</option>
+              <option value="mod">⭐ مساعد إداري (Moderator)</option>
+            </select>
+          </div>
+          <button type="submit" class="assign-btn" id="assignBtnText">منح الرتبة</button>
+        </form>
+        <div class="assigned-users-list" id="assignedListContainer"></div>
+      </div>
+
+      <div class="rank-card">
+        <div class="rank-title" id="r1Title">👑 المدير العام (Owner)</div>
+        <div class="rank-perms" id="r1Desc">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-title" id="r2Title">🛡️ مشرف عام (Admin)</div>
+        <div class="rank-perms" id="r2Desc">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
+      </div>
+      <div class="rank-card">
+        <div class="rank-title" id="r3Title">⭐ مساعد إداري (Moderator)</div>
+        <div class="rank-perms" id="r3Desc">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- الشاشة الرئيسية -->
+  <div id="homeScreen">
+    <div class="top-section">
+      <button class="icon-btn sound-btn" onclick="toggleSound()" title="التحكم بالصوت">
+        <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+      </button>
+      <button class="icon-btn settings-btn" onclick="openSettings()" title="الإعدادات">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+
+      <div class="brand-header-container">
+        <i class="fa-solid fa-crown crown-icon"></i>
+        <svg class="brand-logo-svg" viewBox="0 0 280 80">
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="42" font-weight="900" id="logoText" style="font-family: 'Segoe UI', Tahoma, sans-serif;">سليني</text>
+        </svg>
+      </div>
+      <div class="subtitle">
+        <span id="subText1">اختبر معلوماتك ونَافِس أصدقائك</span>
+      </div>
+    </div>
+
+    <!-- القائمة الرئيسية -->
+    <div class="main-menu">
+      <div class="menu-card card-play" onclick="startCategoryScreen()">
+        <i class="fa-solid fa-play"></i>
+        <span id="txtPlay">ابدأ اللعبة</span>
+      </div>
+      <div class="menu-card card-blue" onclick="openManagement()">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span id="txtManagement">الإدارة</span>
+      </div>
+      <div class="menu-card card-yellow" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-gem"></i>
+        <span id="txtGiants">العمالقة</span>
+      </div>
+      <div class="menu-card card-green" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-star"></i>
+        <span id="txtStars">النجوم</span>
+      </div>
+      <div class="menu-card card-white" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-trophy"></i>
+        <span id="txtTournaments">البطولات</span>
+      </div>
+      <div class="menu-card card-dark" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span id="txtHistory">السجل</span>
+      </div>
+      <div class="menu-card card-cyan" onclick="showToast('قيد التطوير')">
+        <i class="fa-solid fa-bolt"></i>
+        <span id="txtChallenges">التحديات</span>
+      </div>
+    </div>
+
+    <div class="home-bottom-bg">
+      <div class="features-container">
+        <div class="feature-item">
+          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
+          <div class="feature-text">
+            <h4 id="txtFeat1Title">مستويات متقدمة</h4>
+            <p id="txtFeat1Desc">فئات مخصصة لكل المجالات</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-gamepad"></i></div>
+          <div class="feature-text">
+            <h4 id="txtFeat2Title">تفاعل حماسي</h4>
+            <p id="txtFeat2Desc">وسائل مساعدة واستراتيجيات لعب</p>
+          </div>
+        </div>
+      </div>
+      <a href="https://www.instagram.com/m__7_d_10" target="_blank" class="footer-credit">
+        <span id="txtFooterText">تطوير:</span>
+        <span class="dev-name" id="txtDevName">M__7_D_10</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- شاشة اختيار الفئات والألعاب (تعديل لاختيار 7 ألعاب كحد أقصى) -->
+  <div id="categoryScreen">
+    <button class="back-home-btn" onclick="backToHome()"><i class="fa-solid fa-arrow-right"></i></button>
+    <h2 style="margin-top: 10px; color: #f472b6;" id="catScreenTitle">اختر 7 ألعاب أو أقسام</h2>
+    <p style="color: #d8b4fe; margin-top: 5px; font-size: 14px;" id="catCounterText">تم اختيار: 0 / 7</p>
+    
+    <div class="category-grid" id="categoryGridContainer">
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-brain"></i>
+        <span>اختبار الذكاء</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-futbol"></i>
+        <span>الرياضة والكرة</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-film"></i>
+        <span>أفلام ومسلسلات</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-globe"></i>
+        <span>معلومات عامة</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-laptop-code"></i>
+        <span>تكنولوجيا وبرمجة</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-dice"></i>
+        <span>ألغاز وحزورات</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-music"></i>
+        <span>أغاني وتراث</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-car"></i>
+        <span>سيارات ومحركات</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-utensils"></i>
+        <span>طبخ ومأكولات</span>
+      </div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)">
+        <i class="fa-solid fa-landmark"></i>
+        <span>تاريخ وحضارات</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الإعدادات -->
+  <div id="settingsModal">
+    <div class="settings-modal-content">
+      <div class="settings-modal-header">
+        <h3 id="stTitle"><i class="fa-solid fa-gear"></i> إعدادات اللعبة</h3>
+        <button class="close-settings-btn" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="setting-item">
+        <label id="lblLang">لغة اللعبة / Language</label>
+        <select id="languageSelect">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblVol">مستوى صوت المؤثرات</label>
+        <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="0.5">
+      </div>
+
+      <div class="setting-item">
+        <label id="lblSpeed">سرعة واجهة اللعبة</label>
+        <select id="speedSelect">
+          <option value="normal" id="optNormal">عادية</option>
+          <option value="fast" id="optFast">سريعة</option>
+        </select>
+      </div>
+
+      <div class="setting-item">
+        <label id="lblEffects">المؤثرات البصرية</label>
+        <select id="effectsSelect">
+          <option value="on" id="optOn">مفعلة</option>
+          <option value="off" id="optOff">موقفة</option>
+        </select>
+      </div>
+
+      <button class="save-settings-btn" onclick="saveSettings()" id="btnSave">حفظ التغييرات</button>
+    </div>
+  </div>
 
   <script>
     let isSoundEnabled = true;
@@ -742,12 +850,10 @@
         soundOffMsg: "تم كتم الصوت",
         saveMsg: "تم حفظ الإعدادات بنجاح!",
         devMsg: "قيد التطوير",
-        startMsg: "جاري الانتقال لاختيار الفئات...",
         welcomeTitle: "هذا الموقع قيد التطوير للاستفسار",
         welcomeBtn: "التواصل عبر إنستغرام",
         closeBtnText: "حسناً، الدخول للموقع",
         mgtTitle: "إدارة ورتب الموقع",
-        closeMgt: "إغلاق",
         controlPanelTitle: "⚙️ لوحة تعيين ورتب الأعضاء",
         usernamePlaceholder: "اسم المستخدم أو المعرف",
         assignBtnText: "منح الرتبة",
@@ -756,7 +862,9 @@
         rank2Title: "🛡️ مشرف عام (Admin)",
         rank2Desc: "صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.",
         rank3Title: "⭐ مساعد إداري (Moderator)",
-        rank3Desc: "صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل."
+        rank3Desc: "صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.",
+        catTitle: "اختر 7 ألعاب أو أقسام",
+        catCounter: "تم اختيار: "
       },
       en: {
         title: "Saleny - Trivia",
@@ -789,12 +897,10 @@
         soundOffMsg: "Sound Muted",
         saveMsg: "Settings saved successfully!",
         devMsg: "Under Development",
-        startMsg: "Going to category selection...",
         welcomeTitle: "This site is under development for inquiry",
         welcomeBtn: "Contact via Instagram",
         closeBtnText: "OK, Enter Website",
         mgtTitle: "Management & Ranks",
-        closeMgt: "Close",
         controlPanelTitle: "⚙️ Assign Member Ranks",
         usernamePlaceholder: "Username or ID",
         assignBtnText: "Assign Rank",
@@ -803,7 +909,9 @@
         rank2Title: "🛡️ Admin",
         rank2Desc: "Supervisory access: Monitor content, assist players, and manage tournaments.",
         rank3Title: "⭐ Moderator",
-        rank3Desc: "Basic access: Track workflow, answer inquiries, and report issues."
+        rank3Desc: "Basic access: Track workflow, answer inquiries, and report issues.",
+        catTitle: "Choose 7 Games or Sections",
+        catCounter: "Selected: "
       }
     };
 
@@ -858,15 +966,62 @@
 
     function startCategoryScreen() {
       playClickSound('success');
-      showToast(translations[currentLang].startMsg);
       document.getElementById('homeScreen').style.display = 'none';
       document.getElementById('categoryScreen').style.display = 'flex';
+      resetCategorySelections();
     }
 
     function backToHome() {
       playClickSound('click');
       document.getElementById('categoryScreen').style.display = 'none';
       document.getElementById('homeScreen').style.display = 'flex';
+    }
+
+    // إدارة اختيار الـ 7 ألعاب والباقي يصبح باهتاً
+    function toggleGameSelection(card) {
+      const isSelected = card.classList.contains('selected');
+      const selectedCards = document.querySelectorAll('.game-category-card.selected');
+
+      if (!isSelected && selectedCards.length >= 7) {
+        showToast(currentLang === 'ar' ? 'لقد اخترت 7 ألعاب بالفعل!' : 'You have already selected 7 games!');
+        return;
+      }
+
+      playClickSound('click');
+      card.classList.toggle('selected');
+      
+      updateCategorySelectionState();
+    }
+
+    function updateCategorySelectionState() {
+      const selectedCards = document.querySelectorAll('.game-category-card.selected');
+      const allCards = document.querySelectorAll('.game-category-card');
+      const count = selectedCards.length;
+
+      const t = translations[currentLang];
+      document.getElementById('catCounterText').textContent = `${t.catCounter} ${count} / 7`;
+
+      if (count >= 7) {
+        allCards.forEach(c => {
+          if (!c.classList.contains('selected')) {
+            c.classList.add('disabled');
+          }
+        });
+      } else {
+        allCards.forEach(c => {
+          c.classList.remove('disabled');
+        });
+      }
+    }
+
+    function resetCategorySelections() {
+      const allCards = document.querySelectorAll('.game-category-card');
+      allCards.forEach(c => {
+        c.classList.remove('selected');
+        c.classList.remove('disabled');
+      });
+      const t = translations[currentLang];
+      document.getElementById('catCounterText').textContent = `${t.catCounter} 0 / 7`;
     }
 
     function assignUserRank(event) {
@@ -999,7 +1154,6 @@
       document.getElementById('closeModalText').textContent = t.closeBtnText;
 
       document.getElementById('mgtTitleText').innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${t.mgtTitle}`;
-      document.getElementById('closeMgtText').textContent = t.closeMgt;
       document.getElementById('controlTitleText').textContent = t.controlPanelTitle;
       document.getElementById('newUserName').placeholder = t.usernamePlaceholder;
       document.getElementById('assignBtnText').textContent = t.assignBtnText;
@@ -1010,247 +1164,10 @@
       document.getElementById('r2Desc').textContent = t.rank2Desc;
       document.getElementById('r3Title').textContent = t.rank3Title;
       document.getElementById('r3Desc').textContent = t.rank3Desc;
+
+      document.getElementById('catScreenTitle').textContent = t.catTitle;
+      updateCategorySelectionState();
     }
   </script>
-
-  <div id="toastNotification">
-    <i class="fa-solid fa-triangle-exclamation"></i>
-    <span id="toastText">تنبيه</span>
-  </div>
-
-  <!-- نافذة ترحيبية عند الدخول -->
-  <div id="welcomeModal">
-    <div class="welcome-content">
-      <div class="welcome-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-      <h2 id="welTitle">هذا الموقع قيد التطوير للاستفسار</h2>
-      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="insta-btn">
-        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
-        <span id="welBtnText">التواصل عبر إنستغرام</span>
-      </a>
-      <button class="close-modal-btn" onclick="closeWelcomeModal()">
-        <span id="closeModalText">حسناً، الدخول للموقع</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- نافذة الإدارة والرتب -->
-  <div id="managementModal">
-    <div class="management-content">
-      <div class="management-header">
-        <h3 id="mgtTitleText"><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
-        <button class="close-settings-btn" onclick="closeManagement()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="admin-control-box">
-        <h4 id="controlTitleText">⚙️ لوحة تعيين ورتب الأعضاء</h4>
-        <form onsubmit="assignUserRank(event)">
-          <div class="form-group">
-            <input type="text" id="newUserName" placeholder="اسم المستخدم أو المعرف" required autocomplete="off">
-          </div>
-          <div class="form-group">
-            <select id="newRankSelect">
-              <option value="owner">👑 المدير العام (Owner)</option>
-              <option value="admin">🛡️ مشرف عام (Admin)</option>
-              <option value="mod">⭐ مساعد إداري (Moderator)</option>
-            </select>
-          </div>
-          <button type="submit" class="assign-btn" id="assignBtnText">منح الرتبة</button>
-        </form>
-        
-        <div class="assigned-users-list" id="assignedListContainer"></div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title" id="r1Title">👑 المدير العام (Owner)</div>
-        <div class="rank-perms" id="r1Desc">صلاحيات كاملة: التحكم بجميع إعدادات الموقع، إضافة وتعديل الأقسام، وإدارة المستخدمين.</div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title" id="r2Title">🛡️ مشرف عام (Admin)</div>
-        <div class="rank-perms" id="r2Desc">صلاحيات إشرافية: مراقبة المحتوى، مساعدة اللاعبين، وإدارة البطولات والتحديات.</div>
-      </div>
-
-      <div class="rank-card">
-        <div class="rank-title" id="r3Title">⭐ مساعد إداري (Moderator)</div>
-        <div class="rank-perms" id="r3Desc">صلاحيات أساسية: متابعة سير العمل، الرد على الاستفسارات، والإبلاغ عن أي مشاكل.</div>
-      </div>
-
-      <button id="closeMgtText" class="save-settings-btn" onclick="closeManagement()" style="margin-top: 15px;">إغلاق</button>
-    </div>
-  </div>
-
-  <!-- نافذة الإعدادات المنبثقة -->
-  <div id="settingsModal">
-    <div class="settings-modal-content">
-      <div class="settings-modal-header">
-        <h3 id="stTitle"><i class="fa-solid fa-gear"></i> إعدادات اللعبة</h3>
-        <button class="close-settings-btn" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="setting-item">
-        <label id="lblLang">لغة اللعبة / Language</label>
-        <select id="languageSelect">
-          <option value="ar">العربية</option>
-          <option value="en">English</option>
-        </select>
-      </div>
-
-      <div class="setting-item">
-        <label id="lblVol">مستوى صوت المؤثرات</label>
-        <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="0.5">
-      </div>
-
-      <div class="setting-item">
-        <label id="lblSpeed">سرعة واجهة اللعبة</label>
-        <select id="gameSpeed">
-          <option id="optNormal" value="normal">عادية</option>
-          <option id="optFast" value="fast">سريعة</option>
-        </select>
-      </div>
-
-      <div class="setting-item">
-        <label id="lblEffects">المؤثرات البصرية</label>
-        <select id="visualEffects">
-          <option id="optOn" value="on">مفعلة</option>
-          <option id="optOff" value="off">موقفة</option>
-        </select>
-      </div>
-
-      <button id="btnSave" class="save-settings-btn" onclick="saveSettings()">حفظ التغييرات</button>
-    </div>
-  </div>
-
-  <!-- الشاشة الرئيسية -->
-  <div id="homeScreen">
-    <div class="top-section">
-      <button class="icon-btn sound-btn" id="soundToggleBtn" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">
-        <i id="soundIcon" class="fa-solid fa-volume-high"></i>
-      </button>
-      
-      <button class="icon-btn settings-btn" onclick="openSettings()" title="الإعدادات">
-        <i class="fa-solid fa-gear"></i>
-      </button>
-      
-      <div class="brand-header-container">
-        <i class="fa-solid fa-crown crown-icon"></i>
-        <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 90">
-          <text id="logoText" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="52" font-weight="900" style="filter: drop-shadow(3px 3px 0px #9d174d);">سليني</text>
-        </svg>
-      </div>
-      <p class="subtitle"><span>+</span> <span id="subText1">اختبر معلوماتك ونَافِس أصدقائك</span> <span>+</span></p>
-    </div>
-
-    <!-- القائمة الرئيسية (تم ضبطها لتظهر مرتبة بشكل شبكي على الجوال) -->
-    <div class="main-menu">
-      <div class="menu-card card-blue" onclick="openManagement()"><i class="fa-solid fa-shield-halved"></i><span id="txtManagement">الإدارة</span></div>
-      <div class="menu-card card-yellow" onclick="playClickSound('click'); showToast(translations[currentLang].devMsg)"><i class="fa-solid fa-crown"></i><span id="txtGiants">العمالقة</span></div>
-      <div class="menu-card card-green" onclick="playClickSound('click'); showToast(translations[currentLang].devMsg)"><i class="fa-solid fa-star"></i><span id="txtStars">النجوم</span></div>
-      
-      <!-- زر اللعب الرئيسي -->
-      <div class="menu-card card-play" onclick="startCategoryScreen()">
-        <i class="fa-solid fa-play"></i>
-        <span id="txtPlay">ابدأ اللعبة</span>
-      </div>
-
-      <div class="menu-card card-white" onclick="playClickSound('click'); showToast(translations[currentLang].devMsg)"><i class="fa-solid fa-trophy"></i><span id="txtTournaments">البطولات</span></div>
-      <div class="menu-card card-dark" onclick="playClickSound('click'); showToast(translations[currentLang].devMsg)"><i class="fa-solid fa-clock-rotate-left"></i><span id="txtHistory">السجل</span></div>
-      <div class="menu-card card-cyan" onclick="playClickSound('click'); showToast(translations[currentLang].devMsg)"><i class="fa-solid fa-gamepad"></i><span id="txtChallenges">التحديات</span></div>
-    </div>
-
-    <!-- القسم السفلي والمميزات -->
-    <div class="home-bottom-bg">
-      <div class="features-container">
-        <div class="feature-item">
-          <div class="feature-icon-circle f-red"><i class="fa-solid fa-layer-group"></i></div>
-          <div class="feature-text">
-            <h4 id="txtFeat1Title">مستويات متقدمة</h4>
-            <p id="txtFeat1Desc">فئات مخصصة لكل المجالات</p>
-          </div>
-        </div>
-
-        <div class="feature-item">
-          <div class="feature-icon-circle f-yellow"><i class="fa-solid fa-bolt"></i></div>
-          <div class="feature-text">
-            <h4 id="txtFeat2Title">تفاعل حماسي</h4>
-            <p id="txtFeat2Desc">وسائل مساعدة واستراتيجيات لعب</p>
-          </div>
-        </div>
-      </div>
-
-      <a href="https://www.instagram.com/m__7_d_10?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="footer-credit">
-        <span id="txtFooterText">تطوير:</span>
-        <span class="dev-name" id="txtDevName">M__7_D_10</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- شاشة اختيار الفئات -->
-  <div id="categoryScreen">
-    <button class="back-home-btn" onclick="backToHome()" title="العودة للرئيسية"><i class="fa-solid fa-house"></i></button>
-
-    <div class="cat-top-nav">
-      <div class="flag-pill">🇯🇴 الأردن</div>
-      <div class="flag-pill">🇧🇭 البحرين</div>
-      <div class="flag-pill">🇦🇪 الإمارات</div>
-      <div class="flag-pill">🇶🇦 قطر</div>
-      <div class="flag-pill">🇴🇲 عمان</div>
-      <div class="flag-pill">🇸🇦 السعودية</div>
-      <div class="flag-pill">🇰🇼 الكويت</div>
-      <div class="flag-pill active">ALL</div>
-    </div>
-
-    <div class="cat-search-random-container">
-      <div class="cat-search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="catSearchInput" placeholder="البحث باسم الفئة">
-      </div>
-      <button class="random-cat-btn" onclick="playClickSound('success'); showToast('تم اختيار فئة عشوائية!')">
-        <i class="fa-solid fa-dice"></i> اختر فئات عشوائية
-      </button>
-    </div>
-
-    <button class="update-cats-btn" onclick="playClickSound('click'); showToast('جاري تحديث الفئات...')">أُجدد الفئات</button>
-
-    <div class="categories-grid-wrapper">
-      <div class="categories-grid" id="categoriesGrid">
-        <div class="category-card" onclick="playClickSound('click'); showToast('تم اختيار: حروف إنجليزي')">
-          <div class="category-card-info"><i class="fa-solid fa-info"></i></div>
-          <div class="category-card-img"><i class="fa-solid fa-font"></i></div>
-          <div class="category-card-title">حروف إنجليزي</div>
-        </div>
-        <div class="category-card" onclick="playClickSound('click'); showToast('تم اختيار: وضح شوي')">
-          <div class="category-card-info"><i class="fa-solid fa-info"></i></div>
-          <div class="category-card-img"><i class="fa-solid fa-image"></i></div>
-          <div class="category-card-title">وضح شوي</div>
-        </div>
-        <div class="category-card" onclick="playClickSound('click'); showToast('تم اختيار: دوري أبطال أوروبا')">
-          <div class="category-card-info"><i class="fa-solid fa-info"></i></div>
-          <div class="category-card-img"><i class="fa-solid fa-trophy"></i></div>
-          <div class="category-card-title">دوري أبطال أوروبا</div>
-        </div>
-        <div class="category-card" onclick="playClickSound('click'); showToast('تم اختيار: فن قطري')">
-          <div class="category-card-info"><i class="fa-solid fa-info"></i></div>
-          <div class="category-card-img"><i class="fa-solid fa-palette"></i></div>
-          <div class="category-card-title">فن قطري</div>
-        </div>
-        <div class="category-card" onclick="playClickSound('click'); showToast('تم اختيار: سوبرماركت أردني')">
-          <div class="category-card-info"><i class="fa-solid fa-info"></i></div>
-          <div class="category-card-img"><i class="fa-solid fa-basket-shopping"></i></div>
-          <div class="category-card-title">سوبرماركت أردني</div>
-        </div>
-        <div class="category-card" onclick="playClickSound('click'); showToast('تم اختيار: تطبيقات')">
-          <div class="category-card-info"><i class="fa-solid fa-info"></i></div>
-          <div class="category-card-img"><i class="fa-solid fa-mobile-screen"></i></div>
-          <div class="category-card-title">تطبيقات</div>
-        </div>
-        <div class="category-card" onclick="playClickSound('click'); showToast('تم اختيار: نحو وإعراب')">
-          <div class="category-card-info"><i class="fa-solid fa-info"></i></div>
-          <div class="category-card-img"><i class="fa-solid fa-book"></i></div>
-          <div class="category-card-title">نحو وإعراب</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </body>
 </html>
