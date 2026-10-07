@@ -517,7 +517,7 @@
       color: #fce7f3;
       flex-direction: column;
       align-items: center;
-      padding: 30px 20px;
+      padding: 30px 20px 50px 20px;
       position: absolute;
       top: 0; left: 0;
       z-index: 500;
@@ -568,7 +568,6 @@
       font-weight: bold;
       color: #fce7f3;
     }
-    /* تنسيق مميز عند اختيار البطاقة لتغيير شكلها ولونها بالكامل */
     .game-category-card.selected {
       background: linear-gradient(135deg, #db2777, #be185d);
       border-color: #fbcfe8;
@@ -584,6 +583,75 @@
       opacity: 0.35;
       pointer-events: none;
       filter: grayscale(80%);
+    }
+
+    /* قسم وسائل المساعدة المضافة في الأسفل */
+    .game-settings-bottom-section {
+      width: 100%;
+      max-width: 600px;
+      background: #2e1065;
+      border: 2px solid #581c87;
+      border-radius: 25px;
+      padding: 20px;
+      margin-top: 30px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .game-settings-bottom-section h3 {
+      font-size: 18px;
+      color: #fbcfe8;
+      margin-bottom: 15px;
+      font-weight: 800;
+    }
+    .boosters-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .booster-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: #1a0b2e;
+      border: 2px solid #581c87;
+      color: #fce7f3;
+      font-size: 12px;
+      font-weight: bold;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .booster-badge i {
+      font-size: 20px;
+      color: #f472b6;
+    }
+    .booster-badge.active-booster {
+      border-color: #db2777;
+      background: #3b0764;
+      box-shadow: 0 0 12px rgba(219, 39, 119, 0.5);
+    }
+    .start-game-final-btn {
+      background: linear-gradient(90deg, #f43f5e, #db2777);
+      color: white;
+      border: none;
+      width: 100%;
+      max-width: 350px;
+      padding: 14px;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 25px;
+      box-shadow: 0 8px 20px rgba(244, 63, 94, 0.4);
+      transition: transform 0.2s;
+    }
+    .start-game-final-btn:hover {
+      transform: translateY(-2px);
     }
   </style>
 </head>
@@ -727,7 +795,7 @@
     </div>
   </div>
 
-  <!-- شاشة اختيار الفئات والألعاب (الأقسام الأصلية كما طلبتها) -->
+  <!-- شاشة اختيار الفئات والألعاب مع وسائل المساعدة بالأسفل -->
   <div id="categoryScreen">
     <button class="back-home-btn" onclick="backToHome()"><i class="fa-solid fa-arrow-right"></i></button>
     <h2 style="margin-top: 10px; color: #f472b6;" id="catScreenTitle">اختر 7 ألعاب أو أقسام</h2>
@@ -774,6 +842,34 @@
         <i class="fa-solid fa-utensils"></i>
         <span>طبخ ومأكولات</span>
       </div>
+    </div>
+
+    <!-- قسم وسائل المساعدة المضافة بأسلوب تنافسي فردي -->
+    <div class="game-settings-bottom-section">
+      <h3>اختر وسائل المساعدة المتاحة للجلسة</h3>
+      <div class="boosters-row">
+        <div class="booster-badge active-booster" onclick="toggleBooster(this)">
+          <i class="fa-solid fa-hand-peace"></i>
+          <span>جاوب جوابين</span>
+        </div>
+        <div class="booster-badge active-booster" onclick="toggleBooster(this)">
+          <i class="fa-solid fa-phone"></i>
+          <span>اتصال بصديق</span>
+        </div>
+        <div class="booster-badge active-booster" onclick="toggleBooster(this)">
+          <i class="fa-solid fa-arrows-split-up-and-left"></i>
+          <span>الحفرة</span>
+        </div>
+        <div class="booster-badge" onclick="toggleBooster(this)">
+          <i class="fa-solid fa-mug-hot"></i>
+          <span>استريح</span>
+        </div>
+        <div class="booster-badge" onclick="toggleBooster(this)">
+          <i class="fa-solid fa-bomb"></i>
+          <span>الفخ</span>
+        </div>
+      </div>
+      <button class="start-game-final-btn" onclick="showToast('جاري بدء اللعبة...')">ابدأ اللعب الآن</button>
     </div>
   </div>
 
@@ -998,6 +1094,11 @@
       card.classList.toggle('selected');
       
       updateCategorySelectionState();
+    }
+
+    function toggleBooster(badge) {
+      playClickSound('click');
+      badge.classList.toggle('active-booster');
     }
 
     function updateCategorySelectionState() {
