@@ -21,12 +21,12 @@
     }
     #toastNotification.show { top: 25px; }
 
-    #welcomeModal, #authModal, #adminMsgModal, #settingsModal {
+    #welcomeModal, #authModal, #settingsModal {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(15, 5, 29, 0.85); z-index: 40000; display: flex;
       justify-content: center; align-items: center; backdrop-filter: blur(8px);
     }
-    #authModal, #adminMsgModal, #settingsModal { display: none; }
+    #authModal, #settingsModal { display: none; }
 
     .auth-card {
       background: #2e1065; border: 2px solid #db2777; border-radius: 30px;
@@ -50,11 +50,17 @@
       align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* تصميم رسالة الأدمن الجديدة المطابقة للصورة تماماً */
+    /* الشريط العلوي لإرسال الآدمن (مثل الصورة الثانية) */
     .admin-image-banner-alert {
-      background: #db2777; color: white; padding: 15px 25px; border-radius: 40px;
-      display: flex; align-items: center; justify-content: space-between; gap: 15px;
-      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.5); margin-bottom: 20px; font-size: 18px; font-weight: bold;
+      background: linear-gradient(135deg, #db2777, #be185d); color: white; padding: 12px 25px; border-radius: 40px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      box-shadow: 0 8px 20px rgba(219, 39, 119, 0.5); font-size: 18px; font-weight: bold;
+      margin: 15px auto; max-width: 90%; border: 2px solid #fbcfe8; animation: pulseBanner 2s infinite;
+    }
+    @keyframes pulseBanner {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
     }
 
     #homeScreen {
@@ -62,7 +68,7 @@
       background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
       display: flex; flex-direction: column; justify-content: space-between; position: relative;
     }
-    .top-section { padding: 30px 20px 40px 20px; text-align: center; color: white; position: relative; }
+    .top-section { padding: 20px 20px 30px 20px; text-align: center; color: white; position: relative; }
     .icon-btn {
       position: absolute; top: 25px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
       color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer;
@@ -71,10 +77,10 @@
     .sound-btn { left: 30px; }
     .settings-btn { right: 30px; }
 
-    .brand-header-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin: 20px auto 0 auto; width: fit-content; }
+    .brand-header-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin: 10px auto 0 auto; width: fit-content; }
     .crown-icon { position: absolute; top: -38px; right: -10px; font-size: 45px; color: #f472b6; transform: rotate(-15deg); }
-    .brand-logo-svg { width: 280px; height: 80px; }
-    .subtitle { font-size: 16px; margin-top: 5px; font-weight: 700; color: #fbcfe8; display: flex; justify-content: center; gap: 8px; }
+    .brand-logo-svg { width: 280px; height: 70px; }
+    .subtitle { font-size: 16px; margin-top: 2px; font-weight: 700; color: #fbcfe8; display: flex; justify-content: center; gap: 8px; }
 
     .user-badge-container {
       position: absolute; top: 25px; left: 95px; display: flex; align-items: center; gap: 8px;
@@ -164,17 +170,6 @@
     </div>
   </div>
 
-  <!-- نافذة رسائل الأدمن المطابقة للصورة تماماً -->
-  <div id="adminMsgModal">
-    <div class="auth-card" style="max-width: 480px; padding: 25px;">
-      <div class="admin-image-banner-alert">
-        <span id="adminBroadcastTextContent" style="text-align: right; flex-grow: 1;">أهلاً بك يا المستخدم</span>
-        <i class="fa-solid fa-triangle-exclamation" style="font-size: 28px; color: #fff;"></i>
-      </div>
-      <button class="auth-btn" style="background: linear-gradient(90deg, #0284c7, #2563eb); margin-top: 10px;" onclick="closeAdminMsgModal()">حسناً، فهمت</button>
-    </div>
-  </div>
-
   <!-- نافذة الإعدادات -->
   <div id="settingsModal">
     <div class="settings-modal-content">
@@ -200,6 +195,14 @@
 
       <button class="icon-btn sound-btn" onclick="toggleSound()"><i id="soundIcon" class="fa-solid fa-volume-high"></i></button>
       <button class="icon-btn settings-btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
+
+      <!-- الشريط العلوي لرسالة الآدمن المباشرة (مثل الصورة الثانية تماماً) -->
+      <div id="adminBroadcastContainer" style="display: none; margin-top: 15px;">
+        <div class="admin-image-banner-alert">
+          <span id="adminBroadcastTextContent">أهلاً بك</span>
+          <i class="fa-solid fa-triangle-exclamation" style="font-size: 22px; color: #fff;"></i>
+        </div>
+      </div>
 
       <div class="brand-header-container">
         <i class="fa-solid fa-crown crown-icon"></i>
@@ -288,7 +291,6 @@
     }
     trackVisitor();
 
-    // دالة حفظ وتسجيل المستخدم في قاعدة البيانات وربط الرتب
     window.registerOrLoginUserToDB = async function(email, name) {
       try {
         const userRef = doc(db, 'users', email);
@@ -376,9 +378,9 @@
           </div>
 
           <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال رسالة منبثقة (تظهر بالشكل المطلوب):</div>
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال رسالة للشريط العلوي:</div>
             <div style="display: flex; gap: 5px;">
-              <input type="text" id="admin-broadcast-msg" placeholder="اكتب اسم المستخدم أو التنبيه..." style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
+              <input type="text" id="admin-broadcast-msg" placeholder="اكتب نص التنبيه هنا..." style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
               <button id="admin-broadcast-btn" style="background: #9333ea; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">إرسال</button>
             </div>
           </div>
@@ -466,8 +468,13 @@
       document.getElementById('admin-broadcast-btn').addEventListener('click', () => {
         const msg = document.getElementById('admin-broadcast-msg').value.trim();
         if (!msg) { alert('أدخل نص الرسالة أولاً'); return; }
+        
+        // حفظ الرسالة لعرضها فوراً في الشريط العلوي لكل النوافذ
         localStorage.setItem('saleny_broadcast_msg', JSON.stringify({ text: msg, time: Date.now() }));
-        alert('تم إرسال التنبيه بنجاح!');
+        
+        // تحديثه محلياً في نافذة الأدمن فوراً
+        displayAdminBanner(msg);
+        showToast('تم إرسال التنبيه للشريط العلوي بنجاح!');
         document.getElementById('admin-broadcast-msg').value = '';
       });
     }
@@ -481,15 +488,36 @@
       }
     };
 
+    function displayAdminBanner(text) {
+      const container = document.getElementById('adminBroadcastContainer');
+      const textSpan = document.getElementById('adminBroadcastTextContent');
+      if (container && textSpan) {
+        textSpan.textContent = text;
+        container.style.display = 'block';
+      }
+    }
+
     window.addEventListener('storage', (e) => {
       if (e.key === 'saleny_broadcast_msg' && e.newValue) {
         try {
           const data = JSON.parse(e.newValue);
           if (data && data.text) {
-            document.getElementById('adminBroadcastTextContent').textContent = data.text;
-            document.getElementById('adminMsgModal').style.display = 'flex';
+            displayAdminBanner(data.text);
           }
         } catch (err) {}
+      }
+    });
+
+    // التحقق عند تحميل الصفحة إذا كان هناك رسالة سابقة معروضة
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedMsg = localStorage.getItem('saleny_broadcast_msg');
+      if (savedMsg) {
+        try {
+          const data = JSON.parse(savedMsg);
+          if (data && data.text) {
+            displayAdminBanner(data.text);
+          }
+        } catch(e){}
       }
     });
   </script>
@@ -536,11 +564,6 @@
       if (window.manualLogin) {
         window.manualLogin();
       }
-    }
-
-    function closeAdminMsgModal() {
-      playClickSound();
-      document.getElementById('adminMsgModal').style.display = 'none';
     }
 
     function toggleSound() {
