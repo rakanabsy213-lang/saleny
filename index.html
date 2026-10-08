@@ -353,12 +353,13 @@
     </div>
   </div>
 
-  <!-- ربط Firebase SDKs وإعدادات مشروعك الحقيقية -->
+  <!-- ربط Firebase SDKs وإعدادات المشروع ونظام الأدمن والزوار -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, query, where, getDocs, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // إعدادات مشروعك الحقيقية التي نسختها من فايربيس
+    // إعدادات مشروعك الحقيقية
     const firebaseConfig = {
       apiKey: "AIzaSyD5woD85LVH6wjRTnpd8xe9lerodrYhqDc",
       authDomain: "saleny.firebaseapp.com",
@@ -371,7 +372,24 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
+
+    // عداد الزوار الفعلي
+    async function trackVisitor() {
+      try {
+        const visitorRef = doc(db, 'stats', 'visitors');
+        const visitorDoc = await getDoc(visitorRef);
+        if (!visitorDoc.exists()) {
+          await setDoc(visitorRef, { count: 1 });
+        } else {
+          await updateDoc(visitorRef, { count: increment(1) });
+        }
+      } catch (err) {
+        console.log("خطأ في تتبع الزوار:", err);
+      }
+    }
+    trackVisitor();
 
     window.openLoginModalDirect = function() {
       playClickSound();
@@ -414,15 +432,91 @@
       showToast('تم الدخول كزائر مؤقت');
     };
 
-    onAuthStateChanged(auth, (user) => {
+    // التحقق من الصلاحيات والحظر وحالة المستخدم
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         const displayName = user.displayName || user.email.split('@')[0];
         document.getElementById('loginModal').style.display = 'none';
         document.getElementById('welcomeModal').style.display = 'none';
         document.getElementById('displayUsernameName').textContent = displayName;
+        
+        const userRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          if (userData.status === 'banned') {
+            alert('عذراً، تم حظرك من قبل الإدارة.');
+            await signOut(auth);
+            window.location.reload();
+            return;
+          }
+          if (userData.role === 'admin' || userData.role === 'owner') {
+            showAdminPanel(db);
+          }
+        } else {
+          // تسجيل المستخدم تلقائياً إذا لم يكن موجوداً
+          await setDoc(userRef, {
+            email: user.email,
+            role: 'user',
+            status: 'active',
+            createdAt: serverTimestamp()
+          });
+        }
+
         showToast(`أهلاً بك، ${displayName} 🎉`);
       }
     });
+
+    // لوحة تحكم الأدمن المصغرة تظهر تلقائياً للمشرفين
+    function showAdminPanel(database) {
+      if (document.getElementById('saleny-admin-panel')) return;
+
+      const panel = document.createElement('div');
+      panel.id = 'saleny-admin-panel';
+      panel.style.cssText = "position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.85); color: #fff; padding: 15px; border-radius: 10px; z-index: 9999; font-family: Tahoma, sans-serif; direction: rtl; box-shadow: 0 4px 10px rgba(0,0,0,0.5);";
+      
+      panel.innerHTML = `
+        <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #ff3366; text-align: center;">لوحة تحكم المشرف</h3>
+        <div id="visitor-count" style="font-size: 12px; margin-bottom: 8px;">جاري جلب عدد الزوار...</div>
+        <div style="display: flex; gap: 5px;">
+          <input type="text" id="ban-email" placeholder="أدخل البريد للحظر" style="padding: 4px; font-size: 11px; border-radius: 4px; border: none; width: 130px;">
+          <button id="ban-btn" style="background: #ff3366; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">حظر</button>
+        </div>
+      `;
+
+      document.body.appendChild(panel);
+
+      // الاستماع لتحديثات الزوار الحية
+      onSnapshot(doc(database, 'stats', 'visitors'), (docSnap) => {
+        if (docSnap.exists()) {
+          document.getElementById('visitor-count').innerText = "👥 إجمالي زيارات الموقع: " + (docSnap.data().count || 0);
+        }
+      });
+
+      // زر الحظر
+      document.getElementById('ban-btn').addEventListener('click', async () => {
+        const emailToBan = document.getElementById('ban-email').value.trim();
+        if (!emailToBan) return alert('الرجاء كتابة البريد الإلكتروني');
+
+        try {
+          const q = query(collection(database, 'users'), where('email', '==', emailToBan));
+          const querySnapshot = await getDocs(q);
+          if (querySnapshot.empty) {
+            alert('لم يتم العثور على مستخدم بهذا البريد في قاعدة البيانات.');
+            return;
+          }
+
+          querySnapshot.forEach(async (documentSnapshot) => {
+            await updateDoc(doc(database, 'users', documentSnapshot.id), { status: 'banned' });
+            alert('تم حظر المستخدم بنجاح!');
+            document.getElementById('ban-email').value = '';
+          });
+        } catch (error) {
+          alert('حدث خطأ أثناء محاولة الحظر: ' + error.message);
+        }
+      });
+    }
   </script>
 
   <script>
