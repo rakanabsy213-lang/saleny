@@ -21,7 +21,7 @@
     }
     #toastNotification.show { top: 25px; }
 
-    /* النوافذ المنبثقة (الترحيب، تسجيل الدخول، رسائل الأدمن) */
+    /* النوافذ المنبثقة (الترحيب الأصلية، تسجيل الدخول، رسائل الأدمن) */
     #welcomeModal, #authModal, #adminMsgModal, #settingsModal {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(15, 5, 29, 0.85); z-index: 40000; display: flex;
@@ -135,13 +135,13 @@
     <span id="toastText">تنبيه</span>
   </div>
 
-  <!-- 1. نافذة الترحيب الأولية -->
+  <!-- 1. نافذة الترحيب الأصلية (الموقع قيد التطوير وللاستفسار حسابي الانستا) -->
   <div id="welcomeModal">
     <div class="auth-card">
-      <i class="fa-solid fa-crown" style="font-size: 50px; color: #f472b6; margin-bottom: 15px;"></i>
-      <h2>مرحباً بك في لعبة سليني</h2>
-      <p>اضغط للبدء واكتشاف أجمل المسابقات والتحديات</p>
-      <button class="auth-btn" onclick="closeWelcomeModal()">دخول للعبة</button>
+      <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: #f472b6; margin-bottom: 15px;"></i>
+      <h2>تنبيه هام</h2>
+      <p>الموقع قيد التطوير وللاستفسار حسابي بالانستا: <br><a href="https://www.instagram.com/m__7_d_10" target="_blank" style="color: #38bdf8; font-weight: bold; text-decoration: none;">@m__7_d_10</a></p>
+      <button class="auth-btn" onclick="closeWelcomeModal()">حسناً، متابعة</button>
     </div>
   </div>
 
