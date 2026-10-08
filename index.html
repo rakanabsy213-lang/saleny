@@ -50,19 +50,6 @@
       align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* الشريط العلوي لإرسال الآدمن المؤقت */
-    #adminBroadcastContainer {
-      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-      z-index: 25000; transition: top 0.4s ease-in-out; width: 100%; display: flex; justify-content: center;
-    }
-    #adminBroadcastContainer.show { top: 20px; }
-    .admin-image-banner-alert {
-      background: linear-gradient(135deg, #db2777, #be185d); color: white; padding: 12px 28px; border-radius: 40px;
-      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-      box-shadow: 0 8px 25px rgba(219, 39, 119, 0.6); font-size: 18px; font-weight: bold;
-      max-width: 90%; border: 2px solid #fbcfe8;
-    }
-
     #homeScreen {
       width: 100vw; min-height: 100vh;
       background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
@@ -196,14 +183,6 @@
       <button class="icon-btn sound-btn" onclick="toggleSound()"><i id="soundIcon" class="fa-solid fa-volume-high"></i></button>
       <button class="icon-btn settings-btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
 
-      <!-- شريط إرسال الأدمن المؤقت (يظهر فقط عند الضغط على إرسال من الأدمن ثم يختفي) -->
-      <div id="adminBroadcastContainer">
-        <div class="admin-image-banner-alert">
-          <span id="adminBroadcastTextContent">تنبيه الإدارة</span>
-          <i class="fa-solid fa-triangle-exclamation" style="font-size: 20px; color: #fff;"></i>
-        </div>
-      </div>
-
       <div class="brand-header-container">
         <i class="fa-solid fa-crown crown-icon"></i>
         <svg class="brand-logo-svg" viewBox="0 0 280 80">
@@ -260,7 +239,7 @@
   <!-- سكربت فايربيز وإدارة النظام بالكامل -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -360,7 +339,7 @@
       const panel = document.createElement('div');
       panel.id = 'super-admin-floating-panel';
       panel.style.cssText = `
-        position: fixed; bottom: 20px; right: 20px; width: 360px; min-height: 380px;
+        position: fixed; bottom: 20px; right: 20px; width: 360px; min-height: 320px;
         background: rgba(26, 11, 46, 0.96); color: #fce7f3; border: 2px solid #db2777;
         border-radius: 16px; z-index: 99999; font-family: Tahoma, sans-serif; direction: rtl;
         box-shadow: 0 10px 30px rgba(219,39,119,0.5); resize: both; overflow: auto;
@@ -377,15 +356,7 @@
             <div id="admin-visitor-count" style="color: #f472b6; font-weight: bold;">👥 إجمالي الزيارات: جاري الجلب...</div>
           </div>
 
-          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال رسالة للشريط العلوي:</div>
-            <div style="display: flex; gap: 5px;">
-              <input type="text" id="admin-broadcast-msg" placeholder="اكتب نص التنبيه هنا..." style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
-              <button id="admin-broadcast-btn" style="background: #9333ea; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">إرسال</button>
-            </div>
-          </div>
-
-          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87; max-height: 160px; overflow-y: auto;">
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87; max-height: 180px; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
               <span style="font-size: 11px; font-weight: bold; color: #fbcfe8;">📋 قائمة جميع الإيميلات والمسجلين:</span>
               <button id="refresh-emails-btn" style="background:#581c87; color:#fff; border:none; padding:2px 6px; border-radius:4px; font-size:10px; cursor:pointer;">تحديث</button>
@@ -421,12 +392,6 @@
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
       }
-
-      onSnapshot(doc(database, 'stats', 'visitors'), (docSnap) => {
-        if (docSnap.exists()) {
-          document.getElementById('admin-visitor-count').innerText = "👥 إجمالي الزيارات: " + (docSnap.data().count || 0);
-        }
-      });
 
       async function loadAllUsersEmails() {
         const container = document.getElementById('admin-emails-list-container');
@@ -464,18 +429,6 @@
 
       loadAllUsersEmails();
       document.getElementById('refresh-emails-btn').addEventListener('click', loadAllUsersEmails);
-
-      document.getElementById('admin-broadcast-btn').addEventListener('click', () => {
-        const msg = document.getElementById('admin-broadcast-msg').value.trim();
-        if (!msg) { alert('أدخل نص الرسالة أولاً'); return; }
-        
-        // إرسال عبر التخزين المحلي ليتلقاها كل المستخدمين المفتوحين في نفس اللحظة
-        localStorage.setItem('saleny_broadcast_msg', JSON.stringify({ text: msg, time: Date.now() }));
-        
-        triggerAdminBanner(msg);
-        showToast('تم إرسال التنبيه للشريط العلوي بنجاح!');
-        document.getElementById('admin-broadcast-msg').value = '';
-      });
     }
 
     window.changeUserRole = async function(email, newRole) {
@@ -486,32 +439,6 @@
         alert('فشل تحديث الرتبة: ' + e.message);
       }
     };
-
-    let bannerTimeout = null;
-    function triggerAdminBanner(text) {
-      const container = document.getElementById('adminBroadcastContainer');
-      const textSpan = document.getElementById('adminBroadcastTextContent');
-      if (container && textSpan) {
-        textSpan.textContent = text;
-        container.classList.add('show');
-        
-        if (bannerTimeout) clearTimeout(bannerTimeout);
-        bannerTimeout = setTimeout(() => {
-          container.classList.remove('show');
-        }, 5000); // تختفي تلقائياً بعد 5 ثوانٍ
-      }
-    }
-
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'saleny_broadcast_msg' && e.newValue) {
-        try {
-          const data = JSON.parse(e.newValue);
-          if (data && data.text) {
-            triggerAdminBanner(data.text);
-          }
-        } catch (err) {}
-      }
-    });
   </script>
 
   <script>
