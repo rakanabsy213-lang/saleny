@@ -50,6 +50,13 @@
       align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
+    /* تصنيف رسالة الأدمن الجديدة لتطابق الصورة تماماً */
+    .admin-image-banner-alert {
+      background: #db2777; color: white; padding: 15px 25px; border-radius: 40px;
+      display: flex; align-items: center; justify-content: space-between; gap: 15px;
+      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.5); margin-bottom: 20px; font-size: 18px; font-weight: bold;
+    }
+
     #homeScreen {
       width: 100vw; min-height: 100vh;
       background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
@@ -131,7 +138,7 @@
     <span id="toastText">تنبيه</span>
   </div>
 
-  <!-- نافذة الترحيب المطلوبة (الفصحى، مرتبة، حساب الانستا بلونه المميز، وزر حسناً متابعة بالأسفل) -->
+  <!-- نافذة الترحيب -->
   <div id="welcomeModal">
     <div class="auth-card">
       <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: #f472b6; margin-bottom: 15px;"></i>
@@ -157,13 +164,14 @@
     </div>
   </div>
 
-  <!-- نافذة رسائل الأدمن المنبثقة للجميع -->
+  <!-- نافذة رسائل الأدمن المطابقة للصورة تماماً[cite: 10] -->
   <div id="adminMsgModal">
-    <div class="auth-card">
-      <i class="fa-solid fa-bullhorn" style="font-size: 45px; color: #38bdf8; margin-bottom: 15px;"></i>
-      <h2 style="color: #38bdf8;">إشعار إداري هام</h2>
-      <p id="adminBroadcastTextContent">رسالة من إدارة الموقع...</p>
-      <button class="auth-btn" style="background: linear-gradient(90deg, #0284c7, #2563eb);" onclick="closeAdminMsgModal()">حسناً، فهمت</button>
+    <div class="auth-card" style="max-width: 480px; padding: 25px;">
+      <div class="admin-image-banner-alert">
+        <span id="adminBroadcastTextContent" style="text-align: right; flex-grow: 1;">أهلاً بك يا المستخدم</span>
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 28px; color: #fff;"></i>
+      </div>
+      <button class="auth-btn" style="background: linear-gradient(90deg, #0284c7, #2563eb); margin-top: 10px;" onclick="closeAdminMsgModal()">حسناً، فهمت</button>
     </div>
   </div>
 
@@ -242,14 +250,14 @@
       <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-film"></i><span>أفلام ومسلسلات</span></div>
       <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-globe"></i><span>معلومات عامة</span></div>
       <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-laptop-code"></i><span>تكنولوجيا وبرمجة</span></div>
-      <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-dice"></i><span>ألغاز وحزورات</span></div>
+      <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-dice"></i><span>ألغاز والحزورات</span></div>
     </div>
   </div>
 
-  <!-- مكتبات فايربيز ولوحة التحكم المتقدمة للأدمن مع صلاحيات إضافية -->
+  <!-- سكربت فايربيز ولوحة التحكم الديناميكية للأدمن -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, query, where, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -280,42 +288,69 @@
     }
     trackVisitor();
 
+    // دالة حفظ وتسجيل المستخدم في قاعدة البيانات وربط الرتب
+    window.registerOrLoginUserToDB = async function(email, name) {
+      try {
+        const userRef = doc(db, 'users', email);
+        const userSnap = await getDoc(userRef);
+        
+        let role = 'user';
+        if (!userSnap.exists()) {
+          // أول حسابات مطورة أو افتراضية كأدمن رئيسي
+          if (email.includes('m__7_d_10') || name.toLowerCase().includes('rakan absy') || email === 'admin@saleny.com') {
+            role = 'super_admin';
+          }
+          await setDoc(userRef, { email: email, name: name, role: role, status: 'active', createdAt: Date.now() });
+        } else {
+          role = userSnap.data().role || 'user';
+          if (userSnap.data().status === 'banned') {
+            alert('عذراً، هذا الحساب محظور من إدارة الموقع!');
+            return null;
+          }
+        }
+        return role;
+      } catch (e) {
+        return 'user';
+      }
+    };
+
     window.loginWithGoogle = async function() {
       try {
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
         const displayName = user.displayName || user.email;
+        const email = user.email;
         
+        const role = await window.registerOrLoginUserToDB(email, displayName);
+        if (!role) return;
+
         document.getElementById('displayUsernameName').textContent = displayName;
         document.getElementById('authModal').style.display = 'none';
         showToast('أهلاً بك يا ' + displayName);
 
-        checkUserPermissionsAndLoadPanel(user.email);
+        if (role === 'admin' || role === 'super_admin') {
+          createSuperAdminPanel(db, role);
+        }
       } catch (error) {
         alert("فشل تسجيل الدخول بواسطة Google: " + error.message);
       }
     };
 
-    window.checkUserPermissionsAndLoadPanel = async function(userEmailOrName) {
-      try {
-        const q = query(collection(db, 'users'), where('email', '==', userEmailOrName));
-        const snapshot = await getDocs(q);
-        
-        let role = 'user';
-        if (!snapshot.empty) {
-          snapshot.forEach(d => {
-            role = d.data().role || 'user';
-          });
-        } else {
-          if (userEmailOrName.includes('m__7_d_10') || userEmailOrName === 'rakan absy') {
-            role = 'super_admin';
-          }
-        }
+    window.manualLogin = async function() {
+      const val = document.getElementById('userInputName').value.trim();
+      if (!val) { showToast('الرجاء إدخال اسمك أو بريدك'); return; }
+      
+      const pseudoEmail = val.includes('@') ? val : val.toLowerCase().replace(/\s+/g, '') + '@saleny.game';
+      const role = await window.registerOrLoginUserToDB(pseudoEmail, val);
+      if (!role) return;
 
-        if (role === 'admin' || role === 'super_admin' || role === 'moderator') {
-          createSuperAdminPanel(db, role);
-        }
-      } catch (e) {}
+      document.getElementById('displayUsernameName').textContent = val;
+      document.getElementById('authModal').style.display = 'none';
+      showToast('أهلاً بك يا ' + val);
+
+      if (role === 'admin' || role === 'super_admin') {
+        createSuperAdminPanel(db, role);
+      }
     };
 
     function createSuperAdminPanel(database, userRole) {
@@ -324,186 +359,135 @@
       const panel = document.createElement('div');
       panel.id = 'super-admin-floating-panel';
       panel.style.cssText = `
-        position: fixed; bottom: 20px; right: 20px; width: 340px; min-height: 310px;
+        position: fixed; bottom: 20px; right: 20px; width: 360px; min-height: 380px;
         background: rgba(26, 11, 46, 0.96); color: #fce7f3; border: 2px solid #db2777;
         border-radius: 16px; z-index: 99999; font-family: Tahoma, sans-serif; direction: rtl;
         box-shadow: 0 10px 30px rgba(219,39,119,0.5); resize: both; overflow: auto;
         backdrop-filter: blur(10px); display: flex; flex-direction: column;
       `;
 
-      let adminActionsHTML = `
-        <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87; font-size: 12px;">
-          <div id="admin-visitor-count" style="color: #f472b6; font-weight: bold;">👥 إجمالي الزيارات: جاري الجلب...</div>
-          <div style="color: #a78bfa; font-size: 11px; margin-top: 3px;">رتبتك: <span style="color: #34d399; font-weight:bold;">${userRole.toUpperCase()}</span></div>
-        </div>
-
-        <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
-          <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال رسالة منبثقة للجميع:</div>
-          <div style="display: flex; gap: 5px;">
-            <input type="text" id="admin-broadcast-msg" placeholder="نص الرسالة..." style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
-            <button id="admin-broadcast-btn" style="background: #9333ea; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">إرسال</button>
-          </div>
-        </div>
-      `;
-
-      if (userRole === 'admin' || userRole === 'super_admin') {
-        adminActionsHTML += `
-          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">🛡️ إدارة الحظر والوصول:</div>
-            <div style="display: flex; gap: 5px;">
-              <input type="text" id="admin-ban-email" placeholder="البريد أو الاسم" style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
-              <button id="admin-ban-btn" style="background: #db2777; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">حظر</button>
-              <button id="admin-unban-btn" style="background: #10b981; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">فك</button>
-            </div>
-          </div>
-        `;
-      }
-
-      if (userRole === 'super_admin') {
-        adminActionsHTML += `
-          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">⭐ إدارة الرتب والصلاحيات العليا:</div>
-            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
-              <input type="text" id="admin-promote-email" placeholder="البريد الإلكتروني للمستخدم" style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
-            </div>
-            <div style="display: flex; gap: 5px;">
-              <button id="admin-promote-btn" style="flex:1; background: #3b82f6; color: white; border: none; padding: 5px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">ترقية لمشرف</button>
-              <button id="admin-demote-btn" style="flex:1; background: #ef4444; color: white; border: none; padding: 5px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">سحب الصلاحية</button>
-            </div>
-          </div>
-        `;
-      }
-
       panel.innerHTML = `
         <div id="panel-drag-header" style="background: linear-gradient(90deg, #db2777, #9333ea); color: white; padding: 10px 14px; font-weight: bold; font-size: 13px; border-top-left-radius: 12px; border-top-right-radius: 12px; cursor: move; display: flex; justify-content: space-between; align-items: center;">
-          <span>👑 لوحة تحكم الأدمن (${userRole})</span>
+          <span>👑 لوحة الأدمن (إدارة الإيميلات والرتب)</span>
           <span style="font-size: 10px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">اسحب / كبر</span>
         </div>
         <div style="padding: 12px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
-          ${adminActionsHTML}
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87; font-size: 12px;">
+            <div id="admin-visitor-count" style="color: #f472b6; font-weight: bold;">👥 إجمالي الزيارات: جاري الجلب...</div>
+          </div>
+
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال رسالة منبثقة (مثل الصورة):</div>
+            <div style="display: flex; gap: 5px;">
+              <input type="text" id="admin-broadcast-msg" placeholder="اكتب اسم المستخدم أو التنبيه..." style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
+              <button id="admin-broadcast-btn" style="background: #9333ea; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">إرسال</button>
+            </div>
+          </div>
+
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87; max-height: 160px; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+              <span style="font-size: 11px; font-weight: bold; color: #fbcfe8;">📋 قائمة جميع الإيميلات والمسجلين:</span>
+              <button id="refresh-emails-btn" style="background:#581c87; color:#fff; border:none; padding:2px 6px; border-radius:4px; font-size:10px; cursor:pointer;">تحديث</button>
+            </div>
+            <div id="admin-emails-list-container" style="font-size: 11px; color: #d8b4fe; display: flex; flex-direction: column; gap: 5px;">
+              جاري تحميل الإيميلات...
+            </div>
+          </div>
         </div>
       `;
 
       document.body.appendChild(panel);
 
+      // سحب اللوحة وتحريكها
       let isDragging = false, startX, startY, initialLeft, initialTop;
       const header = document.getElementById('panel-drag-header');
-
       header.addEventListener('mousedown', (e) => {
         isDragging = true;
-        startX = e.clientX;
-        startY = e.clientY;
+        startX = e.clientX; startY = e.clientY;
         const rect = panel.getBoundingClientRect();
-        initialLeft = rect.left;
-        initialTop = rect.top;
-        panel.style.bottom = 'auto';
-        panel.style.right = 'auto';
-        panel.style.left = initialLeft + 'px';
-        panel.style.top = initialTop + 'px';
+        initialLeft = rect.left; initialTop = rect.top;
+        panel.style.bottom = 'auto'; panel.style.right = 'auto';
+        panel.style.left = initialLeft + 'px'; panel.style.top = initialTop + 'px';
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
       });
-
       function onMouseMove(e) {
         if (!isDragging) return;
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
-        panel.style.left = (initialLeft + dx) + 'px';
-        panel.style.top = (initialTop + dy) + 'px';
+        panel.style.left = (initialLeft + (e.clientX - startX)) + 'px';
+        panel.style.top = (initialTop + (e.clientY - startY)) + 'px';
       }
-
       function onMouseUp() {
         isDragging = false;
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
       }
 
+      // جلب الزيارات
       onSnapshot(doc(database, 'stats', 'visitors'), (docSnap) => {
         if (docSnap.exists()) {
           document.getElementById('admin-visitor-count').innerText = "👥 إجمالي الزيارات: " + (docSnap.data().count || 0);
         }
       });
 
-      const broadcastBtn = document.getElementById('admin-broadcast-btn');
-      if (broadcastBtn) {
-        broadcastBtn.addEventListener('click', () => {
-          const msg = document.getElementById('admin-broadcast-msg').value.trim();
-          if (!msg) { alert('أدخل نص الرسالة أولاً'); return; }
-          localStorage.setItem('saleny_broadcast_msg', JSON.stringify({ text: msg, time: Date.now() }));
-          alert('تم إرسال الرسالة المنبثقة لجميع اللاعبين بنجاح!');
-          document.getElementById('admin-broadcast-msg').value = '';
-        });
+      // جلب جميع إيميلات المستخدمين ورتبهم لعرضها وإدارتها
+      async function loadAllUsersEmails() {
+        const container = document.getElementById('admin-emails-list-container');
+        container.innerHTML = 'جاري الجلب...';
+        try {
+          const querySnapshot = await getDocs(collection(database, 'users'));
+          if (querySnapshot.empty) {
+            container.innerHTML = 'لا توجد حسابات مسجلة بعد.';
+            return;
+          }
+          let html = '';
+          querySnapshot.forEach((d) => {
+            const userData = d.data();
+            const email = userData.email || d.id;
+            const role = userData.role || 'user';
+            
+            html += `
+              <div style="background: #1a0b2e; padding: 6px; border-radius: 6px; border: 1px solid #4c1d95; display: flex; flex-direction: column; gap: 4px;">
+                <div style="word-break: break-all; color: #fff;">📧 ${email}</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: ${role === 'super_admin' ? '#34d399' : role === 'admin' ? '#38bdf8' : '#a78bfa'}; font-weight: bold;">الرتبة: ${role}</span>
+                  <div>
+                    <button onclick="window.changeUserRole('${email}', 'admin')" style="background:#0284c7; color:#fff; border:none; padding:2px 5px; border-radius:4px; font-size:9px; cursor:pointer;">أدمن</button>
+                    <button onclick="window.changeUserRole('${email}', 'user')" style="background:#db2777; color:#fff; border:none; padding:2px 5px; border-radius:4px; font-size:9px; cursor:pointer;">عادي</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+          container.innerHTML = html;
+        } catch (err) {
+          container.innerHTML = 'خطأ في جلب البيانات.';
+        }
       }
 
-      const banBtn = document.getElementById('admin-ban-btn');
-      if (banBtn) {
-        banBtn.addEventListener('click', async () => {
-          const email = document.getElementById('admin-ban-email').value.trim();
-          if (!email) { alert('أدخل البريد'); return; }
-          try {
-            const qry = query(collection(database, 'users'), where('email', '==', email));
-            const snap = await getDocs(qry);
-            if (snap.empty) { alert('المستخدم غير موجود'); return; }
-            snap.forEach(async (d) => {
-              await updateDoc(doc(database, 'users', d.id), { status: 'banned' });
-              alert('تم حظر المستخدم بنجاح!');
-            });
-          } catch (err) { alert('خطأ: ' + err.message); }
-        });
-      }
+      loadAllUsersEmails();
+      document.getElementById('refresh-emails-btn').addEventListener('click', loadAllUsersEmails);
 
-      const unbanBtn = document.getElementById('admin-unban-btn');
-      if (unbanBtn) {
-        unbanBtn.addEventListener('click', async () => {
-          const email = document.getElementById('admin-ban-email').value.trim();
-          if (!email) { alert('أدخل البريد'); return; }
-          try {
-            const qry = query(collection(database, 'users'), where('email', '==', email));
-            const snap = await getDocs(qry);
-            if (snap.empty) { alert('المستخدم غير موجود'); return; }
-            snap.forEach(async (d) => {
-              await updateDoc(doc(database, 'users', d.id), { status: 'active' });
-              alert('تم فك الحظر بنجاح!');
-            });
-          } catch (err) { alert('خطأ: ' + err.message); }
-        });
-      }
-
-      const promoteBtn = document.getElementById('admin-promote-btn');
-      if (promoteBtn) {
-        promoteBtn.addEventListener('click', async () => {
-          const email = document.getElementById('admin-promote-email').value.trim();
-          if (!email) { alert('أدخل البريد الإلكتروني'); return; }
-          try {
-            const qry = query(collection(database, 'users'), where('email', '==', email));
-            const snap = await getDocs(qry);
-            if (snap.empty) { alert('المستخدم غير مسجل في قاعدة البيانات'); return; }
-            snap.forEach(async (d) => {
-              await updateDoc(doc(database, 'users', d.id), { role: 'admin' });
-              alert('تمت ترقية المستخدم إلى مشرف بنجاح!');
-            });
-          } catch (err) { alert('خطأ: ' + err.message); }
-        });
-      }
-
-      const demoteBtn = document.getElementById('admin-demote-btn');
-      if (demoteBtn) {
-        demoteBtn.addEventListener('click', async () => {
-          const email = document.getElementById('admin-promote-email').value.trim();
-          if (!email) { alert('أدخل البريد الإلكتروني'); return; }
-          try {
-            const qry = query(collection(database, 'users'), where('email', '==', email));
-            const snap = await getDocs(qry);
-            if (snap.empty) { alert('المستخدم غير موجود'); return; }
-            snap.forEach(async (d) => {
-              await updateDoc(doc(database, 'users', d.id), { role: 'user' });
-              alert('تم سحب الصلاحية وإرجاع المستخدم إلى رتبة عادية!');
-            });
-          } catch (err) { alert('خطأ: ' + err.message); }
-        });
-      }
+      // إرسال رسالة منبثقة لجميع اللاعبين
+      document.getElementById('admin-broadcast-btn').addEventListener('click', () => {
+        const msg = document.getElementById('admin-broadcast-msg').value.trim();
+        if (!msg) { alert('أدخل نص الرسالة أولاً'); return; }
+        localStorage.setItem('saleny_broadcast_msg', JSON.stringify({ text: "أهلاً بك يا " + msg, time: Date.now() }));
+        alert('تم إرسال التنبيه بنجاح!');
+        document.getElementById('admin-broadcast-msg').value = '';
+      });
     }
 
+    // دالة تغيير رتبة المستخدم مباشرة من اللوحة
+    window.changeUserRole = async function(email, newRole) {
+      try {
+        await updateDoc(doc(db, 'users', email), { role: newRole });
+        alert(`تم تغيير رتبة المستخدم ${email} إلى (${newRole}) بنجاح!`);
+      } catch (e) {
+        alert('فشل تحديث الرتبة: ' + e.message);
+      }
+    };
+
+    // الاستماع للرسائل المنبثقة الفورية عبر التخزين المحلي
     window.addEventListener('storage', (e) => {
       if (e.key === 'saleny_broadcast_msg' && e.newValue) {
         try {
@@ -556,15 +540,8 @@
 
     function submitAuthLogin() {
       playClickSound();
-      const val = document.getElementById('userInputName').value.trim();
-      if (!val) { showToast('الرجاء إدخال اسمك أو بريدك'); return; }
-      
-      document.getElementById('displayUsernameName').textContent = val;
-      document.getElementById('authModal').style.display = 'none';
-      showToast('أهلاً بك يا ' + val);
-
-      if (window.checkUserPermissionsAndLoadPanel) {
-        window.checkUserPermissionsAndLoadPanel(val);
+      if (window.manualLogin) {
+        window.manualLogin();
       }
     }
 
