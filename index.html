@@ -21,64 +21,6 @@
     }
     #toastNotification.show { top: 25px; }
 
-    /* نافذة الترحيب الأولى */
-    #welcomeModal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85); z-index: 20000;
-      justify-content: center; align-items: center; backdrop-filter: blur(8px); padding: 20px;
-    }
-    .modal-content-box {
-      background: #2e1065; border: 3px solid #db2777; border-radius: 35px;
-      width: 100%; max-width: 420px; padding: 35px 25px; text-align: center;
-      box-shadow: 0 20px 40px rgba(219, 39, 119, 0.4);
-    }
-    .modal-icon { font-size: 55px; color: #f472b6; margin-bottom: 15px; }
-    .modal-content-box h2 { font-size: 22px; color: #ffffff; margin-bottom: 20px; font-weight: 800; line-height: 1.6; }
-    
-    .insta-btn {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white; text-decoration: none; padding: 12px 20px; border-radius: 18px;
-      font-size: 16px; font-weight: bold; margin-bottom: 12px;
-    }
-    .main-action-btn {
-      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fce7f3; width: 100%; padding: 12px; border-radius: 18px; font-size: 16px; font-weight: bold; cursor: pointer;
-    }
-
-    /* نافذة تسجيل الدخول الحقيقي */
-    #loginModal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85); z-index: 19000;
-      justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 20px;
-    }
-    .auth-btn {
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      width: 100%; padding: 14px; border-radius: 18px; font-size: 16px; font-weight: bold;
-      cursor: pointer; border: none; margin-bottom: 12px;
-    }
-    .google-btn { background: #ffffff; color: #333333; }
-    .email-input {
-      width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 12px;
-      background: #1a0b2e; border: 1px solid #581c87; color: white; outline: none; text-align: right;
-    }
-    .email-submit-btn {
-      background: linear-gradient(90deg, #db2777, #9333ea); color: white; border: none;
-      width: 100%; padding: 12px; border-radius: 14px; font-weight: bold; cursor: pointer; margin-bottom: 12px;
-    }
-    .skip-login-btn {
-      background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fbcfe8; width: 100%; padding: 10px; border-radius: 15px; font-size: 14px; cursor: pointer;
-    }
-
-    /* شارة المستخدم */
-    .user-badge-container {
-      position: absolute; top: 25px; left: 95px; display: flex; align-items: center; gap: 8px;
-      background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 8px 16px; border-radius: 25px; backdrop-filter: blur(5px); font-size: 14px; font-weight: bold; color: #fbcfe8;
-    }
-    html[dir="ltr"] .user-badge-container { left: auto; right: 95px; }
-
     /* الشاشة الرئيسية */
     #homeScreen {
       width: 100vw; min-height: 100vh;
@@ -93,13 +35,17 @@
     }
     .sound-btn { left: 30px; }
     .settings-btn { right: 30px; }
-    html[dir="ltr"] .sound-btn { left: auto; right: 30px; }
-    html[dir="ltr"] .settings-btn { right: auto; left: 30px; }
 
     .brand-header-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin: 20px auto 0 auto; width: fit-content; }
     .crown-icon { position: absolute; top: -38px; right: -10px; font-size: 45px; color: #f472b6; transform: rotate(-15deg); }
     .brand-logo-svg { width: 280px; height: 80px; }
     .subtitle { font-size: 16px; margin-top: 5px; font-weight: 700; color: #fbcfe8; display: flex; justify-content: center; gap: 8px; }
+
+    .user-badge-container {
+      position: absolute; top: 25px; left: 95px; display: flex; align-items: center; gap: 8px;
+      background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px; border-radius: 25px; backdrop-filter: blur(5px); font-size: 14px; font-weight: bold; color: #fbcfe8;
+    }
 
     /* القائمة الرئيسية */
     .main-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 420px; margin: 0 auto; padding: 0 20px; z-index: 10; }
@@ -136,7 +82,6 @@
       position: absolute; top: 25px; right: 30px; background: rgba(255, 255, 255, 0.1); border: 1px solid #581c87;
       color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px;
     }
-    html[dir="ltr"] .back-home-btn { right: auto; left: 30px; }
     .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 500px; margin-top: 20px; }
     .game-category-card {
       background: #2e1065; border: 2px solid #581c87; border-radius: 20px; padding: 20px; text-align: center; cursor: pointer;
@@ -146,38 +91,8 @@
     .game-category-card span { font-size: 15px; font-weight: bold; }
     .game-category-card.selected { background: linear-gradient(135deg, #db2777, #be185d); border-color: #fbcfe8; box-shadow: 0 0 20px rgba(244, 114, 182, 0.7); }
     .game-category-card.selected i, .game-category-card.selected span { color: #ffffff; }
-    .game-category-card.disabled { opacity: 0.35; pointer-events: none; }
 
-    .game-settings-bottom-section {
-      width: 100%; max-width: 600px; background: #2e1065; border: 2px solid #581c87; border-radius: 25px; padding: 20px; margin-top: 30px; text-align: center;
-    }
-    .boosters-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
-    .booster-badge {
-      display: flex; flex-direction: column; align-items: center; justify-content: center; width: 75px; height: 75px; border-radius: 50%;
-      background: #1a0b2e; border: 2px solid #581c87; color: #fce7f3; font-size: 11px; font-weight: bold; gap: 5px; cursor: pointer;
-    }
-    .booster-badge i { font-size: 18px; color: #f472b6; }
-    .booster-badge.active-booster { border-color: #db2777; background: #3b0764; box-shadow: 0 0 12px rgba(219, 39, 119, 0.5); }
-    .start-game-final-btn {
-      background: linear-gradient(90deg, #f43f5e, #db2777); color: white; border: none; width: 100%; max-width: 350px;
-      padding: 14px; border-radius: 25px; font-size: 18px; font-weight: 900; cursor: pointer; margin-top: 25px;
-    }
-
-    /* نافذة الإدارة الداخلية */
-    #managementModal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8); z-index: 10000; justify-content: center; align-items: center; padding: 20px;
-    }
-    .management-content {
-      background: #2e1065; border: 2px solid #db2777; border-radius: 30px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; padding: 25px;
-    }
-    .management-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #581c87; padding-bottom: 12px; }
-    .admin-control-box { background: #3b0764; border: 1px solid #581c87; border-radius: 18px; padding: 15px; margin-bottom: 20px; }
-    .form-group { margin-bottom: 10px; }
-    .form-group input, .form-group select { width: 100%; padding: 10px 14px; background: #1a0b2e; border: 1px solid #581c87; border-radius: 12px; color: #fce7f3; outline: none; }
-    .assign-btn { background: linear-gradient(90deg, #db2777, #9333ea); color: white; border: none; width: 100%; padding: 10px; border-radius: 12px; font-weight: bold; cursor: pointer; }
-
-    /* نافذة الإعدادات */
+    /* إعدادات النافذة والتحكم المتقدم */
     #settingsModal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.7); z-index: 10000; justify-content: center; align-items: center;
@@ -194,69 +109,7 @@
     <span id="toastText">تنبيه</span>
   </div>
 
-  <!-- نافذة ترحيبية أولى -->
-  <div id="welcomeModal">
-    <div class="modal-content-box">
-      <div class="modal-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-      <h2>هذا الموقع قيد التطوير للاستفسار</h2>
-      <a href="https://www.instagram.com/m__7_d_10" target="_blank" class="insta-btn">
-        <i class="fa-brands fa-instagram" style="font-size: 20px;"></i>
-        <span>التواصل عبر إنستغرام</span>
-      </a>
-      <button class="main-action-btn" onclick="openLoginModalDirect()">
-        <span>حسناً، متابعة لتسجيل الدخول</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- نافذة تسجيل الدخول الحقيقي -->
-  <div id="loginModal">
-    <div class="modal-content-box">
-      <div class="modal-icon"><i class="fa-solid fa-user-shield"></i></div>
-      <h2 style="margin-bottom: 8px;">تسجيل الدخول</h2>
-      <p style="font-size: 13px; color: #d8b4fe; margin-bottom: 20px;">سجل بحسابك الحقيقي للبدء</p>
-      
-      <button class="auth-btn google-btn" onclick="loginWithGoogle()">
-        <i class="fa-brands fa-google" style="color: #ea4335;"></i> تسجيل الدخول باستخدام Google
-      </button>
-
-      <div style="margin: 15px 0; color: #d8b4fe; font-size: 12px;">أو عبر البريد الإلكتروني</div>
-      <input type="email" id="loginEmail" class="email-input" placeholder="البريد الإلكتروني">
-      <input type="password" id="loginPass" class="email-input" placeholder="كلمة المرور">
-      <button class="email-submit-btn" onclick="loginWithEmail()">تسجيل / دخول بالبريد</button>
-
-      <button class="skip-login-btn" onclick="skipLogin()">
-        الدخول كزائر مؤقت
-      </button>
-    </div>
-  </div>
-
-  <!-- نافذة الإدارة الداخلية -->
-  <div id="managementModal">
-    <div class="management-content">
-      <div class="management-header">
-        <h3><i class="fa-solid fa-shield-halved"></i> إدارة ورتب الموقع</h3>
-        <button onclick="closeManagement()" style="background:transparent; border:none; color:#fff; font-size:22px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="admin-control-box">
-        <h4 style="color:#fbcfe8; margin-bottom:12px;">⚙️ تعيين ورتب الأعضاء</h4>
-        <form onsubmit="assignUserRank(event)">
-          <div class="form-group"><input type="text" id="newUserName" placeholder="اسم المستخدم أو البريد" required></div>
-          <div class="form-group">
-            <select id="newRankSelect">
-              <option value="owner">👑 المدير العام (Owner)</option>
-              <option value="admin">🛡️ مشرف عام (Admin)</option>
-              <option value="mod">⭐ مساعد إداري (Moderator)</option>
-            </select>
-          </div>
-          <button type="submit" class="assign-btn">منح الرتبة</button>
-        </form>
-        <div id="assignedListContainer" style="margin-top:15px; max-height:150px; overflow-y:auto;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- نافذة الإعدادات -->
+  <!-- نافذة الإعدادات العادية -->
   <div id="settingsModal">
     <div class="settings-modal-content">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #581c87; padding-bottom:10px;">
@@ -294,7 +147,7 @@
     <!-- القائمة -->
     <div class="main-menu">
       <div class="menu-card card-play" onclick="startCategoryScreen()"><i class="fa-solid fa-play"></i><span>ابدأ اللعبة</span></div>
-      <div class="menu-card card-blue" onclick="openManagement()"><i class="fa-solid fa-shield-halved"></i><span>الإدارة</span></div>
+      <div class="menu-card card-blue" onclick="showToast('استخدم لوحة تحكم المشرف العائمة أدناه للتحكم')"><i class="fa-solid fa-shield-halved"></i><span>الإدارة</span></div>
       <div class="menu-card card-yellow" onclick="showToast('قيد التطوير')"><i class="fa-solid fa-gem"></i><span>العمالقة</span></div>
       <div class="menu-card card-green" onclick="showToast('قيد التطوير')"><i class="fa-solid fa-star"></i><span>النجوم</span></div>
       <div class="menu-card card-white" onclick="showToast('قيد التطوير')"><i class="fa-solid fa-trophy"></i><span>البطولات</span></div>
@@ -332,29 +185,13 @@
       <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-globe"></i><span>معلومات عامة</span></div>
       <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-laptop-code"></i><span>تكنولوجيا وبرمجة</span></div>
       <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-dice"></i><span>ألغاز وحزورات</span></div>
-      <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-clone"></i><span>الأوراق المقلوبة</span></div>
-      <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-music"></i><span>أغاني وتراث</span></div>
-      <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-car"></i><span>سيارات ومحركات</span></div>
-      <div class="game-category-card" onclick="toggleGameSelection(this)"><i class="fa-solid fa-utensils"></i><span>طبخ ومأكولات</span></div>
-    </div>
-
-    <div class="game-settings-bottom-section">
-      <h3 style="font-size:16px; color:#fbcfe8; margin-bottom:10px;">اختر وسائل المساعدة المتاحة للجلسة</h3>
-      <div class="boosters-row">
-        <div class="booster-badge active-booster" onclick="toggleBooster(this)"><i class="fa-solid fa-hand-peace"></i><span>جوابين</span></div>
-        <div class="booster-badge active-booster" onclick="toggleBooster(this)"><i class="fa-solid fa-phone"></i><span>اتصال</span></div>
-        <div class="booster-badge active-booster" onclick="toggleBooster(this)"><i class="fa-solid fa-arrows-split-up-and-left"></i><span>الحفرة</span></div>
-        <div class="booster-badge" onclick="toggleBooster(this)"><i class="fa-solid fa-mug-hot"></i><span>استريح</span></div>
-        <div class="booster-badge" onclick="toggleBooster(this)"><i class="fa-solid fa-bomb"></i><span>الفخ</span></div>
-      </div>
-      <button class="start-game-final-btn" onclick="showToast('جاري بدء اللعبة...')">ابدأ اللعب الآن</button>
     </div>
   </div>
 
-  <!-- ربط Firebase SDKs وإعدادات المشروع ونظام الأدمن والزوار -->
+  <!-- مكتبات وفيربيز ولوحة التحكم العائمة المطورة -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, query, where, getDocs, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -370,7 +207,6 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const googleProvider = new GoogleAuthProvider();
 
     // عداد الزوار الفعلي
     async function trackVisitor() {
@@ -388,85 +224,169 @@
     }
     trackVisitor();
 
-    // عرض لوحة تحكم المشرف بشكل دائم في أسفل الشاشة للتحكم الفوري
-    function showAlwaysAdminPanel(database) {
-      if (document.getElementById('saleny-admin-panel')) return;
+    // إنشاء لوحة تحكم المشرف المتقدمة جداً، قابلة للسحب وتغيير الحجم
+    function createSuperAdminPanel(database) {
+      if (document.getElementById('super-admin-floating-panel')) return;
 
       const panel = document.createElement('div');
-      panel.id = 'saleny-admin-panel';
-      panel.style.cssText = "position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.9); color: #fff; padding: 12px 15px; border-radius: 12px; z-index: 9999; font-family: Tahoma, sans-serif; direction: rtl; box-shadow: 0 4px 15px rgba(219,39,119,0.4); border: 1px solid #db2777;";
-      
+      panel.id = 'super-admin-floating-panel';
+      panel.style.cssText = `
+        position: fixed; bottom: 20px; right: 20px; width: 320px; min-height: 250px;
+        background: rgba(26, 11, 46, 0.95); color: #fce7f3; border: 2px solid #db2777;
+        border-radius: 16px; z-index: 99999; font-family: Tahoma, sans-serif; direction: rtl;
+        box-shadow: 0 10px 30px rgba(219,39,119,0.5); resize: both; overflow: auto;
+        backdrop-filter: blur(10px); display: flex; flex-direction: column;
+      `;
+
       panel.innerHTML = `
-        <div style="font-weight: bold; margin-bottom: 8px; font-size: 13px; color: #f472b6; text-align: center;">👑 لوحة تحكم المشرف</div>
-        <div id="visitor-count" style="font-size: 12px; margin-bottom: 8px; color: #d8b4fe;">👥 إجمالي الزيارات: جاري الجلب...</div>
-        <div style="display: flex; gap: 6px;">
-          <input type="text" id="ban-email" placeholder="البريد للحظر" style="padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; width: 130px; outline: none;">
-          <button id="ban-btn" style="background: #db2777; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">حظر</button>
+        <!-- رأس اللوحة القابل للسحب -->
+        <div id="panel-drag-header" style="background: linear-gradient(90deg, #db2777, #9333ea); color: white; padding: 10px 14px; font-weight: bold; font-size: 13px; border-top-left-radius: 12px; border-top-right-radius: 12px; cursor: move; display: flex; justify-content: space-between; align-items: center;">
+          <span>👑 لوحة التحكم الصلاحيات العظمى</span>
+          <span style="font-size: 11px; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">اسحب / كبر</span>
+        </div>
+
+        <div style="padding: 12px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+          <!-- إحصائيات -->
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87; font-size: 12px;">
+            <div id="admin-visitor-count" style="color: #f472b6; font-weight: bold;">👥 إجمالي الزيارات: جاري الجلب...</div>
+          </div>
+
+          <!-- حظر المستخدمين -->
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">🛡️ إدارة الحظر والوصول:</div>
+            <div style="display: flex; gap: 5px;">
+              <input type="text" id="admin-ban-email" placeholder="أدخل البريد الإلكتروني" style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
+              <button id="admin-ban-btn" style="background: #db2777; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">حظر</button>
+              <button id="admin-unban-btn" style="background: #10b981; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">فك الحظر</button>
+            </div>
+          </div>
+
+          <!-- إرسال إشعار عام لكل اللاعبين -->
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال إشعار فوري لجميع المتواجدين:</div>
+            <div style="display: flex; gap: 5px;">
+              <input type="text" id="admin-broadcast-msg" placeholder="نص الإشعار..." style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
+              <button id="admin-broadcast-btn" style="background: #9333ea; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">إرسال</button>
+            </div>
+          </div>
+
+          <!-- ترقية رتبة مستخدم -->
+          <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">⭐ منح صلاحيات مشرف:</div>
+            <div style="display: flex; gap: 5px;">
+              <input type="text" id="admin-promote-email" placeholder="بريد المستخدم" style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
+              <button id="admin-promote-btn" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">منح أدمن</button>
+            </div>
+          </div>
         </div>
       `;
 
       document.body.appendChild(panel);
 
-      // الاستماع لتحديثات الزوار الحية من Firestore
+      // تفعيل السحب (Draggable) من رأس اللوحة
+      let isDragging = false, startX, startY, initialLeft, initialTop;
+      const header = document.getElementById('panel-drag-header');
+
+      header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        const rect = panel.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        panel.style.bottom = 'auto';
+        panel.style.right = 'auto';
+        panel.style.left = initialLeft + 'px';
+        panel.style.top = initialTop + 'px';
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+
+      function onMouseMove(e) {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        panel.style.left = (initialLeft + dx) + 'px';
+        panel.style.top = (initialTop + dy) + 'px';
+      }
+
+      function onMouseUp() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      }
+
+      // الاستماع للزوار
       onSnapshot(doc(database, 'stats', 'visitors'), (docSnap) => {
         if (docSnap.exists()) {
-          document.getElementById('visitor-count').innerText = "👥 إجمالي الزيارات: " + (docSnap.data().count || 0);
+          document.getElementById('admin-visitor-count').innerText = "👥 إجمالي الزيارات: " + (docSnap.data().count || 0);
         }
       });
 
-      // زر الحظر المباشر
-      document.getElementById('ban-btn').addEventListener('click', async () => {
-        const emailToBan = document.getElementById('ban-email').value.trim();
-        if (!emailToBan) {
-          alert('الرجاء كتابة البريد الإلكتروني للحظر');
-          return;
-        }
-
+      // زر الحظر الفعلي
+      document.getElementById('admin-ban-btn').addEventListener('click', async () => {
+        const email = document.getElementById('admin-ban-email').value.trim();
+        if (!email) { alert('أدخل البريد أولاً'); return; }
         try {
-          const q = query(collection(database, 'users'), where('email', '==', emailToBan));
-          const querySnapshot = await getDocs(q);
-          if (querySnapshot.empty) {
-            alert('لم يتم العثور على مستخدم بهذا البريد في قاعدة البيانات.');
-            return;
-          }
-
-          querySnapshot.forEach(async (documentSnapshot) => {
-            await updateDoc(doc(database, 'users', documentSnapshot.id), { status: 'banned' });
+          const q = query(collection(database, 'users'), where('email', '==', email));
+          const snapshot = await getDocs(q);
+          if (snapshot.empty) { alert('لم يتم العثور على المستخدم'); return; }
+          snapshot.forEach(async (d) => {
+            await updateDoc(doc(database, 'users', d.id), { status: 'banned' });
             alert('تم حظر المستخدم بنجاح!');
-            document.getElementById('ban-email').value = '';
           });
-        } catch (error) {
-          alert('حدث خطأ أثناء محاولة الحظر: ' + error.message);
-        }
+        } catch (err) { alert('خطأ: ' + err.message); }
+      });
+
+      // زر فك الحظر
+      document.getElementById('admin-unban-btn').addEventListener('click', async () => {
+        const email = document.getElementById('admin-ban-email').value.trim();
+        if (!email) { alert('أدخل البريد أولاً'); return; }
+        try {
+          const q = query(collection(database, 'users'), where('email', '==', email));
+          const snapshot = await getDocs(q);
+          if (snapshot.empty) { alert('لم يتم العثور على المستخدم'); return; }
+          snapshot.forEach(async (d) => {
+            await updateDoc(doc(database, 'users', d.id), { status: 'active' });
+            alert('تم فك الحظر بنجاح!');
+          });
+        } catch (err) { alert('خطأ: ' + err.message); }
+      });
+
+      // زر ترقية أدمن
+      document.getElementById('admin-promote-btn').addEventListener('click', async () => {
+        const email = document.getElementById('admin-promote-email').value.trim();
+        if (!email) { alert('أدخل البريد أولاً'); return; }
+        try {
+          const q = query(collection(database, 'users'), where('email', '==', email));
+          const snapshot = await getDocs(q);
+          if (snapshot.empty) { alert('المستخدم غير مسجل بقاعدة البيانات'); return; }
+          snapshot.forEach(async (d) => {
+            await updateDoc(doc(database, 'users', d.id), { role: 'admin' });
+            alert('تم منح صلاحيات المشرف للمستخدم بنجاح!');
+          });
+        } catch (err) { alert('خطأ: ' + err.message); }
+      });
+
+      // زر إرسال الإشعار
+      document.getElementById('admin-broadcast-btn').addEventListener('click', () => {
+        const msg = document.getElementById('admin-broadcast-msg').value.trim();
+        if (!msg) { alert('أدخل نص الإشعار'); return; }
+        localStorage.setItem('saleny_broadcast', msg);
+        alert('تم إرسال الإشعار بنجاح لجميع المتصفحات المفتوحة!');
+        document.getElementById('admin-broadcast-msg').value = '';
       });
     }
 
-    // تفعيل اللوحة تلقائياً عند تحميل الصفحة
-    showAlwaysAdminPanel(db);
+    createSuperAdminPanel(db);
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const displayName = user.displayName || user.email.split('@')[0];
-        document.getElementById('displayUsernameName').textContent = displayName;
-        
-        const userRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userRef);
-
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          if (userData.status === 'banned') {
-            alert('عذراً، تم حظرك من قبل الإدارة.');
-            await signOut(auth);
-            window.location.reload();
-          }
-        } else {
-          await setDoc(userRef, {
-            email: user.email,
-            role: 'user',
-            status: 'active',
-            createdAt: serverTimestamp()
-          });
-        }
+    // متابعة الإشعارات العامة الفورية
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'saleny_broadcast' && e.newValue) {
+        const t = document.getElementById('toastNotification');
+        document.getElementById('toastText').textContent = "📢 إشعار إداري: " + e.newValue;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 6000);
       }
     });
   </script>
@@ -475,7 +395,6 @@
     let isSoundEnabled = true;
     let soundVolume = 0.5;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let assignedRanks = JSON.parse(localStorage.getItem('saleny_assigned_ranks')) || [];
 
     function showToast(msg) {
       const t = document.getElementById('toastNotification');
@@ -513,29 +432,6 @@
       showToast('تم حفظ الإعدادات');
     }
 
-    function openManagement() { playClickSound(); document.getElementById('managementModal').style.display = 'flex'; renderRanks(); }
-    function closeManagement() { playClickSound(); document.getElementById('managementModal').style.display = 'none'; }
-    function assignUserRank(e) {
-      e.preventDefault();
-      playClickSound();
-      const name = document.getElementById('newUserName').value.trim();
-      const rank = document.getElementById('newRankSelect').value;
-      if (!name) return;
-      assignedRanks = assignedRanks.filter(i => i.name !== name);
-      assignedRanks.push({ name, rank });
-      localStorage.setItem('saleny_assigned_ranks', JSON.stringify(assignedRanks));
-      document.getElementById('newUserName').value = '';
-      renderRanks();
-      showToast('تم تعيين الرتبة بنجاح');
-    }
-    function renderRanks() {
-      const c = document.getElementById('assignedListContainer');
-      c.innerHTML = assignedRanks.length === 0 ? '<p style="font-size:12px; color:#d8b4fe; text-align:center;">لا توجد رتب مضافة</p>' : '';
-      assignedRanks.forEach(i => {
-        c.innerHTML += `<div style="display:flex; justify-content:space-between; background:#1a0b2e; padding:8px; border-radius:8px; margin-bottom:5px; font-size:13px;"><span><b>${i.name}</b> (${i.rank})</span></div>`;
-      });
-    }
-
     function startCategoryScreen() { playClickSound(); document.getElementById('categoryScreen').style.display = 'flex'; }
     function backToHome() { playClickSound(); document.getElementById('categoryScreen').style.display = 'none'; }
 
@@ -551,14 +447,7 @@
         selectedCount++;
       }
       document.getElementById('catCounterText').textContent = `تم اختيار: ${selectedCount} / 7`;
-      const all = document.querySelectorAll('.game-category-card');
-      all.forEach(c => {
-        if (selectedCount >= 7 && !c.classList.contains('selected')) c.classList.add('disabled');
-        else c.classList.remove('disabled');
-      });
     }
-
-    function toggleBooster(badge) { playClickSound(); badge.classList.toggle('active-booster'); }
   </script>
 </body>
 </html>
