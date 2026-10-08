@@ -50,17 +50,17 @@
       align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* الشريط العلوي لإرسال الآدمن (مثل الصورة الثانية) */
-    .admin-image-banner-alert {
-      background: linear-gradient(135deg, #db2777, #be185d); color: white; padding: 12px 25px; border-radius: 40px;
-      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-      box-shadow: 0 8px 20px rgba(219, 39, 119, 0.5); font-size: 18px; font-weight: bold;
-      margin: 15px auto; max-width: 90%; border: 2px solid #fbcfe8; animation: pulseBanner 2s infinite;
+    /* الشريط العلوي لإرسال الآدمن المؤقت */
+    #adminBroadcastContainer {
+      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      z-index: 25000; transition: top 0.4s ease-in-out; width: 100%; display: flex; justify-content: center;
     }
-    @keyframes pulseBanner {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+    #adminBroadcastContainer.show { top: 20px; }
+    .admin-image-banner-alert {
+      background: linear-gradient(135deg, #db2777, #be185d); color: white; padding: 12px 28px; border-radius: 40px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      box-shadow: 0 8px 25px rgba(219, 39, 119, 0.6); font-size: 18px; font-weight: bold;
+      max-width: 90%; border: 2px solid #fbcfe8;
     }
 
     #homeScreen {
@@ -68,7 +68,7 @@
       background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
       display: flex; flex-direction: column; justify-content: space-between; position: relative;
     }
-    .top-section { padding: 20px 20px 30px 20px; text-align: center; color: white; position: relative; }
+    .top-section { padding: 35px 20px 30px 20px; text-align: center; color: white; position: relative; }
     .icon-btn {
       position: absolute; top: 25px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
       color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer;
@@ -77,7 +77,7 @@
     .sound-btn { left: 30px; }
     .settings-btn { right: 30px; }
 
-    .brand-header-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin: 10px auto 0 auto; width: fit-content; }
+    .brand-header-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin: 25px auto 0 auto; width: fit-content; }
     .crown-icon { position: absolute; top: -38px; right: -10px; font-size: 45px; color: #f472b6; transform: rotate(-15deg); }
     .brand-logo-svg { width: 280px; height: 70px; }
     .subtitle { font-size: 16px; margin-top: 2px; font-weight: 700; color: #fbcfe8; display: flex; justify-content: center; gap: 8px; }
@@ -196,11 +196,11 @@
       <button class="icon-btn sound-btn" onclick="toggleSound()"><i id="soundIcon" class="fa-solid fa-volume-high"></i></button>
       <button class="icon-btn settings-btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
 
-      <!-- الشريط العلوي لرسالة الآدمن المباشرة (مثل الصورة الثانية تماماً) -->
-      <div id="adminBroadcastContainer" style="display: none; margin-top: 15px;">
+      <!-- شريط إرسال الأدمن المؤقت (يظهر فقط عند الضغط على إرسال من الأدمن ثم يختفي) -->
+      <div id="adminBroadcastContainer">
         <div class="admin-image-banner-alert">
-          <span id="adminBroadcastTextContent">أهلاً بك</span>
-          <i class="fa-solid fa-triangle-exclamation" style="font-size: 22px; color: #fff;"></i>
+          <span id="adminBroadcastTextContent">تنبيه الإدارة</span>
+          <i class="fa-solid fa-triangle-exclamation" style="font-size: 20px; color: #fff;"></i>
         </div>
       </div>
 
@@ -469,11 +469,10 @@
         const msg = document.getElementById('admin-broadcast-msg').value.trim();
         if (!msg) { alert('أدخل نص الرسالة أولاً'); return; }
         
-        // حفظ الرسالة لعرضها فوراً في الشريط العلوي لكل النوافذ
+        // إرسال عبر التخزين المحلي ليتلقاها كل المستخدمين المفتوحين في نفس اللحظة
         localStorage.setItem('saleny_broadcast_msg', JSON.stringify({ text: msg, time: Date.now() }));
         
-        // تحديثه محلياً في نافذة الأدمن فوراً
-        displayAdminBanner(msg);
+        triggerAdminBanner(msg);
         showToast('تم إرسال التنبيه للشريط العلوي بنجاح!');
         document.getElementById('admin-broadcast-msg').value = '';
       });
@@ -488,12 +487,18 @@
       }
     };
 
-    function displayAdminBanner(text) {
+    let bannerTimeout = null;
+    function triggerAdminBanner(text) {
       const container = document.getElementById('adminBroadcastContainer');
       const textSpan = document.getElementById('adminBroadcastTextContent');
       if (container && textSpan) {
         textSpan.textContent = text;
-        container.style.display = 'block';
+        container.classList.add('show');
+        
+        if (bannerTimeout) clearTimeout(bannerTimeout);
+        bannerTimeout = setTimeout(() => {
+          container.classList.remove('show');
+        }, 5000); // تختفي تلقائياً بعد 5 ثوانٍ
       }
     }
 
@@ -502,22 +507,9 @@
         try {
           const data = JSON.parse(e.newValue);
           if (data && data.text) {
-            displayAdminBanner(data.text);
+            triggerAdminBanner(data.text);
           }
         } catch (err) {}
-      }
-    });
-
-    // التحقق عند تحميل الصفحة إذا كان هناك رسالة سابقة معروضة
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedMsg = localStorage.getItem('saleny_broadcast_msg');
-      if (savedMsg) {
-        try {
-          const data = JSON.parse(savedMsg);
-          if (data && data.text) {
-            displayAdminBanner(data.text);
-          }
-        } catch(e){}
       }
     });
   </script>
