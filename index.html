@@ -21,13 +21,13 @@
     }
     #toastNotification.show { top: 25px; }
 
-    /* نافذة الترحيب وتسجيل الدخول والرسائل الإدارية العامة */
-    #authModal, #adminMsgModal {
+    /* النوافذ المنبثقة (الترحيب، تسجيل الدخول، رسائل الأدمن) */
+    #welcomeModal, #authModal, #adminMsgModal, #settingsModal {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 5, 29, 0.9); z-index: 40000; display: flex;
+      background: rgba(15, 5, 29, 0.85); z-index: 40000; display: flex;
       justify-content: center; align-items: center; backdrop-filter: blur(8px);
     }
-    #adminMsgModal { display: none; } /* مخفية حتى يرسل الأدمن رسالة */
+    #authModal, #adminMsgModal, #settingsModal { display: none; }
 
     .auth-card {
       background: #2e1065; border: 2px solid #db2777; border-radius: 30px;
@@ -43,7 +43,12 @@
     .auth-btn {
       width: 100%; padding: 12px; background: linear-gradient(90deg, #db2777, #9333ea);
       color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer;
-      box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4);
+      box-shadow: 0 5px 15px rgba(219, 39, 119, 0.4); margin-bottom: 10px;
+    }
+    .google-btn {
+      width: 100%; padding: 12px; background: #ffffff; color: #1f2937; border: none;
+      border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     /* الشاشة الرئيسية */
@@ -70,6 +75,7 @@
       position: absolute; top: 25px; left: 95px; display: flex; align-items: center; gap: 8px;
       background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
       padding: 8px 16px; border-radius: 25px; backdrop-filter: blur(5px); font-size: 14px; font-weight: bold; color: #fbcfe8;
+      cursor: pointer;
     }
 
     /* القائمة الرئيسية */
@@ -117,11 +123,6 @@
     .game-category-card.selected { background: linear-gradient(135deg, #db2777, #be185d); border-color: #fbcfe8; box-shadow: 0 0 20px rgba(244, 114, 182, 0.7); }
     .game-category-card.selected i, .game-category-card.selected span { color: #ffffff; }
 
-    /* إعدادات النافذة */
-    #settingsModal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7); z-index: 10000; justify-content: center; align-items: center;
-    }
     .settings-modal-content { background: #2e1065; border: 2px solid #581c87; border-radius: 30px; width: 90%; max-width: 480px; padding: 30px; }
     .setting-item { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; background: #3b0764; padding: 15px 20px; border-radius: 15px; border: 1px solid #581c87; }
     .save-settings-btn { background: linear-gradient(90deg, #db2777, #9333ea); color: white; border: none; width: 100%; padding: 14px; border-radius: 15px; font-weight: bold; cursor: pointer; }
@@ -134,18 +135,29 @@
     <span id="toastText">تنبيه</span>
   </div>
 
-  <!-- نافذة الترحيب وتسجيل الدخول -->
-  <div id="authModal">
+  <!-- 1. نافذة الترحيب الأولية -->
+  <div id="welcomeModal">
     <div class="auth-card">
       <i class="fa-solid fa-crown" style="font-size: 50px; color: #f472b6; margin-bottom: 15px;"></i>
       <h2>مرحباً بك في لعبة سليني</h2>
-      <p>أدخل اسمك أو بريدك الإلكتروني للبدء والمنافسة</p>
-      <input type="text" id="userInputName" class="auth-input" placeholder="اسم المستخدم أو البريد...">
-      <button class="auth-btn" onclick="submitAuthLogin()">دخول للعبة</button>
+      <p>اضغط للبدء واكتشاف أجمل المسابقات والتحديات</p>
+      <button class="auth-btn" onclick="closeWelcomeModal()">دخول للعبة</button>
     </div>
   </div>
 
-  <!-- نافذة رسالة الأدمن العامة المنبثقة في منتصف الشاشة -->
+  <!-- 2. نافذة تسجيل الدخول (عادي أو عبر قوقل) -->
+  <div id="authModal">
+    <div class="auth-card">
+      <i class="fa-solid fa-user-lock" style="font-size: 45px; color: #f472b6; margin-bottom: 15px;"></i>
+      <h2>تسجيل الدخول</h2>
+      <p>سجل دخولك لحفظ تقدمك والمنافسة بقوة</p>
+      <input type="text" id="userInputName" class="auth-input" placeholder="اسم المستخدم أو البريد الإلكتروني...">
+      <button class="auth-btn" onclick="submitAuthLogin()">دخول بالحساب</button>
+      <button class="google-btn" onclick="loginWithGoogle()"><i class="fa-brands fa-google" style="color:#ea4335;"></i> تسجيل الدخول بواسطة Google</button>
+    </div>
+  </div>
+
+  <!-- 3. نافذة رسائل الأدمن المنبثقة للجميع -->
   <div id="adminMsgModal">
     <div class="auth-card">
       <i class="fa-solid fa-bullhorn" style="font-size: 45px; color: #38bdf8; margin-bottom: 15px;"></i>
@@ -155,7 +167,7 @@
     </div>
   </div>
 
-  <!-- نافذة الإعدادات العادية -->
+  <!-- 4. نافذة الإعدادات -->
   <div id="settingsModal">
     <div class="settings-modal-content">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #581c87; padding-bottom:10px;">
@@ -173,9 +185,9 @@
   <!-- الشاشة الرئيسية -->
   <div id="homeScreen">
     <div class="top-section">
-      <div class="user-badge-container">
+      <div class="user-badge-container" onclick="openAuthModal()" title="انقر لتسجيل الدخول أو تغيير الحساب">
         <i class="fa-solid fa-user"></i>
-        <span id="displayUsernameName">زائر</span>
+        <span id="displayUsernameName">زائر (تسجيل الدخول)</span>
       </div>
 
       <button class="icon-btn sound-btn" onclick="toggleSound()"><i id="soundIcon" class="fa-solid fa-volume-high"></i></button>
@@ -190,7 +202,7 @@
       <div class="subtitle"><span>اختبر معلوماتك ونَافِس أصدقائك</span></div>
     </div>
 
-    <!-- القائمة -->
+    <!-- القائمة الرئيسية -->
     <div class="main-menu">
       <div class="menu-card card-play" onclick="startCategoryScreen()"><i class="fa-solid fa-play"></i><span>ابدأ اللعبة</span></div>
       <div class="menu-card card-blue" onclick="showToast('استخدم لوحة تحكم المشرف العائمة للتحكم الكامل')"><i class="fa-solid fa-shield-halved"></i><span>الإدارة</span></div>
@@ -238,6 +250,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, query, where, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD5woD85LVH6wjRTnpd8xe9lerodrYhqDc",
@@ -251,6 +264,8 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
     // عداد الزوار الفعلي
     async function trackVisitor() {
@@ -267,6 +282,23 @@
       }
     }
     trackVisitor();
+
+    // تسجيل الدخول بواسطة قوقل
+    window.loginWithGoogle = async function() {
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        const displayName = user.displayName || user.email;
+        
+        document.getElementById('displayUsernameName').textContent = displayName;
+        document.getElementById('authModal').style.display = 'none';
+        showToast('أهلاً بك يا ' + displayName);
+
+        checkUserPermissionsAndLoadPanel(user.email);
+      } catch (error) {
+        alert("فشل تسجيل الدخول بواسطة Google: " + error.message);
+      }
+    };
 
     // التحقق من الرتبة وإظهار لوحة التحكم حصراً لمن يمتلك صلاحيات
     window.checkUserPermissionsAndLoadPanel = async function(userEmailOrName) {
@@ -497,6 +529,17 @@
         osc.connect(g); g.connect(audioCtx.destination);
         osc.start(); osc.stop(audioCtx.currentTime + 0.15);
       } catch (e) {}
+    }
+
+    function closeWelcomeModal() {
+      playClickSound();
+      document.getElementById('welcomeModal').style.display = 'none';
+      document.getElementById('authModal').style.display = 'flex';
+    }
+
+    function openAuthModal() {
+      playClickSound();
+      document.getElementById('authModal').style.display = 'flex';
     }
 
     function submitAuthLogin() {
