@@ -50,7 +50,7 @@
       align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* تصنيف رسالة الأدمن الجديدة لتطابق الصورة تماماً */
+    /* تصميم رسالة الأدمن الجديدة المطابقة للصورة تماماً */
     .admin-image-banner-alert {
       background: #db2777; color: white; padding: 15px 25px; border-radius: 40px;
       display: flex; align-items: center; justify-content: space-between; gap: 15px;
@@ -164,7 +164,7 @@
     </div>
   </div>
 
-  <!-- نافذة رسائل الأدمن المطابقة للصورة تماماً[cite: 10] -->
+  <!-- نافذة رسائل الأدمن المطابقة للصورة تماماً -->
   <div id="adminMsgModal">
     <div class="auth-card" style="max-width: 480px; padding: 25px;">
       <div class="admin-image-banner-alert">
@@ -254,7 +254,7 @@
     </div>
   </div>
 
-  <!-- سكربت فايربيز ولوحة التحكم الديناميكية للأدمن -->
+  <!-- سكربت فايربيز وإدارة النظام بالكامل -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -296,7 +296,6 @@
         
         let role = 'user';
         if (!userSnap.exists()) {
-          // أول حسابات مطورة أو افتراضية كأدمن رئيسي
           if (email.includes('m__7_d_10') || name.toLowerCase().includes('rakan absy') || email === 'admin@saleny.com') {
             role = 'super_admin';
           }
@@ -377,7 +376,7 @@
           </div>
 
           <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال رسالة منبثقة (مثل الصورة):</div>
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">📢 إرسال رسالة منبثقة (تظهر بالشكل المطلوب):</div>
             <div style="display: flex; gap: 5px;">
               <input type="text" id="admin-broadcast-msg" placeholder="اكتب اسم المستخدم أو التنبيه..." style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
               <button id="admin-broadcast-btn" style="background: #9333ea; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">إرسال</button>
@@ -398,7 +397,6 @@
 
       document.body.appendChild(panel);
 
-      // سحب اللوحة وتحريكها
       let isDragging = false, startX, startY, initialLeft, initialTop;
       const header = document.getElementById('panel-drag-header');
       header.addEventListener('mousedown', (e) => {
@@ -422,14 +420,12 @@
         document.removeEventListener('mouseup', onMouseUp);
       }
 
-      // جلب الزيارات
       onSnapshot(doc(database, 'stats', 'visitors'), (docSnap) => {
         if (docSnap.exists()) {
           document.getElementById('admin-visitor-count').innerText = "👥 إجمالي الزيارات: " + (docSnap.data().count || 0);
         }
       });
 
-      // جلب جميع إيميلات المستخدمين ورتبهم لعرضها وإدارتها
       async function loadAllUsersEmails() {
         const container = document.getElementById('admin-emails-list-container');
         container.innerHTML = 'جاري الجلب...';
@@ -467,17 +463,15 @@
       loadAllUsersEmails();
       document.getElementById('refresh-emails-btn').addEventListener('click', loadAllUsersEmails);
 
-      // إرسال رسالة منبثقة لجميع اللاعبين
       document.getElementById('admin-broadcast-btn').addEventListener('click', () => {
         const msg = document.getElementById('admin-broadcast-msg').value.trim();
         if (!msg) { alert('أدخل نص الرسالة أولاً'); return; }
-        localStorage.setItem('saleny_broadcast_msg', JSON.stringify({ text: "أهلاً بك يا " + msg, time: Date.now() }));
+        localStorage.setItem('saleny_broadcast_msg', JSON.stringify({ text: msg, time: Date.now() }));
         alert('تم إرسال التنبيه بنجاح!');
         document.getElementById('admin-broadcast-msg').value = '';
       });
     }
 
-    // دالة تغيير رتبة المستخدم مباشرة من اللوحة
     window.changeUserRole = async function(email, newRole) {
       try {
         await updateDoc(doc(db, 'users', email), { role: newRole });
@@ -487,7 +481,6 @@
       }
     };
 
-    // الاستماع للرسائل المنبثقة الفورية عبر التخزين المحلي
     window.addEventListener('storage', (e) => {
       if (e.key === 'saleny_broadcast_msg' && e.newValue) {
         try {
