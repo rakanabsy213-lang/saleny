@@ -21,7 +21,6 @@
     }
     #toastNotification.show { top: 25px; }
 
-    /* النوافذ المنبثقة (الترحيب الأصلية، تسجيل الدخول، رسائل الأدمن) */
     #welcomeModal, #authModal, #adminMsgModal, #settingsModal {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(15, 5, 29, 0.85); z-index: 40000; display: flex;
@@ -34,8 +33,8 @@
       width: 90%; max-width: 420px; padding: 35px 30px; text-align: center;
       box-shadow: 0 15px 35px rgba(219, 39, 119, 0.3);
     }
-    .auth-card h2 { color: #f472b6; margin-bottom: 10px; font-size: 26px; }
-    .auth-card p { color: #d8b4fe; font-size: 15px; margin-bottom: 25px; line-height: 1.6; }
+    .auth-card h2 { color: #f472b6; margin-bottom: 15px; font-size: 26px; }
+    .auth-card p { color: #d8b4fe; font-size: 16px; margin-bottom: 25px; line-height: 1.8; }
     .auth-input {
       width: 100%; padding: 12px 18px; margin-bottom: 15px; border-radius: 12px;
       border: 1px solid #581c87; background: #1a0b2e; color: #fff; font-size: 14px; outline: none;
@@ -51,7 +50,6 @@
       align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    /* الشاشة الرئيسية */
     #homeScreen {
       width: 100vw; min-height: 100vh;
       background: linear-gradient(135deg, #701a75 0%, #be185d 100%);
@@ -78,7 +76,6 @@
       cursor: pointer;
     }
 
-    /* القائمة الرئيسية */
     .main-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 420px; margin: 0 auto; padding: 0 20px; z-index: 10; }
     .menu-card { width: 100%; height: 110px; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
     .menu-card i { font-size: 26px; margin-bottom: 6px; }
@@ -104,7 +101,6 @@
     .footer-credit { font-size: 13px; color: #d8b4fe; font-weight: 700; display: flex; align-items: center; gap: 8px; background: #1a0b2e; padding: 8px 20px; border-radius: 20px; text-decoration: none; border: 1px solid #581c87; }
     .footer-credit span.dev-name { color: #f472b6; font-weight: 900; }
 
-    /* شاشة اختيار الفئات */
     #categoryScreen {
       display: none; width: 100vw; min-height: 100vh; background: #1a0b2e; color: #fce7f3;
       flex-direction: column; align-items: center; padding: 30px 20px 50px 20px; position: absolute; top: 0; left: 0; z-index: 500;
@@ -135,17 +131,21 @@
     <span id="toastText">تنبيه</span>
   </div>
 
-  <!-- 1. نافذة الترحيب الأصلية (الموقع قيد التطوير وللاستفسار حسابي الانستا) -->
+  <!-- نافذة الترحيب المطلوبة (الفصحى، مرتبة، حساب الانستا بلونه المميز، وزر حسناً متابعة بالأسفل) -->
   <div id="welcomeModal">
     <div class="auth-card">
       <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: #f472b6; margin-bottom: 15px;"></i>
-      <h2>تنبيه هام</h2>
-      <p>الموقع قيد التطوير وللاستفسار حسابي بالانستا: <br><a href="https://www.instagram.com/m__7_d_10" target="_blank" style="color: #38bdf8; font-weight: bold; text-decoration: none;">@m__7_d_10</a></p>
+      <h2>تنبيه هامة</h2>
+      <p>
+        الموقع قيد التطوير.<br>
+        وللاستفسار يرجى مراسلة حسابي على إنستجرام:<br>
+        <a href="https://www.instagram.com/m__7_d_10" target="_blank" style="color: #e1306c; font-weight: 900; text-decoration: none; font-size: 18px;">@m__7_d_10</a>
+      </p>
       <button class="auth-btn" onclick="closeWelcomeModal()">حسناً، متابعة</button>
     </div>
   </div>
 
-  <!-- 2. نافذة تسجيل الدخول (عادي أو عبر قوقل) -->
+  <!-- نافذة تسجيل الدخول -->
   <div id="authModal">
     <div class="auth-card">
       <i class="fa-solid fa-user-lock" style="font-size: 45px; color: #f472b6; margin-bottom: 15px;"></i>
@@ -157,7 +157,7 @@
     </div>
   </div>
 
-  <!-- 3. نافذة رسائل الأدمن المنبثقة للجميع -->
+  <!-- نافذة رسائل الأدمن المنبثقة للجميع -->
   <div id="adminMsgModal">
     <div class="auth-card">
       <i class="fa-solid fa-bullhorn" style="font-size: 45px; color: #38bdf8; margin-bottom: 15px;"></i>
@@ -167,7 +167,7 @@
     </div>
   </div>
 
-  <!-- 4. نافذة الإعدادات -->
+  <!-- نافذة الإعدادات -->
   <div id="settingsModal">
     <div class="settings-modal-content">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #581c87; padding-bottom:10px;">
@@ -246,7 +246,7 @@
     </div>
   </div>
 
-  <!-- مكتبات فايربيز ولوحة التحكم المتقدمة للأدمن -->
+  <!-- مكتبات فايربيز ولوحة التحكم المتقدمة للأدمن مع صلاحيات إضافية -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, query, where, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -267,7 +267,6 @@
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
 
-    // عداد الزوار الفعلي
     async function trackVisitor() {
       try {
         const visitorRef = doc(db, 'stats', 'visitors');
@@ -277,13 +276,10 @@
         } else {
           await updateDoc(visitorRef, { count: increment(1) });
         }
-      } catch (err) {
-        console.log("خطأ:", err);
-      }
+      } catch (err) {}
     }
     trackVisitor();
 
-    // تسجيل الدخول بواسطة قوقل
     window.loginWithGoogle = async function() {
       try {
         const result = await signInWithPopup(auth, googleProvider);
@@ -300,7 +296,6 @@
       }
     };
 
-    // التحقق من الرتبة وإظهار لوحة التحكم حصراً لمن يمتلك صلاحيات
     window.checkUserPermissionsAndLoadPanel = async function(userEmailOrName) {
       try {
         const q = query(collection(db, 'users'), where('email', '==', userEmailOrName));
@@ -320,9 +315,7 @@
         if (role === 'admin' || role === 'super_admin' || role === 'moderator') {
           createSuperAdminPanel(db, role);
         }
-      } catch (e) {
-        console.log("خطأ:", e);
-      }
+      } catch (e) {}
     };
 
     function createSuperAdminPanel(database, userRole) {
@@ -331,7 +324,7 @@
       const panel = document.createElement('div');
       panel.id = 'super-admin-floating-panel';
       panel.style.cssText = `
-        position: fixed; bottom: 20px; right: 20px; width: 330px; min-height: 270px;
+        position: fixed; bottom: 20px; right: 20px; width: 340px; min-height: 310px;
         background: rgba(26, 11, 46, 0.96); color: #fce7f3; border: 2px solid #db2777;
         border-radius: 16px; z-index: 99999; font-family: Tahoma, sans-serif; direction: rtl;
         box-shadow: 0 10px 30px rgba(219,39,119,0.5); resize: both; overflow: auto;
@@ -369,10 +362,13 @@
       if (userRole === 'super_admin') {
         adminActionsHTML += `
           <div style="background: #2e1065; padding: 8px 10px; border-radius: 8px; border: 1px solid #581c87;">
-            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">⭐ ترقية مستخدم إلى مشرف:</div>
+            <div style="font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #fbcfe8;">⭐ إدارة الرتب والصلاحيات العليا:</div>
+            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+              <input type="text" id="admin-promote-email" placeholder="البريد الإلكتروني للمستخدم" style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
+            </div>
             <div style="display: flex; gap: 5px;">
-              <input type="text" id="admin-promote-email" placeholder="البريد الإلكتروني" style="flex: 1; padding: 5px; font-size: 11px; border-radius: 6px; border: 1px solid #581c87; background: #1a0b2e; color: #fff; outline: none;">
-              <button id="admin-promote-btn" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">ترقية</button>
+              <button id="admin-promote-btn" style="flex:1; background: #3b82f6; color: white; border: none; padding: 5px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">ترقية لمشرف</button>
+              <button id="admin-demote-btn" style="flex:1; background: #ef4444; color: white; border: none; padding: 5px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold;">سحب الصلاحية</button>
             </div>
           </div>
         `;
@@ -477,11 +473,11 @@
       if (promoteBtn) {
         promoteBtn.addEventListener('click', async () => {
           const email = document.getElementById('admin-promote-email').value.trim();
-          if (!email) { alert('أدخل البريد'); return; }
+          if (!email) { alert('أدخل البريد الإلكتروني'); return; }
           try {
             const qry = query(collection(database, 'users'), where('email', '==', email));
             const snap = await getDocs(qry);
-            if (snap.empty) { alert('المستخدم غير مسجل'); return; }
+            if (snap.empty) { alert('المستخدم غير مسجل في قاعدة البيانات'); return; }
             snap.forEach(async (d) => {
               await updateDoc(doc(database, 'users', d.id), { role: 'admin' });
               alert('تمت ترقية المستخدم إلى مشرف بنجاح!');
@@ -489,9 +485,25 @@
           } catch (err) { alert('خطأ: ' + err.message); }
         });
       }
+
+      const demoteBtn = document.getElementById('admin-demote-btn');
+      if (demoteBtn) {
+        demoteBtn.addEventListener('click', async () => {
+          const email = document.getElementById('admin-promote-email').value.trim();
+          if (!email) { alert('أدخل البريد الإلكتروني'); return; }
+          try {
+            const qry = query(collection(database, 'users'), where('email', '==', email));
+            const snap = await getDocs(qry);
+            if (snap.empty) { alert('المستخدم غير موجود'); return; }
+            snap.forEach(async (d) => {
+              await updateDoc(doc(database, 'users', d.id), { role: 'user' });
+              alert('تم سحب الصلاحية وإرجاع المستخدم إلى رتبة عادية!');
+            });
+          } catch (err) { alert('خطأ: ' + err.message); }
+        });
+      }
     }
 
-    // استقبال رسائل الأدمن المنبثقة وعرضها لكل المتصفحات المفتوحة
     window.addEventListener('storage', (e) => {
       if (e.key === 'saleny_broadcast_msg' && e.newValue) {
         try {
